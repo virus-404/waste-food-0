@@ -7,6 +7,6 @@ namespace Janari0.Models
     {
         public string firstName { get; set; }
         public string lastName { get; set; }
-    
+        public DateTime birth { get; set; }
     }
 }

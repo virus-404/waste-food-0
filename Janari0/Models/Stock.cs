@@ -6,7 +6,7 @@ namespace Janari0.Models
     public class Stock
     {
         [ForeignKey("UserApp")]
-        public int IDUser { get; set; }
+        public string Id { get; set; }
         public UserApp UserApp { get; set; }
 
         [ForeignKey("Product")]
