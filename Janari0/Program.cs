@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Janari0.Data;
 using Janari0.Models;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -26,7 +27,9 @@ namespace Janari0
                 {
                     var context = services.GetRequiredService<ApplicationDbContext>();
                     //inizialize database
-                    DBInitializer.InitializeAsync(context);
+                    var userManager = services.GetRequiredService<UserManager<UserApp>>();
+                    var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+                    DBInitializer.InitializeAsync(context, userManager, roleManager);
                     //SeedData.Initialize(services);
                 }
                 catch (Exception ex)

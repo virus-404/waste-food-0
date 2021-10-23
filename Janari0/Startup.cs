@@ -33,8 +33,11 @@ namespace Janari0
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDatabaseDeveloperPageExceptionFilter();
             services.AddDefaultIdentity<UserApp>(options => options.SignIn.RequireConfirmedAccount = true)
-                    .AddEntityFrameworkStores<ApplicationDbContext>();
+                .AddRoles<IdentityRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>();
+            //services.AddIdentityCore<IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
 
+            
             services.AddControllersWithViews();
         }
         
