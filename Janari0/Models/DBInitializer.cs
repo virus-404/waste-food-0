@@ -48,8 +48,6 @@ namespace Janari0.Models
                 userManager.CreateAsync(defaultUser, "A@a1234567");
                 userManager.AddToRoleAsync(defaultUser, Roles.Admin.ToString());
             }
-
-            
         }
 
 

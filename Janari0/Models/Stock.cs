@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Janari0.Models
@@ -9,7 +10,7 @@ namespace Janari0.Models
         public string Id { get; set; }
         public UserApp UserApp { get; set; }
 
-        [ForeignKey("Product")]
+        [DisplayName("ID Product")]
         public int IDProduct { get; set; }
         public Product Product { get; set; }
 

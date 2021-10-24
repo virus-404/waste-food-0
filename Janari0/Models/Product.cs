@@ -7,6 +7,7 @@ namespace Janari0.Models
     {
         [Key]
         public int IDProduct { get; set; }
+
         public string name { get; set; }
         public string barCode { get; set; }
         public string brand { get; set; }

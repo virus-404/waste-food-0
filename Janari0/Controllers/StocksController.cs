@@ -28,9 +28,9 @@ namespace Janari0
         }
 
         // GET: Stocks/Details/5
-        public async Task<IActionResult> Details(string id)
+        public async Task<IActionResult> Details(string id, int idProd)
         {
-            if (id == null)
+            if (id == null || idProd == 0)
             {
                 return NotFound();
             }
@@ -38,7 +38,7 @@ namespace Janari0
             var stock = await _context.Stocks
                 .Include(s => s.Product)
                 .Include(s => s.UserApp)
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.Id == id && m.IDProduct == idProd);
             if (stock == null)
             {
                 return NotFound();
@@ -74,14 +74,14 @@ namespace Janari0
         }
 
         // GET: Stocks/Edit/5
-        public async Task<IActionResult> Edit(string id)
+        public async Task<IActionResult> Edit(string id, int idProd)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var stock = await _context.Stocks.FindAsync(id);
+            var stock = await _context.Stocks.FindAsync(id, idProd);
             if (stock == null)
             {
                 return NotFound();
@@ -96,7 +96,7 @@ namespace Janari0
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Id,IDProduct,stock,expirationDate")] Stock stock)
+        public async Task<IActionResult> Edit(string id, int idProd, [Bind("Id,IDProduct,stock,expirationDate")] Stock stock)
         {
             if (id != stock.Id)
             {
@@ -112,14 +112,14 @@ namespace Janari0
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!StockExists(stock.Id))
+                    /*if (!StockExists(stock.Id, stock.IDProduct))
                     {
                         return NotFound();
                     }
                     else
                     {
                         throw;
-                    }
+                    }*/
                 }
                 return RedirectToAction(nameof(Index));
             }
@@ -129,7 +129,7 @@ namespace Janari0
         }
 
         // GET: Stocks/Delete/5
-        public async Task<IActionResult> Delete(string id)
+        public async Task<IActionResult> Delete(string id, int idProd)
         {
             if (id == null)
             {
@@ -139,7 +139,7 @@ namespace Janari0
             var stock = await _context.Stocks
                 .Include(s => s.Product)
                 .Include(s => s.UserApp)
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.Id == id && m.IDProduct == idProd);
             if (stock == null)
             {
                 return NotFound();
@@ -151,17 +151,17 @@ namespace Janari0
         // POST: Stocks/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(string id)
+        public async Task<IActionResult> DeleteConfirmed(string id, int idProd)
         {
-            var stock = await _context.Stocks.FindAsync(id);
+            var stock = await _context.Stocks.FindAsync(id, idProd);
             _context.Stocks.Remove(stock);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool StockExists(string id)
+        private bool StockExists(string id, int idProd)
         {
-            return _context.Stocks.Any(e => e.Id == id);
+            return _context.Stocks.Any(e => e.Id == id && e.IDProduct == idProd);
         }
     }
 }
