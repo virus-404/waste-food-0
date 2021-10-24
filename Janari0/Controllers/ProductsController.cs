@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Janari0.Data;
 using Janari0.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Janari0
 {
+    [Authorize(Roles = "Admin")]
     public class ProductsController : Controller
     {
         private readonly ApplicationDbContext _context;
