@@ -13,6 +13,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Janari0.Models;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using Janari0.Services;
 
 namespace Janari0
 {
@@ -40,6 +42,11 @@ namespace Janari0
             
             services.AddControllersWithViews();
 
+            // requires
+            // using Microsoft.AspNetCore.Identity.UI.Services;
+            // using WebPWrecover.Services;
+            services.AddTransient<IEmailSender, EmailSender>();
+            services.Configure<AuthMessageSenderOptions>(Configuration);
         }
         
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
