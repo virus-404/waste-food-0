@@ -20,4 +20,9 @@ Aliquam eu molestie dui, volutpat convallis tortor. Integer id mollis mauris. Du
 
     <string name="Select_Product"> Select Product</string>
 
+    <string name="select_product"> Select Product</string>
+
+    <string name="put_price"> Put price</string>
+
+
 </resources>
