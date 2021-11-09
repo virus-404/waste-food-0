@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">COMIDA .NET</string>
     <string name="dummy"> Holly smokes, it works!</string>
+
     <string name="description">Description</string>
     <string name="defaultDescription">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque id nibh nulla. Sed efficitur ipsum quis porttitor fringilla. Fusce tortor massa, luctus ac enim tempor, elementum ultrices neque. Curabitur faucibus mi non lacus sodales, ut varius risus dignissim. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nunc consectetur leo et commodo bibendum. In eget orci luctus, lacinia ante suscipit, varius massa. Suspendisse tincidunt et odio a tristique. Aliquam tincidunt, elit eu congue pulvinar, erat eros laoreet sapien, in porttitor odio mi at elit. Vivamus viverra libero in velit elementum mollis. Quisque in ipsum in turpis luctus dapibus in eu diam.
 
@@ -16,4 +17,7 @@ Aliquam erat volutpat. In hac habitasse platea dictumst. Etiam sodales neque eu 
 
 Aliquam eu molestie dui, volutpat convallis tortor. Integer id mollis mauris. Duis quis iaculis erat. Morbi lobortis magna et lorem hendrerit placerat. Nulla viverra euismod orci, eget tempor turpis lobortis et. Quisque enim orci, fringilla eget lectus non, elementum congue nisi. Maecenas dolor arcu, semper ut ornare vitae, fringilla id lectus. Nam placerat quis lorem et hendrerit. Morbi egestas rutrum laoreet. Proin congue pharetra dignissim.</string>
     <string name="contactSeller">Contact Seller</string>
+
+    <string name="Select_Product"> Select Product</string>
+
 </resources>
