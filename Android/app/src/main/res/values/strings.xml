@@ -33,4 +33,10 @@ Aliquam eu molestie dui, volutpat convallis tortor. Integer id mollis mauris. Du
     <string name="register">Register</string>
     <string name="forgetpswd">Forgot your password?</string>
     <string name="incpassw">Incorrect username or password</string>
+    <string name="Welcome">Welcome</string>
+    <string name="Username">Username</string>
+    <string name="Email">Email</string>
+    <string name="Password">Password</string>
+    <string name="RepeatPassword">Repeat password</string>
+    <string name="CreateAccount">Create account</string>
 </resources>
