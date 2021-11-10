@@ -1,4 +1,11 @@
 <resources>
     <string name="app_name">COMIDA .NET</string>
     <string name="dummy"> Holly smokes, it works!</string>
+    <string name="user">User</string>
+    <string name="pass">Password</string>
+    <string name="name">Janari0</string>
+    <string name="login">Login</string>
+    <string name="register">Register</string>
+    <string name="forgetpswd">Forgot your password?</string>
+    <string name="incpassw">Incorrect username or password</string>
 </resources>
