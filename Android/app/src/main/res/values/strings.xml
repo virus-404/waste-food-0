@@ -22,5 +22,9 @@ Aliquam eu molestie dui, volutpat convallis tortor. Integer id mollis mauris. Du
     <string name="Select_Product"> Select Product</string>
     <string name="addPhotoDescription">Add photos from your gallery or take a picture with your camera</string>
     <string name="Next">Next</string>
-
+    <string name="EnterNameProduct">Enter name of the product:</string>
+    <string name="Name">Name</string>
+    <string name="EnterExpirationDate">Enter expiration date:</string>
+    <string name="EnterDescription">Enter description:</string>
+    <string name="ExpirationDate">Expiration date</string>
 </resources>
