@@ -3,4 +3,6 @@
     <color name="colorPrimary">#4CAF50</color>
     <color name="colorPrimaryDark">#8BC34A</color>
     <color name="colorAccent">#000000</color>
+    <color name="background_trail">#F3FFE7</color>
+    <color name="white">#FFFFFF</color>
 </resources>
