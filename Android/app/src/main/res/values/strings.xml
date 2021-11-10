@@ -1,7 +1,6 @@
 <resources>
     <string name="app_name">COMIDA .NET</string>
     <string name="dummy"> Holly smokes, it works!</string>
-
     <string name="description">Description</string>
     <string name="defaultDescription">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque id nibh nulla. Sed efficitur ipsum quis porttitor fringilla. Fusce tortor massa, luctus ac enim tempor, elementum ultrices neque. Curabitur faucibus mi non lacus sodales, ut varius risus dignissim. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nunc consectetur leo et commodo bibendum. In eget orci luctus, lacinia ante suscipit, varius massa. Suspendisse tincidunt et odio a tristique. Aliquam tincidunt, elit eu congue pulvinar, erat eros laoreet sapien, in porttitor odio mi at elit. Vivamus viverra libero in velit elementum mollis. Quisque in ipsum in turpis luctus dapibus in eu diam.
 
@@ -27,4 +26,11 @@ Aliquam eu molestie dui, volutpat convallis tortor. Integer id mollis mauris. Du
     <string name="EnterExpirationDate">Enter expiration date:</string>
     <string name="EnterDescription">Enter description:</string>
     <string name="ExpirationDate">Expiration date</string>
+    <string name="user">User</string>
+    <string name="pass">Password</string>
+    <string name="name">Janari0</string>
+    <string name="login">Login</string>
+    <string name="register">Register</string>
+    <string name="forgetpswd">Forgot your password?</string>
+    <string name="incpassw">Incorrect username or password</string>
 </resources>
