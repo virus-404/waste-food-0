@@ -8,7 +8,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
-import com.google.android.material.slider.Slider;
 import com.makeramen.roundedimageview.RoundedImageView;
 
 import java.util.List;
@@ -31,7 +30,7 @@ public class SliderAdapter extends RecyclerView.Adapter <SliderAdapter.SliderVie
     public SliderViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new SliderViewHolder(
                 LayoutInflater.from(parent.getContext()).inflate(
-                        R.layout.slider_products,
+                        R.layout.slide_item_container,
                         parent,
                         false
                 )
@@ -48,7 +47,7 @@ public class SliderAdapter extends RecyclerView.Adapter <SliderAdapter.SliderVie
 
     @Override
     public int getItemCount() {
-        return 0;
+        return sliderItems.size();
     }
 
     class SliderViewHolder extends RecyclerView.ViewHolder{
@@ -57,7 +56,7 @@ public class SliderAdapter extends RecyclerView.Adapter <SliderAdapter.SliderVie
 
         SliderViewHolder(@NonNull View itemView) {
             super(itemView);
-            imageView = itemView.findViewById(R.id.slider_products);
+            imageView = itemView.findViewById(R.id.imageSlide);
         }
 
         void setImage(SetDataSliderProducts setDataSliderProducts){

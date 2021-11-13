@@ -18,7 +18,7 @@ import java.util.List;
 import cat.udl.tidic.amb.janari0android.adapters.SliderAdapter;
 
 public class layout_2 extends AppCompatActivity{
-    private Button floating_button;
+
     private ViewPager2 viewPager2;
     private Handler sliderHandler = new Handler();
 
@@ -28,15 +28,6 @@ public class layout_2 extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_2);
 
-        floating_button = findViewById(R.id.floating_button_dollar);
-
-
-        floating_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
 
         //Slider de imatges
         //

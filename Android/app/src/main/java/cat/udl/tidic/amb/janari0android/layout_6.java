@@ -46,7 +46,7 @@ public class layout_6 extends AppCompatActivity {
 
         //Slider de imatges
         //
-        viewPager2 = findViewById(R.id.viewpager2_layout6);
+        viewPager2 = findViewById(R.id.viewPagerImageSlider);
 
         //We pass images list, we will have to take them from the API
         //By now i put them manually
