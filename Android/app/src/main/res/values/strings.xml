@@ -8,4 +8,5 @@
     <string name="register">Register</string>
     <string name="forgetpswd">Forgot your password?</string>
     <string name="incpassw">Incorrect username or password</string>
+    <string name="scan">Take Photo</string>
 </resources>

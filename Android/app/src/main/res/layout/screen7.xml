@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:background="#E9FFD9">
+
+    <!--Image view in which image will be set-->
+
+    <!--Button to capture image-->
+
+
+    <ImageView
+        android:id="@+id/image_view"
+        android:layout_width="366dp"
+        android:layout_height="322dp"
+        android:layout_marginTop="128dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_image_black_24dp"
+        app:layout_constraintBottom_toTopOf="@+id/capture_image_btn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.488"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <ImageButton
+        android:id="@+id/capture_image_btn"
+        android:layout_width="264dp"
+        android:layout_height="43dp"
+        android:layout_marginBottom="168dp"
+        android:background="@drawable/button_rectangle_rounded"
+        android:text="Capture Image"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintWidth_percent="0.5" />
+        />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/scan"
+        app:layout_constraintBottom_toBottomOf="@+id/capture_image_btn"
+        app:layout_constraintEnd_toEndOf="@+id/capture_image_btn"
+        app:layout_constraintStart_toStartOf="@+id/capture_image_btn"
+        app:layout_constraintTop_toTopOf="@+id/capture_image_btn" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
