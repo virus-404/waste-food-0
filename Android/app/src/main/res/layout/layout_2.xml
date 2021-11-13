@@ -172,58 +172,18 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <ImageView
-        android:id="@+id/carrousel_image1"
-        android:layout_width="100dp"
-        android:layout_height="190dp"
-        android:layout_marginTop="40dp"
-        android:layout_marginLeft="20dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tw_on_sale"
-        app:srcCompat="@drawable/__2_burger_free_download_png" />
 
-    <ImageView
-        android:id="@+id/carrousel_image2"
-        android:layout_width="100dp"
-        android:layout_height="190dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="40dp"
-        android:layout_marginRight="20dp"
-        app:layout_constraintEnd_toStartOf="@+id/carrousel_image3"
-        app:layout_constraintHorizontal_bias="0.492"
-        app:layout_constraintStart_toEndOf="@+id/carrousel_image1"
-        app:layout_constraintTop_toBottomOf="@+id/tw_on_sale"
-        app:srcCompat="@drawable/__2_burger_free_download_png" />
-
-    <ImageView
-        android:id="@+id/carrousel_image3"
-        android:layout_width="100dp"
-        android:layout_height="190dp"
-        android:layout_marginTop="40dp"
-        android:layout_marginRight="20dp"
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewpager2_layout2"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:paddingEnd="80dp"
+        android:paddingStart="80dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tw_on_sale"
-        app:srcCompat="@drawable/__2_burger_free_download_png" />
-
-    <ImageView
-        android:id="@+id/carrousel_image4"
-        android:layout_width="100dp"
-        android:layout_height="190dp"
-        android:layout_marginTop="40dp"
-        android:layout_marginRight="20dp"
-        app:layout_constraintEnd_toStartOf="@+id/carrousel_image1"
-        app:layout_constraintTop_toBottomOf="@+id/tw_on_sale"
-        app:srcCompat="@drawable/__2_burger_free_download_png" />
-
-    <ImageView
-        android:id="@+id/carrousel_image5"
-        android:layout_width="100dp"
-        android:layout_height="190dp"
-        android:layout_marginTop="40dp"
-        android:layout_marginLeft="20dp"
-        app:layout_constraintStart_toEndOf="@+id/carrousel_image3"
-        app:layout_constraintTop_toBottomOf="@+id/tw_on_sale"
-        app:srcCompat="@drawable/__2_burger_free_download_png" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tw_on_sale">
+    </androidx.viewpager2.widget.ViewPager2>
 
 
 

@@ -1,10 +1,5 @@
 package cat.udl.tidic.amb.janari0android;
 
-import android.os.Bundle;
-import android.os.Handler;
-import android.view.View;
-import android.widget.ListView;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
@@ -12,41 +7,40 @@ import androidx.viewpager2.widget.CompositePageTransformer;
 import androidx.viewpager2.widget.MarginPageTransformer;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.os.Bundle;
+import android.os.Handler;
+import android.view.View;
+import android.widget.Button;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import cat.udl.tidic.amb.janari0android.adapters.CustomAdapter;
 import cat.udl.tidic.amb.janari0android.adapters.SliderAdapter;
 
-public class layout_6 extends AppCompatActivity {
-
-    private ListView listView;
+public class layout_2 extends AppCompatActivity{
+    private Button floating_button;
     private ViewPager2 viewPager2;
     private Handler sliderHandler = new Handler();
 
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.layout_6);
+        setContentView(R.layout.layout_2);
 
-        //Products list
-        //
-        listView = findViewById(R.id.list_view);
-        List<SetDataListProducts> setDatumListProducts;
-        setDatumListProducts = new ArrayList<>();
+        floating_button = findViewById(R.id.floating_button_dollar);
 
-        //We will have to take this values from the API
-        //By now i put them manually
-        setDatumListProducts.add(new SetDataListProducts(getString(R.string.product_name),getString(R.string.produc_description)));
-        setDatumListProducts.add(new SetDataListProducts("Cheese","OK"));
-        setDatumListProducts.add(new SetDataListProducts("Bread","Nice"));
-        setDatumListProducts.add(new SetDataListProducts("Burguer","Good"));
 
-        CustomAdapter customAdapter = new CustomAdapter(this, R.layout.list_products, setDatumListProducts);
-        listView.setAdapter(customAdapter);
+        floating_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
 
         //Slider de imatges
         //
-        viewPager2 = findViewById(R.id.viewpager2_layout6);
+        viewPager2 = findViewById(R.id.viewpager2_layout2);
 
         //We pass images list, we will have to take them from the API
         //By now i put them manually

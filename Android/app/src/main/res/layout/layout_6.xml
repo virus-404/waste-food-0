@@ -9,36 +9,20 @@
     tools:context=".MainActivity">
 
 
-    <ImageView
-        android:id="@+id/carrousel_image3"
-        android:layout_width="100dp"
-        android:layout_height="190dp"
-        android:layout_marginTop="40dp"
-        android:layout_marginLeft="20dp"
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewpager2_layout6"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:paddingStart="80dp"
+        android:paddingEnd="80dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/__2_burger_free_download_png" />
+        app:layout_constraintVertical_bias="0.0">
 
-    <ImageView
-        android:id="@+id/carrousel_image2"
-        android:layout_width="100dp"
-        android:layout_height="190dp"
-        android:layout_marginTop="40dp"
-        app:layout_constraintEnd_toStartOf="@+id/carrousel_image4"
-        app:layout_constraintStart_toEndOf="@+id/carrousel_image3"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/__2_burger_free_download_png" />
-
-    <ImageView
-        android:id="@+id/carrousel_image4"
-        android:layout_width="100dp"
-        android:layout_height="190dp"
-        android:layout_marginTop="40dp"
-        android:layout_marginRight="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/__2_burger_free_download_png" />
-
+    </androidx.viewpager2.widget.ViewPager2>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/floating_button_dollar"
@@ -46,12 +30,11 @@
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
         android:src="@drawable/down_arrow"
-        android:layout_marginTop="160dp"
         app:backgroundTint="@color/colorPrimaryDark"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/carrousel_image2" />
+        app:layout_constraintTop_toBottomOf="@+id/viewpager2_layout6" />
 
     <ListView
         android:id="@+id/list_view"
@@ -60,7 +43,7 @@
         android:clickable="false"
         android:focusable="false"
         android:layout_width="match_parent"
-        android:layout_height="440dp"
+        android:layout_height="350dp"
         android:layout_marginTop="30dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"

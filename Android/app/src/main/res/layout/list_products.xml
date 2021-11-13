@@ -16,8 +16,9 @@
 
         <RelativeLayout
             android:id="@+id/product_list"
-            android:layout_width="300dp"
+            android:layout_width="390dp"
             android:layout_height="100dp"
+            android:background="@color/background_list_products"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/list_view">

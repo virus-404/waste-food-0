@@ -1,4 +1,4 @@
-package cat.udl.tidic.amb.janari0android;
+package cat.udl.tidic.amb.janari0android.adapters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -14,17 +14,20 @@ import androidx.annotation.Nullable;
 
 import java.util.List;
 
-public class CustomAdapter extends ArrayAdapter<SetData> {
+import cat.udl.tidic.amb.janari0android.R;
+import cat.udl.tidic.amb.janari0android.SetDataListProducts;
 
-    List<SetData> setData;
+public class CustomAdapter extends ArrayAdapter<SetDataListProducts> {
+
+    List<SetDataListProducts> setDatumListProducts;
     int resource;
     Context context;
 
-    CustomAdapter(Context context, int resource, List<SetData> setData){
-        super(context, resource, setData);
+    public CustomAdapter(Context context, int resource, List<SetDataListProducts> setDatumListProducts){
+        super(context, resource, setDatumListProducts);
         this.context = context;
         this.resource = resource;
-        this.setData = setData;
+        this.setDatumListProducts = setDatumListProducts;
     }
 
     @NonNull
@@ -36,10 +39,10 @@ public class CustomAdapter extends ArrayAdapter<SetData> {
         ImageView imageViewProduct = view.findViewById(R.id.image_product);
         TextView textViewName = view.findViewById(R.id.name_product);
         TextView textViewDescription = view.findViewById(R.id.description_product);
-        final SetData setDataView = setData.get(position);
+        final SetDataListProducts setDataListProductsView = setDatumListProducts.get(position);
 
-        textViewName.setText(setDataView.getName_product());
-        textViewDescription.setText(setDataView.getDescription_product());
+        textViewName.setText(setDataListProductsView.getName_product());
+        textViewDescription.setText(setDataListProductsView.getDescription_product());
         return view;
     }
 }
