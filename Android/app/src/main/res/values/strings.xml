@@ -1,6 +1,31 @@
 <resources>
-    <string name="app_name">COMIDA .NET</string>
+    <string name="app_name">Janari0</string>
     <string name="dummy"> Holly smokes, it works!</string>
+    <string name="description">Description</string>
+    <string name="defaultDescription">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque id nibh nulla. Sed efficitur ipsum quis porttitor fringilla. Fusce tortor massa, luctus ac enim tempor, elementum ultrices neque. Curabitur faucibus mi non lacus sodales, ut varius risus dignissim. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nunc consectetur leo et commodo bibendum. In eget orci luctus, lacinia ante suscipit, varius massa. Suspendisse tincidunt et odio a tristique. Aliquam tincidunt, elit eu congue pulvinar, erat eros laoreet sapien, in porttitor odio mi at elit. Vivamus viverra libero in velit elementum mollis. Quisque in ipsum in turpis luctus dapibus in eu diam.
+
+Etiam sed commodo risus. Mauris vel sem vitae dui dictum dignissim quis in sapien. Vivamus fringilla consequat elementum. Sed id posuere nisi. Fusce finibus pretium quam, dictum euismod dui maximus non. Sed ullamcorper volutpat purus vel vulputate. Vivamus ac nisl luctus mauris commodo vestibulum id nec purus. Vestibulum a auctor metus. Nunc iaculis mi quam, a cursus ligula viverra at. Sed vehicula nulla sit amet rutrum fermentum. Curabitur faucibus est non risus porttitor, id auctor orci porttitor. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Sed cursus ipsum vitae lorem fringilla, vel gravida nisl aliquet. Proin tempus felis ut tempus vulputate.
+
+Quisque id diam vitae tellus dignissim accumsan mollis a nunc. Cras vulputate, felis sit amet feugiat bibendum, erat erat cursus risus, eu interdum magna lectus non nunc. Nulla gravida aliquam ex at dapibus. Praesent a neque lectus. Donec molestie metus lectus, id blandit dolor venenatis eget. Vivamus leo quam, volutpat ultrices nibh nec, placerat vestibulum felis. Etiam tristique turpis vitae quam gravida pharetra. Ut eget aliquam nisi. Suspendisse nec placerat massa, sed dignissim nulla. Curabitur bibendum justo sed velit condimentum varius. Nunc elementum aliquam sagittis. Proin hendrerit mollis elementum. Donec sollicitudin, urna at cursus sagittis, quam sapien laoreet ligula, eget eleifend nibh magna finibus mi. Vivamus auctor, diam id elementum vulputate, nisi turpis congue magna, sed rhoncus elit elit ac velit. Duis ut condimentum elit, consectetur pharetra justo. Quisque quam ante, condimentum eget viverra vel, luctus eget magna.
+
+Nunc bibendum eleifend odio at gravida. Aliquam porttitor ex vitae tempor condimentum. Nam lobortis magna magna, vel lobortis diam aliquet a. Maecenas quis felis eget libero aliquet vestibulum ut et mauris. Proin finibus, velit sed vestibulum molestie, nisi justo scelerisque est, id vulputate nibh dolor in augue. Nunc ultricies risus nec ligula pulvinar, sit amet ullamcorper quam dignissim. In at varius eros. Fusce sed elementum quam. Nulla sit amet purus vel massa maximus varius. Sed facilisis vestibulum interdum. Nunc ut pulvinar lacus.
+
+Fusce bibendum elit nec sapien elementum blandit at vitae ante. Etiam pretium lectus nec libero tincidunt, vel accumsan libero elementum. Sed massa felis, consequat in sodales a, rhoncus non nunc. Praesent vehicula ligula sit amet tellus tincidunt maximus. In porta ligula eget nibh tristique, nec aliquet nunc bibendum. Curabitur ac imperdiet purus, vel dapibus eros. Nam ac mattis nisl, ac venenatis diam. Sed eget turpis non elit euismod imperdiet. Vestibulum varius rutrum libero et commodo. Quisque odio nisi, convallis eu facilisis non, pretium a libero. Vestibulum nec ex a tortor sagittis sodales et a felis.
+
+Aliquam erat volutpat. In hac habitasse platea dictumst. Etiam sodales neque eu dui viverra porta sit amet ac tortor. Vestibulum orci sapien, blandit ac gravida eget, suscipit ac tortor. Ut et turpis mauris. Nunc scelerisque faucibus auctor. Morbi quis dapibus ligula. Quisque condimentum ante nunc, eget finibus sapien gravida condimentum. Vestibulum sit amet massa eget risus elementum tincidunt vitae vel purus. Nam fermentum tortor aliquam nunc finibus pellentesque. Nullam urna metus, mattis nec tortor condimentum, eleifend imperdiet sem. Aliquam eu ex nisl. Donec non dapibus orci. Ut sit amet libero eu nibh venenatis elementum ut et dui.
+
+Aliquam eu molestie dui, volutpat convallis tortor. Integer id mollis mauris. Duis quis iaculis erat. Morbi lobortis magna et lorem hendrerit placerat. Nulla viverra euismod orci, eget tempor turpis lobortis et. Quisque enim orci, fringilla eget lectus non, elementum congue nisi. Maecenas dolor arcu, semper ut ornare vitae, fringilla id lectus. Nam placerat quis lorem et hendrerit. Morbi egestas rutrum laoreet. Proin congue pharetra dignissim.</string>
+    <string name="contactSeller">Contact Seller</string>
+    <string name="addPhoto"> Add photo</string>
+    <string name="defaultUploadedDescription">164389594560285.jpg</string>
+    <string name="Select_Product"> Select Product</string>
+    <string name="addPhotoDescription">Add photos from your gallery or take a picture with your camera</string>
+    <string name="Next">Next</string>
+    <string name="EnterNameProduct">Enter name of the product:</string>
+    <string name="Name">Name</string>
+    <string name="EnterExpirationDate">Enter expiration date:</string>
+    <string name="EnterDescription">Enter description:</string>
+    <string name="ExpirationDate">Expiration date</string>
     <string name="user">User</string>
     <string name="pass">Password</string>
     <string name="name">Janari0</string>
@@ -9,4 +34,11 @@
     <string name="forgetpswd">Forgot your password?</string>
     <string name="incpassw">Incorrect username or password</string>
     <string name="scan">Take Photo</string>
+    <string name="scan">Take Photo</string>
+    <string name="Welcome">Welcome</string>
+    <string name="Username">Username</string>
+    <string name="Email">Email</string>
+    <string name="Password">Password</string>
+    <string name="RepeatPassword">Repeat password</string>
+    <string name="CreateAccount">Create account</string>
 </resources>

@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.screen7);
+        setContentView(R.layout.activity_main);
 
         mImageView = findViewById(R.id.image_view);
         mCaptureBtn = findViewById(R.id.capture_image_btn);
