@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_trail"
-    tools:context=".MainActivity">
+    android:background="@color/background_trail">
 
 
     <Button
@@ -122,7 +121,46 @@
         app:layout_constraintTop_toBottomOf="@+id/numberItems" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/floating_button"
+        android:id="@+id/floating_button_add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginRight="30dp"
+        android:src="@drawable/cross"
+        app:backgroundTint="@color/colorPrimaryDark"
+        app:layout_constraintBottom_toTopOf="@+id/floating_buy"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floating_buy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginRight="30dp"
+        android:src="@drawable/gift"
+        app:backgroundTint="@color/colorPrimaryDark"
+        app:layout_constraintBottom_toTopOf="@+id/floating_button_sell"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floating_button_sell"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="20dp"
+        android:src="@drawable/dollar"
+        app:backgroundTint="@color/colorPrimaryDark"
+        app:layout_constraintBottom_toTopOf="@+id/floating_button_dollar"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginRight="40dp" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floating_button_dollar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
@@ -133,6 +171,60 @@
         app:backgroundTint="@color/colorPrimaryDark"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+
+    <ImageView
+        android:id="@+id/carrousel_image1"
+        android:layout_width="100dp"
+        android:layout_height="190dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginLeft="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tw_on_sale"
+        app:srcCompat="@drawable/__2_burger_free_download_png" />
+
+    <ImageView
+        android:id="@+id/carrousel_image2"
+        android:layout_width="100dp"
+        android:layout_height="190dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginRight="20dp"
+        app:layout_constraintEnd_toStartOf="@+id/carrousel_image3"
+        app:layout_constraintHorizontal_bias="0.492"
+        app:layout_constraintStart_toEndOf="@+id/carrousel_image1"
+        app:layout_constraintTop_toBottomOf="@+id/tw_on_sale"
+        app:srcCompat="@drawable/__2_burger_free_download_png" />
+
+    <ImageView
+        android:id="@+id/carrousel_image3"
+        android:layout_width="100dp"
+        android:layout_height="190dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginRight="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tw_on_sale"
+        app:srcCompat="@drawable/__2_burger_free_download_png" />
+
+    <ImageView
+        android:id="@+id/carrousel_image4"
+        android:layout_width="100dp"
+        android:layout_height="190dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginRight="20dp"
+        app:layout_constraintEnd_toStartOf="@+id/carrousel_image1"
+        app:layout_constraintTop_toBottomOf="@+id/tw_on_sale"
+        app:srcCompat="@drawable/__2_burger_free_download_png" />
+
+    <ImageView
+        android:id="@+id/carrousel_image5"
+        android:layout_width="100dp"
+        android:layout_height="190dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginLeft="20dp"
+        app:layout_constraintStart_toEndOf="@+id/carrousel_image3"
+        app:layout_constraintTop_toBottomOf="@+id/tw_on_sale"
+        app:srcCompat="@drawable/__2_burger_free_download_png" />
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

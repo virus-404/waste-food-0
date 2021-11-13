@@ -30,6 +30,8 @@ Aliquam eu molestie dui, volutpat convallis tortor. Integer id mollis mauris. Du
     <string name="one_week"> WITHIN ONE WEEKS</string>
     <string name="on_sale"> ON SALE!</string>
     <string name="submit"> Submit</string>
+    <string name="product_name"> Product name</string>
+    <string name="produc_description"> Product description</string>
 
     <!--Number of products about to expire, the string should be updated according to the quantity (layout_2.xml)-->
     <string name="number_products"> 3</string>
