@@ -14,7 +14,7 @@
         app:layout_constraintHorizontal_bias="0.018"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_baseline_arrow_back_ios_24" />
+        app:srcCompat="@drawable/ic_baseline_arrow_back_ios_24"/>
 
     <TextView
         android:id="@+id/textView8"
@@ -22,7 +22,7 @@
         android:layout_height="50dp"
         android:layout_marginTop="12dp"
         android:gravity="center"
-        android:text="@string/Welcome"
+        android:text="@string/welcome"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -46,7 +46,7 @@
             android:drawableStart="@drawable/ic_baseline_account_circle_24"
             android:drawableLeft="@drawable/ic_baseline_account_circle_24"
             android:drawablePadding="10dp"
-            android:hint="@string/Username"
+            android:hint="@string/username"
             android:textSize="20dp" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -69,7 +69,7 @@
             android:drawableStart="@drawable/ic_baseline_alternate_email_24"
             android:drawableLeft="@drawable/ic_baseline_alternate_email_24"
             android:drawablePadding="10dp"
-            android:hint="@string/Email"
+            android:hint="@string/email"
             android:textSize="20sp" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -92,7 +92,7 @@
             android:drawableStart="@drawable/ic_baseline_lock_24"
             android:drawableLeft="@drawable/ic_baseline_lock_24"
             android:drawablePadding="10dp"
-            android:hint="@string/Password"
+            android:hint="@string/password"
             android:textSize="20sp" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -101,7 +101,7 @@
         android:layout_width="241dp"
         android:layout_height="51dp"
         android:background="@drawable/rounded_button"
-        android:text="@string/CreateAccount"
+        android:text="@string/createAccount"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

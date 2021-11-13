@@ -22,7 +22,7 @@
         android:layout_width="245dp"
         android:layout_height="37dp"
         android:gravity="center"
-        android:text="@string/EnterNameProduct"
+        android:text="@string/enterNameProduct"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -34,7 +34,7 @@
         android:layout_height="30dp"
         android:layout_marginTop="20dp"
         android:gravity="center"
-        android:text="@string/EnterExpirationDate"
+        android:text="@string/enterExpirationDate"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -46,7 +46,7 @@
         android:layout_height="34dp"
         android:layout_marginTop="40dp"
         android:gravity="start"
-        android:text="@string/EnterDescription"
+        android:text="@string/enterDescription"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.075"
@@ -68,7 +68,7 @@
 
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/Name" />
+            android:hint="@string/name" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
@@ -76,7 +76,7 @@
         android:layout_width="match_parent"
         android:layout_height="55dp"
         android:layout_marginBottom="0dp"
-        android:text="@string/Next"
+        android:text="@string/next"
         android:background="@color/colorSecondary"
         android:textColor="@color/colorWhite"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -101,7 +101,7 @@
             android:id="@+id/name_edit_text2"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:hint="@string/ExpirationDate"
+            android:hint="@string/expirationDate"
             android:inputType="date" />
     </com.google.android.material.textfield.TextInputLayout>
 

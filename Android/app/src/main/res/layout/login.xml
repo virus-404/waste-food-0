@@ -92,7 +92,7 @@
         android:layout_marginStart="40dp"
         android:layout_marginLeft="40dp"
         android:layout_marginBottom="0dp"
-        android:text="@string/pass"
+        android:text="@string/password"
         app:layout_constraintBottom_toTopOf="@+id/imageView4"
         app:layout_constraintStart_toStartOf="@+id/imageView4" />
 
@@ -152,7 +152,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
-        android:text="@string/forgetpswd"
+        android:text="@string/forgetPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageButton2" />
@@ -163,7 +163,7 @@
         android:layout_height="22dp"
         android:layout_marginStart="40dp"
         android:layout_marginLeft="40dp"
-        android:text="@string/incpassw"
+        android:text="@string/incorrectPassword"
         android:textColor="#FF0000"
         android:visibility="invisible"
         app:layout_constraintStart_toStartOf="@+id/imageView4"

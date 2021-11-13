@@ -33,10 +33,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mImageView = findViewById(R.id.image_view);
-        mCaptureBtn = findViewById(R.id.capture_image_btn);
+        //mImageView = findViewById(R.id.image_view);
+        //mCaptureBtn = findViewById(R.id.capture_image_btn);
 
         //button click
+       /*
         mCaptureBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -62,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+        */
     }
 
     private void openCamera() {
