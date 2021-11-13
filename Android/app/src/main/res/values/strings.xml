@@ -33,6 +33,8 @@ Aliquam eu molestie dui, volutpat convallis tortor. Integer id mollis mauris. Du
     <string name="register">Register</string>
     <string name="forgetpswd">Forgot your password?</string>
     <string name="incpassw">Incorrect username or password</string>
+    <string name="scan">Take Photo</string>
+    <string name="scan">Take Photo</string>
     <string name="Welcome">Welcome</string>
     <string name="Username">Username</string>
     <string name="Email">Email</string>
