@@ -3,6 +3,7 @@
     <string name="addPhoto"> Añadir imagen</string>
     <string name="addPhotoDescription">Añade fotos de tu galería o haz una foto con tu cámara</string>
     <string name="appName">Janari0</string>
+    <string name="ContactSeller">Contactar con el vendedor</string>
     <string name="contactSeller">Contactar con el vendedor</string>
     <string name="createAccount">Crear cuenta</string>
     <string name="defaultDescription"> Sin descripción </string>
@@ -27,4 +28,18 @@
     <string name="user">Usuario</string>
     <string name="username">Nombre de usuario</string>
     <string name="welcome">Bienvenido</string>
+    <string name="Sell_It">Vender!</string>
+    <string name="EuroSymbol">€</string>
+    <string name="Euros">0.00</string>
+    <string name="Select_Product"> Selecccionar Producto</string>
+    <string name="select_product"> Selecccionar Producto</string>
+    <string name="put_price"> añadir precio </string>
+    <string name="search_product"> buscar un producto</string>
+    <string name="about_to_expire"> PRODUCTOS PROXIMOS A EXPIRAR</string>
+    <string name="one_week"> DENTRO DE UNAS SEMANAS</string>
+    <string name="on_sale">EN VENTA!</string>
+    <string name="submit"> Enviar</string>
+    <string name="product_name"> Nombre del producto</string>
+    <string name="produc_description"> Descripcion del porducto</string>
+    <string name="number_products"> 3</string>
 </resources>
