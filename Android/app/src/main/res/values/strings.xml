@@ -26,8 +26,12 @@
     <string name="user">User</string>
     <string name="username">Username</string>
     <string name="welcome">Welcome</string>
+    <string name="Sell_It">Sell It!</string>
+    <string name="EuroSymbol">€</string>
+    <string name="Euros">0.00</string>
 
-    <string name="contactSeller">Contact Seller</string>
+
+    <string name="ContactSeller">Contact Seller</string>
     <string name="Select_Product"> Select Product</string>
     <string name="select_product"> Select Product</string>
     <string name="put_price"> Put price</string>
