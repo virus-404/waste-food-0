@@ -18,7 +18,7 @@
         app:srcCompat="@drawable/ic_baseline_arrow_back_ios_24"  />
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/loginTextView"
         android:layout_width="245dp"
         android:layout_height="37dp"
         android:gravity="center"
@@ -62,7 +62,7 @@
         android:layout_marginTop="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4">
+        app:layout_constraintTop_toBottomOf="@+id/loginTextView">
 
         <com.google.android.material.textfield.TextInputEditText
 

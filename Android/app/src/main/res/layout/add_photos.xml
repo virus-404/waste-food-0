@@ -43,7 +43,7 @@
         app:srcCompat="@drawable/__2_burger_png_file" />
 
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/registerTextView"
         android:layout_width="279dp"
         android:layout_height="29dp"
         android:layout_marginTop="20dp"
