@@ -14,7 +14,7 @@
         android:layout_marginTop="48dp"
         android:layout_marginEnd="100dp"
         android:layout_marginRight="100dp"
-        android:text="@string/select_product"
+        android:text="@string/selectProduct"
         android:textSize="34sp"
         android:textColor="@color/colorAccent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -32,7 +32,7 @@
         android:layout_marginRight="123dp"
         android:layout_marginBottom="8dp"
         android:background="@drawable/rounded_button"
-        android:text="@string/Sell_It"
+        android:text="@string/sellIt"
         android:textColor="#000000"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -97,7 +97,7 @@
             android:id="@+id/name_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/Euros"
+            android:hint="@string/euros"
             android:inputType="numberDecimal" />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -107,7 +107,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:text="@string/EuroSymbol"
+        android:text="@string/euroSymbol"
         android:textColor="@color/colorAccent"
         android:textSize="60sp"
         app:layout_constraintBottom_toBottomOf="parent"
