@@ -36,7 +36,7 @@ public class layout_6 extends AppCompatActivity {
 
         //We will have to take this values from the API
         //By now i put them manually
-        setDatumListProducts.add(new SetDataListProducts(getString(R.string.product_name),getString(R.string.produc_description)));
+        setDatumListProducts.add(new SetDataListProducts(getString(R.string.productName),getString(R.string.productDescription)));
         setDatumListProducts.add(new SetDataListProducts("Cheese","OK"));
         setDatumListProducts.add(new SetDataListProducts("Bread","Nice"));
         setDatumListProducts.add(new SetDataListProducts("Burguer","Good"));

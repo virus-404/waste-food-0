@@ -77,6 +77,7 @@ public class MainActivity extends AppCompatActivity {
                     give.setVisibility(View.VISIBLE);
                     add.setVisibility(View.VISIBLE);
                 }
+                visibleFloatingButton = !visibleFloatingButton;
 
             }
         });
