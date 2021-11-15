@@ -27,4 +27,18 @@
     <string name="user">Usuario</string>
     <string name="username">Nombre de usuario</string>
     <string name="welcome">Bienvenido</string>
+
+
+    <string name="Select_Product"> Select Product</string>
+    <string name="select_product"> Select Product</string>
+    <string name="put_price"> Put price</string>
+    <string name="search_product"> Search a product</string>
+    <string name="about_to_expire"> PRODUCTOS A PUNTO DE CADUCAR</string>
+    <string name="one_week"> WITHIN ONE WEEKS</string>
+    <string name="on_sale"> ON SALE!</string>
+    <string name="submit"> Submit</string>
+    <string name="product_name"> Product name</string>
+    <string name="produc_description"> Product description</string>
+    <!--Number of products about to expire, the string should be updated according to the quantity (layout_2.xml)-->
+    <string name="number_products"> 3</string>
 </resources>

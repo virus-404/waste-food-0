@@ -26,12 +26,11 @@ public class layout_2 extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.layout_2);
+        //setContentView(R.layout.layout_2);
 
 
         //Slider de imatges
-        //
-        viewPager2 = findViewById(R.id.viewpager2_layout2);
+        //viewPager2 = findViewById(R.id.viewpager2_layout2);
 
         //We pass images list, we will have to take them from the API
         //By now i put them manually

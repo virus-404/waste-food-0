@@ -3,12 +3,10 @@ package cat.udl.tidic.amb.janari0android;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.Manifest;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
@@ -17,6 +15,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -28,8 +27,10 @@ public class MainActivity extends AppCompatActivity {
     private static final int IMAGE_CAPTURE_CODE = 1001;
 
     //Button mCaptureBtn;
-    ImageButton mCaptureBtn;
-    ImageView mImageView;
+    private ImageButton mCaptureBtn;
+    private ImageView mImageView;
+    private FloatingActionButton sell, give, add;
+    private boolean visibleFloatingButton = false;
 
     Uri image_uri;
 
@@ -39,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Check if user is signed in (non-null) and update UI accordingly.
         auth = FirebaseAuth.getInstance();
+
 
         if (auth.getCurrentUser() == null) {
             Intent i = new Intent(this, LoginActivity.class);
@@ -52,8 +54,7 @@ public class MainActivity extends AppCompatActivity {
             Uri photoUrl = user.getPhotoUrl();
 
             // Check if user's email is verified
-            boolean emailVerified = user.isEmailVerified();
-
+            // boolean emailVerified = user.isEmailVerified();
             // The user's ID, unique to the Firebase project. Do NOT use this value to
             // authenticate with your backend server, if you have one. Use
             // FirebaseUser.getIdToken() instead.
@@ -61,6 +62,25 @@ public class MainActivity extends AppCompatActivity {
         }
 
         setContentView(R.layout.activity_main);
+
+        sell = findViewById(R.id.floatingButtonSell);
+        add = findViewById(R.id.floatingButtonAdd);
+        give = findViewById(R.id.floatingButtonGift);
+
+        sell.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (visibleFloatingButton) {
+                    give.setVisibility(View.INVISIBLE);
+                    add.setVisibility(View.INVISIBLE);
+                } else {
+                    give.setVisibility(View.VISIBLE);
+                    add.setVisibility(View.VISIBLE);
+                }
+
+            }
+        });
+
 
 
         //mImageView = findViewById(R.id.image_view);
