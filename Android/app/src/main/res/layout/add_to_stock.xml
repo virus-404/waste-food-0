@@ -6,6 +6,71 @@
     android:layout_height="match_parent"
     android:background="@color/colorOffWhite">
 
+    <TextView
+        android:id="@+id/loginTextView"
+        android:layout_width="301dp"
+        android:layout_height="38dp"
+        android:layout_marginTop="72dp"
+        android:gravity="center"
+        android:text="@string/enterNameProduct"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.49"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/registerTextView" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout"
+
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="331dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/loginTextView">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/addProductName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/name" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="306dp"
+        android:layout_height="44dp"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:text="@string/enterExpirationDate"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/name_text_input"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="331dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="24dp"
+        app:errorEnabled="true"
+        app:layout_constraintBottom_toTopOf="@+id/addToStock"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView7"
+        app:layout_constraintVertical_bias="0.007">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/addExpirationDate"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="@string/expirationDate"
+            android:inputType="date" />
+    </com.google.android.material.textfield.TextInputLayout>
+
     <ImageButton
         android:id="@+id/imageButton"
         android:layout_width="39dp"
@@ -19,16 +84,16 @@
         app:srcCompat="@drawable/ic_baseline_arrow_back_ios_24" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/addPhoto"
         android:layout_width="165dp"
         android:layout_height="37dp"
-        android:layout_marginTop="136dp"
+        android:layout_marginTop="8dp"
         android:background="@color/colorAddPhoto"
         android:text="@string/addPhoto"
         android:textColor="@color/colorWhite"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
     <ImageView
         android:id="@+id/imageView"
@@ -39,7 +104,7 @@
         android:layout_marginRight="2dp"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button2"
+        app:layout_constraintTop_toBottomOf="@+id/addPhoto"
         app:srcCompat="@drawable/__2_burger_png_file" />
 
     <TextView
@@ -50,9 +115,9 @@
         android:gravity="center"
         android:text="@string/defaultUploadedDescription"
         app:layout_constraintEnd_toStartOf="@+id/imageView2"
-        app:layout_constraintHorizontal_bias="0.25"
+        app:layout_constraintHorizontal_bias="0.416"
         app:layout_constraintStart_toEndOf="@+id/imageView"
-        app:layout_constraintTop_toBottomOf="@+id/button2" />
+        app:layout_constraintTop_toBottomOf="@+id/addPhoto" />
 
     <ImageView
         android:id="@+id/imageView2"
@@ -62,7 +127,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button2"
+        app:layout_constraintTop_toBottomOf="@+id/addPhoto"
         app:layout_constraintVertical_bias="0.037"
         app:srcCompat="@drawable/ic_baseline_delete_24" />
 
@@ -70,20 +135,21 @@
         android:id="@+id/textView6"
         android:layout_width="300dp"
         android:layout_height="63dp"
+        android:layout_marginTop="4dp"
         android:gravity="center"
         android:text="@string/addPhotoDescription"
         android:textSize="16dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageButton" />
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/addToStock"
         android:layout_width="match_parent"
         android:layout_height="55dp"
         android:layout_marginBottom="0dp"
-        android:text="@string/next"
+        android:text="@string/add"
         android:background="@color/colorSecondary"
         android:textColor="@color/colorWhite"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -52,7 +52,7 @@
                 android:layout_marginBottom="0dp"
                 android:layout_toEndOf="@+id/image_product"
                 android:layout_toRightOf="@+id/image_product"
-                android:text="@string/product_name" />
+                android:text="@string/productName" />
 
             <TextView
                 android:id="@+id/description_product"
@@ -68,7 +68,7 @@
                 android:layout_marginBottom="0dp"
                 android:layout_toEndOf="@+id/image_product"
                 android:layout_toRightOf="@+id/image_product"
-                android:text="@string/produc_description" />
+                android:text="@string/productDescription" />
 
         </RelativeLayout>
 
