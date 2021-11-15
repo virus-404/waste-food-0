@@ -73,11 +73,12 @@ public class MainActivity extends AppCompatActivity {
                 if (visibleFloatingButton) {
                     give.setVisibility(View.INVISIBLE);
                     add.setVisibility(View.INVISIBLE);
+                    visibleFloatingButton = false;
                 } else {
                     give.setVisibility(View.VISIBLE);
                     add.setVisibility(View.VISIBLE);
+                    visibleFloatingButton = true;
                 }
-                visibleFloatingButton = !visibleFloatingButton;
 
             }
         });
