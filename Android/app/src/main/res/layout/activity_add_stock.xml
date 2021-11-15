@@ -97,13 +97,15 @@
 
     <Button
         android:id="@+id/addGallery"
-        android:layout_width="164dp"
-        android:layout_height="35dp"
-        android:layout_marginTop="8dp"
+        android:layout_width="165dp"
+        android:layout_height="37dp"
+        android:layout_marginTop="-8dp"
         android:backgroundTint="@color/colorOffWhite"
-        android:text="@string/gallery"
-        android:textColor="@color/colorBlack"
+        android:text="@string/fromGallery"
+        android:textSize="12sp"
+        android:textColor="@color/colorDarkGrey"
         android:visibility="invisible"
+        android:textAllCaps="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/addPhoto" />
@@ -112,14 +114,16 @@
         android:id="@+id/addCamera"
         android:layout_width="165dp"
         android:layout_height="37dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:backgroundTint="@color/colorOffWhite"
-        android:text="@string/camera"
-        android:textColor="@color/colorBlack"
+        android:text="@string/takeAPhoto"
+        android:textSize="12sp"
+        android:textColor="@color/colorDarkGrey"
         android:visibility="invisible"
+        android:textAllCaps="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addGallery" />
+        app:layout_constraintTop_toBottomOf="@+id/addPhoto" />
 
     <ImageView
         android:id="@+id/imageView"

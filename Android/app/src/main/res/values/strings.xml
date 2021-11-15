@@ -40,6 +40,6 @@
     <string name="user">User</string>
     <string name="username">Username</string>
     <string name="welcome">Welcome</string>
-    <string name="gallery">Gallery</string>
-    <string name="camera">Camera</string>
+    <string name="fromGallery">From gallery</string>
+    <string name="takeAPhoto">Take a photo</string>
 </resources>
