@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageButton mCaptureBtn;
     private ImageView mImageView;
     private FloatingActionButton sell, give, add;
+    private Button list;
     private boolean visibleFloatingButton = false;
 
     Uri image_uri;
@@ -66,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
         sell = findViewById(R.id.floatingButtonSell);
         add = findViewById(R.id.floatingButtonAdd);
         give = findViewById(R.id.floatingButtonGift);
+        list = findViewById(R.id.numberItems);
 
         sell.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,7 +93,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
+        list.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, ListProductsActivity.class);
+                startActivity(intent);
+            }
+        });
 
         //mImageView = findViewById(R.id.image_view);
         //mCaptureBtn = findViewById(R.id.capture_image_btn);
