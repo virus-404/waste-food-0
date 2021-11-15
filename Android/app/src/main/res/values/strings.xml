@@ -1,4 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <resources>
+    <string name="aboutToExpire"> PRODUCTS ABOUT TO EXPIRE</string>
+    <string name="add">Add</string>
     <string name="addPhoto"> Add photo</string>
     <string name="addPhotoDescription">Add photos from your gallery or take a picture with your camera</string>
     <string name="appName">Janari0</string>
@@ -12,37 +15,29 @@
     <string name="enterDescription">Enter description:</string>
     <string name="enterExpirationDate">Enter expiration date:</string>
     <string name="enterNameProduct">Enter name of the product:</string>
+    <string name="euroSymbol">€</string>
+    <string name="euros">0.00</string>
     <string name="expirationDate">Expiration date</string>
     <string name="forgetPassword">Forgot your password?</string>
     <string name="incorrectPassword">Incorrect username or password</string>
     <string name="login">Login</string>
     <string name="name">Name</string>
     <string name="next">Next</string>
+    <string name="numberProducts"> 3</string>
+    <string name="onSale"> ON SALE!</string>
+    <string name="oneWeek"> WITHIN ONE WEEKS</string>
     <string name="password">Password</string>
+    <string name="productDescription"> Product description</string>
+    <string name="productName"> Product name</string>
+    <string name="putPrice"> Put price</string>
     <string name="register">Register</string>
     <string name="repeatPassword">Repeat password</string>
     <string name="scan">Take Photo</string>
+    <string name="searchProduct"> Search a product</string>
     <string name="selectProduct"> Select Product</string>
+    <string name="sellIt">Sell It!</string>
+    <string name="submit">Submit</string>
     <string name="user">User</string>
     <string name="username">Username</string>
     <string name="welcome">Welcome</string>
-    <string name="Sell_It">Sell It!</string>
-    <string name="EuroSymbol">€</string>
-    <string name="Euros">0.00</string>
-
-
-    <string name="ContactSeller">Contact Seller</string>
-    <string name="Select_Product"> Select Product</string>
-    <string name="select_product"> Select Product</string>
-    <string name="put_price"> Put price</string>
-    <string name="search_product"> Search a product</string>
-    <string name="about_to_expire"> PRODUCTS ABOUT TO EXPIRE</string>
-    <string name="one_week"> WITHIN ONE WEEKS</string>
-    <string name="on_sale"> ON SALE!</string>
-    <string name="submit"> Submit</string>
-    <string name="product_name"> Product name</string>
-    <string name="produc_description"> Product description</string>
-    <!--Number of products about to expire, the string should be updated according to the quantity (layout_2.xml)-->
-    <string name="number_products"> 3</string>
 </resources>
-
