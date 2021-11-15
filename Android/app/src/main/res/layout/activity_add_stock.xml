@@ -75,7 +75,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <ImageButton
-        android:id="@+id/imageButton"
+        android:id="@+id/goBackButton"
         android:layout_width="39dp"
         android:layout_height="55dp"
         android:layout_marginTop="4dp"
@@ -175,7 +175,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageButton" />
+        app:layout_constraintTop_toBottomOf="@+id/goBackButton" />
 
     <Button
         android:id="@+id/addToStock"

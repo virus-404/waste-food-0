@@ -16,7 +16,7 @@
         android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageButton"
+        app:layout_constraintTop_toBottomOf="@+id/goBackButton"
         android:gravity="center_horizontal" />
 
     <Button
@@ -100,7 +100,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <ImageButton
-        android:id="@+id/imageButton"
+        android:id="@+id/goBackButton"
         android:layout_width="39dp"
         android:layout_height="55dp"
         android:background="@null"

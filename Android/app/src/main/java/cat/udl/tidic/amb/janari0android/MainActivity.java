@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageButton mCaptureBtn;
     private ImageView mImageView;
     private FloatingActionButton sell, give, add;
-    private Button list;
+    private Button list, profile;
     private boolean visibleFloatingButton = false;
 
     Uri image_uri;
@@ -68,6 +68,8 @@ public class MainActivity extends AppCompatActivity {
         add = findViewById(R.id.floatingButtonAdd);
         give = findViewById(R.id.floatingButtonGift);
         list = findViewById(R.id.numberItems);
+        profile = findViewById(R.id.toolbarUserMenuButton);
+
 
         sell.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -105,6 +107,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, DonateActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, UserProfileActivity.class);
                 startActivity(intent);
             }
         });

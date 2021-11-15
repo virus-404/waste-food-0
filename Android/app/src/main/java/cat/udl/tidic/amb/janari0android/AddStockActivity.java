@@ -1,11 +1,13 @@
 package cat.udl.tidic.amb.janari0android;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,10 +17,23 @@ import java.util.Calendar;
 import java.util.Locale;
 
 public class AddStockActivity extends AppCompatActivity {
+
+    ImageButton go_back;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_stock);
+
+        go_back = findViewById(R.id.goBackButton);
+
+        go_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(AddStockActivity.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
 
         final Button addPhoto = findViewById(R.id.addPhoto);
         addPhoto.setOnClickListener(new View.OnClickListener() {

@@ -157,7 +157,7 @@
         app:layout_constraintStart_toEndOf="@+id/imageView2" />
 
     <ImageButton
-        android:id="@+id/imageButton"
+        android:id="@+id/goBackButton"
         android:layout_width="39dp"
         android:layout_height="55dp"
         android:layout_marginTop="16dp"
