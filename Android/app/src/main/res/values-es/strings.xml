@@ -40,4 +40,8 @@
     <string name="user">Usuario</string>
     <string name="username">Nombre de usuario</string>
     <string name="welcome">Bienvenido</string>
+    <string name="oldPasword">Antigua Contraseña</string>
+    <string name="newPasword">Nueva Contraseña</string>
+    <string name="confirm">confirmar</string>
+    <string name="email2">email@email.com</string>
 </resources>
