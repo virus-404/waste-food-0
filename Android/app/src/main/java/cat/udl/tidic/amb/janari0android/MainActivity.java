@@ -101,6 +101,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        give.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, DonateActivity.class);
+                startActivity(intent);
+            }
+        });
         //mImageView = findViewById(R.id.image_view);
         //mCaptureBtn = findViewById(R.id.capture_image_btn);
 

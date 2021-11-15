@@ -42,4 +42,5 @@
     <string name="welcome">Welcome</string>
     <string name="fromGallery">From gallery</string>
     <string name="takeAPhoto">Take a photo</string>
+    <string name="donate">Donate</string>
 </resources>

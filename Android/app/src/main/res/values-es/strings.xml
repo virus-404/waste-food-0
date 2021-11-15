@@ -40,6 +40,7 @@
     <string name="user">Usuario</string>
     <string name="username">Nombre de usuario</string>
     <string name="welcome">Bienvenido</string>
-    <string name="gallery">De la galería</string>
+    <string name="fromGallery">De la galería</string>
     <string name="takeAPhoto">Toma una foto</string>
+    <string name="donate">Donar</string>
 </resources>
