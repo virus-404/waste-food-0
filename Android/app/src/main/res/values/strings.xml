@@ -10,6 +10,7 @@
     <string name="defaultDescription">No description</string>
     <string name="defaultUploadedDescription">164389594560285.jpg</string>
     <string name="description">Description</string>
+    <string name="donate">Donate</string>
     <string name="dummy"> Holly smokes, it works!</string>
     <string name="email">Email</string>
     <string name="enterDescription">Enter description:</string>
@@ -19,13 +20,14 @@
     <string name="euros">0.00</string>
     <string name="expirationDate">Expiration date</string>
     <string name="forgetPassword">Forgot your password?</string>
+    <string name="fromGallery">From gallery</string>
     <string name="incorrectPassword">Incorrect username or password</string>
     <string name="login">Login</string>
     <string name="name">Name</string>
     <string name="next">Next</string>
     <string name="numberProducts"> 3</string>
     <string name="onSale"> ON SALE!</string>
-    <string name="oneWeek"> WITHIN ONE WEEKS</string>
+    <string name="oneWeek"> WITHIN ONE WEEK</string>
     <string name="password">Password</string>
     <string name="productDescription"> Product description</string>
     <string name="productName"> Product name</string>
@@ -37,10 +39,8 @@
     <string name="selectProduct"> Select Product</string>
     <string name="sellIt">Sell It!</string>
     <string name="submit">Submit</string>
+    <string name="takeAPhoto">Take a photo</string>
     <string name="user">User</string>
     <string name="username">Username</string>
     <string name="welcome">Welcome</string>
-    <string name="fromGallery">From gallery</string>
-    <string name="takeAPhoto">Take a photo</string>
-    <string name="donate">Donate</string>
 </resources>
