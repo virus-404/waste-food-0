@@ -41,7 +41,7 @@ public class layout_6 extends AppCompatActivity {
         setDatumListProducts.add(new SetDataListProducts("Bread","Nice"));
         setDatumListProducts.add(new SetDataListProducts("Burguer","Good"));
 
-        CustomAdapter customAdapter = new CustomAdapter(this, R.layout.list_products, setDatumListProducts);
+        CustomAdapter customAdapter = new CustomAdapter(this, R.layout.activity_list_products, setDatumListProducts);
         listView.setAdapter(customAdapter);
 
         //Slider de imatges
