@@ -40,4 +40,5 @@
     <string name="user">Usuario</string>
     <string name="username">Nombre de usuario</string>
     <string name="welcome">Bienvenido</string>
+    <string name="gallery">Galería</string>
 </resources>

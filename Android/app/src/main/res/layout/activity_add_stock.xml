@@ -88,12 +88,38 @@
         android:layout_width="165dp"
         android:layout_height="37dp"
         android:layout_marginTop="8dp"
-        android:background="@color/colorAddPhoto"
+        android:backgroundTint="@color/colorAddPhoto"
         android:text="@string/addPhoto"
         android:textColor="@color/colorWhite"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView6" />
+
+    <Button
+        android:id="@+id/addGallery"
+        android:layout_width="164dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="8dp"
+        android:backgroundTint="@color/colorOffWhite"
+        android:text="@string/gallery"
+        android:textColor="@color/colorBlack"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addPhoto" />
+
+    <Button
+        android:id="@+id/addCamera"
+        android:layout_width="165dp"
+        android:layout_height="37dp"
+        android:layout_marginTop="8dp"
+        android:backgroundTint="@color/colorOffWhite"
+        android:text="@string/camera"
+        android:textColor="@color/colorBlack"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addGallery" />
 
     <ImageView
         android:id="@+id/imageView"
