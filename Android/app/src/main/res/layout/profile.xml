@@ -137,7 +137,7 @@
         app:srcCompat="@drawable/login_icon" />
 
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/profileName"
         android:layout_width="256dp"
         android:layout_height="70dp"
         android:layout_marginTop="44dp"
@@ -152,11 +152,11 @@
         app:layout_constraintVertical_bias="0.251" />
 
     <TextView
-        android:id="@+id/textView9"
+        android:id="@+id/profileEmail"
         android:layout_width="231dp"
         android:layout_height="25dp"
         android:layout_marginTop="16dp"
-        android:text="@string/email2"
+        android:text="name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.088"
         app:layout_constraintStart_toStartOf="parent"
@@ -175,9 +175,10 @@
         android:backgroundTint="@color/colorPrimary" />
 
     <Button
-        android:id="@+id/SignOut"
+        android:id="@+id/signOut"
         android:layout_width="114dp"
         android:layout_height="35dp"
+        android:layout_marginBottom="8dp"
         android:backgroundTint="@color/common_google_signin_btn_text_dark"
         android:text="@string/signOut"
         android:textColor="@color/colorBlack"
@@ -186,7 +187,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.053"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView9" />
+        app:layout_constraintTop_toBottomOf="@+id/profileEmail" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
