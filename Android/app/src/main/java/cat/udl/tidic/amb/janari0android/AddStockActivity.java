@@ -58,6 +58,20 @@ public class AddStockActivity extends AppCompatActivity {
             }
         });
 
+        gallery.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    Intent intent = new Intent();
+                    intent.setType("image/*");
+                    intent.setAction(Intent.ACTION_GET_CONTENT);
+                    startActivity(intent);
+                }catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+            }
+        });
         camera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
