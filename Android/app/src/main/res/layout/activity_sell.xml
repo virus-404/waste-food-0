@@ -7,17 +7,18 @@
 
     <TextView
         android:id="@+id/textView2"
-        android:layout_width="346dp"
-        android:layout_height="57dp"
+        android:layout_width="372dp"
+        android:layout_height="75dp"
         android:layout_marginTop="8dp"
+        android:gravity="center_horizontal"
         android:text="@string/selectProduct"
-        android:textColor="@color/colorAccent"
-        android:textSize="34sp"
         android:textAlignment="center"
+        android:textColor="@color/colorAccent"
+        android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.487"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/goBackButton"
-        android:gravity="center_horizontal" />
+        app:layout_constraintTop_toBottomOf="@+id/goBackButton" />
 
     <Button
         android:id="@+id/button2"
