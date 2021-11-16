@@ -1,8 +1,10 @@
 package cat.udl.tidic.amb.janari0android;
 
 import android.app.DatePickerDialog;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -18,14 +20,19 @@ import java.util.Locale;
 
 public class AddStockActivity extends AppCompatActivity {
 
-    ImageButton go_back;
+    private ImageButton go_back;
+    private Button addPhoto,gallery,camera;
 
+    static final int REQUEST_IMAGE_CAPTURE = 1;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_stock);
 
         go_back = findViewById(R.id.goBackButton);
+        addPhoto = findViewById(R.id.addPhoto);
+        gallery = findViewById(R.id.addGallery);
+        camera = findViewById(R.id.addCamera);
 
         go_back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -35,7 +42,6 @@ public class AddStockActivity extends AppCompatActivity {
             }
         });
 
-        final Button addPhoto = findViewById(R.id.addPhoto);
         addPhoto.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Code here executes on main thread after user presses button
@@ -52,6 +58,20 @@ public class AddStockActivity extends AppCompatActivity {
             }
         });
 
+        camera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    Intent intent = new Intent();
+                    intent.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
+                    startActivity(intent);
+                }catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+            }
+        });
+        // Date picker for expiration date
         final Calendar myCalendar = Calendar.getInstance();
 
         EditText edittext= (EditText) findViewById(R.id.addExpirationDate);
