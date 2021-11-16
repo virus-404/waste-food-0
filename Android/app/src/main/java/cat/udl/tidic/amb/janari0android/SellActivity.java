@@ -8,21 +8,20 @@ import android.widget.ImageButton;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-public class DonateActivity extends AppCompatActivity {
+public class SellActivity extends AppCompatActivity {
 
-    ImageButton go_back;
-
+    ImageButton goBack;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_donate);
+        setContentView(R.layout.activity_sell);
 
-        go_back = findViewById(R.id.goBackButton);
+        goBack = findViewById(R.id.goBackButton);
+        goBack.setOnClickListener(new View.OnClickListener(){
 
-        go_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(DonateActivity.this, MainActivity.class);
+                Intent intent = new Intent(SellActivity.this, MainActivity.class);
                 startActivity(intent);
             }
         });

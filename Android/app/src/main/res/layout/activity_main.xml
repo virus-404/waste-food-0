@@ -125,44 +125,62 @@
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/floatingButtonSell"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end|bottom"
-        android:layout_marginRight="30dp"
-        android:layout_marginBottom="40dp"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_gravity="center"
         android:layout_marginEnd="30dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginRight="20dp"
+        app:fabCustomSize="46dp"
         android:src="@drawable/dollar"
-        app:backgroundTint="@color/colorPrimaryDark"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/floatingButtonGift"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end|bottom"
-        android:layout_marginEnd="30dp"
-        android:layout_marginBottom="20dp"
-        android:src="@drawable/gift"
-        app:backgroundTint="@color/colorPrimaryDark"
-        app:layout_constraintBottom_toTopOf="@+id/floatingButtonSell"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginRight="40dp"
-        android:visibility="invisible"/>
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/floatingButtonAdd"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end|bottom"
-        android:layout_marginEnd="30dp"
-        android:layout_marginBottom="20dp"
-        android:layout_marginRight="30dp"
-        android:src="@drawable/cross"
         app:backgroundTint="@color/colorPrimaryDark"
         app:layout_constraintBottom_toTopOf="@+id/floatingButtonGift"
         app:layout_constraintEnd_toEndOf="parent"
         android:visibility="invisible"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floatingButtonGift"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_gravity="center"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginRight="20dp"
+        app:fabCustomSize="46dp"
+        android:src="@drawable/gift"
+        app:backgroundTint="@color/colorPrimaryDark"
+        app:layout_constraintBottom_toTopOf="@+id/floatingButtonAdd"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:visibility="invisible"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floatingButtonAdd"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_gravity="center"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginRight="20dp"
+        app:fabCustomSize="46dp"
+        app:srcCompat="@drawable/ic_baseline_add_shopping_cart_24"
+        android:visibility="invisible"
+        app:backgroundTint="@color/colorPrimaryDark"
+        app:layout_constraintBottom_toTopOf="@+id/floatingButtonOpen"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floatingButtonOpen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginRight="25dp"
+        android:layout_marginBottom="25dp"
+        android:layout_marginEnd="25dp"
+        app:maxImageSize="36dp"
+        app:srcCompat="@drawable/ic_baseline_add_36"
+        app:backgroundTint="@color/colorPrimaryDark"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewpager2_layout2"
@@ -175,7 +193,7 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tw_on_sale"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="0.906" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

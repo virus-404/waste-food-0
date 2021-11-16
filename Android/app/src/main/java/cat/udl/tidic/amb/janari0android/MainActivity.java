@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
     //Button mCaptureBtn;
     private ImageButton mCaptureBtn;
     private ImageView mImageView;
-    private FloatingActionButton sell, give, add;
+    private FloatingActionButton open, give, add, sell;
     private Button list, profile;
     private boolean visibleFloatingButton = false;
 
@@ -64,23 +64,26 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
 
-        sell = findViewById(R.id.floatingButtonSell);
+        open = findViewById(R.id.floatingButtonOpen);
         add = findViewById(R.id.floatingButtonAdd);
         give = findViewById(R.id.floatingButtonGift);
+        sell = findViewById(R.id.floatingButtonSell);
         list = findViewById(R.id.numberItems);
         profile = findViewById(R.id.toolbarUserMenuButton);
 
 
-        sell.setOnClickListener(new View.OnClickListener() {
+        open.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (visibleFloatingButton) {
                     give.setVisibility(View.INVISIBLE);
                     add.setVisibility(View.INVISIBLE);
+                    sell.setVisibility(View.INVISIBLE);
                     visibleFloatingButton = false;
                 } else {
                     give.setVisibility(View.VISIBLE);
                     add.setVisibility(View.VISIBLE);
+                    sell.setVisibility(View.VISIBLE);
                     visibleFloatingButton = true;
                 }
 
@@ -111,6 +114,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        sell.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, SellActivity.class);
+                startActivity(intent);
+            }
+        });
         profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
