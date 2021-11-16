@@ -7,19 +7,20 @@
 
     <ImageButton
         android:id="@+id/goBackButton"
-        android:layout_width="39dp"
-        android:layout_height="55dp"
-        android:background="@null"
+        android:layout_width="56dp"
+        android:layout_height="51dp"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/ic_baseline_arrow_back"
+        android:backgroundTint="@color/colorPrimary"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.018"
+        app:layout_constraintHorizontal_bias="0.028"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_baseline_arrow_back_ios_24"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textView2"
-        android:layout_width="394dp"
-        android:layout_height="83dp"
+        android:layout_width="409dp"
+        android:layout_height="47dp"
         android:layout_marginTop="8dp"
         android:gravity="center_horizontal"
         android:text="@string/selectProduct"
@@ -51,15 +52,15 @@
     <SearchView
 
         android:id="@+id/searchView"
-        android:layout_width="297dp"
-        android:layout_height="58dp"
-        android:layout_marginTop="28dp"
+        android:layout_width="329dp"
+        android:layout_height="57dp"
+        android:layout_marginTop="8dp"
         android:addStatesFromChildren="false"
         android:background="@drawable/rounded_button"
         android:queryHint="hola hola hola"
 
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.36"
+        app:layout_constraintHorizontal_bias="0.457"
         app:layout_constraintStart_toEndOf="@+id/imageView"
         app:layout_constraintTop_toBottomOf="@+id/textView2">
 
@@ -80,9 +81,7 @@
         android:id="@+id/imageView"
         android:layout_width="75dp"
         android:layout_height="58dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginLeft="4dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2"
         app:srcCompat="@drawable/__2_burger_png_file" />

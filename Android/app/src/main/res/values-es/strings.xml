@@ -47,4 +47,6 @@
     <string name="newPasword">Nueva Contraseña</string>
     <string name="confirm">confirmar</string>
     <string name="email2">email@email.com</string>
+    <string name="signOut">Desconectar</string>
+    <string name="defaultName">John Doe</string>
 </resources>

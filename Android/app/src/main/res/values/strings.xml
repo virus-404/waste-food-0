@@ -47,4 +47,6 @@
     <string name="newPasword">New Password</string>
     <string name="confirm">confirm</string>
     <string name="email2">email@email.com</string>
+    <string name="signOut">Sign Out</string>
+    <string name="defaultName">John Doe</string>
 </resources>
