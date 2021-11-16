@@ -8,40 +8,40 @@
 
     <Button
         android:id="@+id/toolbarMenuButton"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="42dp"
+        android:layout_height="42dp"
         android:layout_gravity="start"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/menu"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/ic_baseline_qr_code_scanner_24"
         app:layout_constraintBottom_toTopOf="@+id/divider1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.619"/>
+        app:layout_constraintVertical_bias="0.619" />
 
     <SearchView
-        android:layout_width="231dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="15dp"
+        android:layout_width="304dp"
+        android:layout_height="42dp"
+        android:layout_marginTop="16dp"
         app:layout_constraintEnd_toStartOf="@+id/toolbarUserMenuButton"
+        app:layout_constraintHorizontal_bias="0.483"
         app:layout_constraintStart_toEndOf="@+id/toolbarMenuButton"
         app:layout_constraintTop_toTopOf="parent" />
 
 
     <Button
         android:id="@+id/toolbarUserMenuButton"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="38dp"
+        android:layout_height="42dp"
         android:layout_gravity="start"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
         android:background="@drawable/user_icon"
         app:layout_constraintEnd_toEndOf="parent"
 
         app:layout_constraintTop_toTopOf="parent" />
-
 
     <View
         android:id="@+id/divider1"
