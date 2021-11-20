@@ -29,6 +29,7 @@
         <activity android:name=".DonateActivity"/>
         <activity android:name=".UserProfileActivity"/>
         <activity android:name=".SellActivity"/>
+        <activity android:name=".ChangePasswordActivity"/>
     </application>
 
 </manifest>

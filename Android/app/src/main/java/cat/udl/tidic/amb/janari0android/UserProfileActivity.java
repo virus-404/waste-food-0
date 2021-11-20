@@ -19,9 +19,8 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class UserProfileActivity extends AppCompatActivity {
 
-    private Button signOut;
+    private Button signOut, changePassword;
     private TextView textEmail,textName;
-    private TextInputEditText currentPassword, newPassword, reNewPassword;
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
     @Override
@@ -31,9 +30,7 @@ public class UserProfileActivity extends AppCompatActivity {
 
         textEmail = findViewById(R.id.profileEmail);
         textName = findViewById(R.id.profileName);
-        currentPassword=findViewById(R.id.currentPassword);
-        newPassword = findViewById(R.id.newPassEditText);
-        reNewPassword = findViewById(R.id.repPassEditText);
+        changePassword = findViewById(R.id.changePasswordButton);
         textEmail.setText(user.getEmail());
         textName.setText(user.getDisplayName());
 
@@ -54,28 +51,10 @@ public class UserProfileActivity extends AppCompatActivity {
                 FirebaseAuth.getInstance().signOut();
             }
         });
-        currentPassword.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        changePassword.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
-                    hideKeyboard(v);
-                }
-            }
-        });
-        newPassword.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
-                    hideKeyboard(v);
-                }
-            }
-        });
-        reNewPassword.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
-                    hideKeyboard(v);
-                }
+            public void onClick(View v) {
+                startActivity(new Intent(UserProfileActivity.this, ChangePasswordActivity.class));
             }
         });
     }
