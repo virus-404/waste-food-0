@@ -1,11 +1,14 @@
 package cat.udl.tidic.amb.janari0android;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,13 +26,13 @@ public class RegisterActivity extends AppCompatActivity {
     private FirebaseAuth auth;
     protected EditText username, email, password, passwordRep;
     protected Button register;
-
+    protected ImageButton goBack;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
         auth = FirebaseAuth.getInstance();
-
+        goBack = findViewById(R.id.goBackButton);
         username = findViewById(R.id.usernameEditText);
         email = findViewById(R.id.emailEditText);
         password = findViewById(R.id.passwordEditText);
@@ -63,7 +66,52 @@ public class RegisterActivity extends AppCompatActivity {
                     createAccount(em, pas);
             }
         });
+        goBack.setOnClickListener(new ImageButton.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                startActivity(intent);
+            }
+        });
+        username.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    hideKeyboard(v);
+                }
+            }
+        });
+        email.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    hideKeyboard(v);
+                }
+            }
+        });
+        password.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    hideKeyboard(v);
+                }
+            }
+        });
+        passwordRep.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    hideKeyboard(v);
+                }
+            }
+        });
     }
+
+    public void hideKeyboard(View view) {
+        InputMethodManager inputMethodManager =(InputMethodManager)getSystemService(Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+
     public static boolean isStringBlank(final CharSequence cs) {
         int strLen;
         if (cs == null || (strLen = cs.length()) == 0) {
