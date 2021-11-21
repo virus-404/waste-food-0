@@ -33,7 +33,7 @@
     <string name="newPasword">New Password</string>
     <string name="next">Next</string>
     <string name="numberProducts"> 3</string>
-    <string name="oldPasword">Old Password</string>
+    <string name="currentPassword">Current password</string>
     <string name="onSale"> ON SALE!</string>
     <string name="oneWeek"> WITHIN ONE WEEK</string>
     <string name="password">Password</string>

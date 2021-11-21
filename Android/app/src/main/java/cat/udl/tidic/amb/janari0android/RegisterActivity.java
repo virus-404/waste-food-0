@@ -2,6 +2,7 @@ package cat.udl.tidic.amb.janari0android;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -21,6 +22,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 
 public class RegisterActivity extends AppCompatActivity {
     private FirebaseAuth auth;
@@ -141,6 +143,7 @@ public class RegisterActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             FirebaseUser user = auth.getCurrentUser();
+                            setDisplayName();
                             updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
@@ -153,7 +156,14 @@ public class RegisterActivity extends AppCompatActivity {
 
 
     }
-
+    private void setDisplayName()
+    {
+        FirebaseUser user = auth.getCurrentUser();
+        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                .setDisplayName(String.valueOf(username.getText()))
+                .build();
+        user.updateProfile(profileUpdates);
+    }
     private void updateUI(FirebaseUser user) {
         if (user != null){
             Intent intent = new Intent(this , LoginActivity.class);
