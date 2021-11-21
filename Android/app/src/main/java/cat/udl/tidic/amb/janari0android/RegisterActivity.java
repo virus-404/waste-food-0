@@ -30,11 +30,7 @@ public class RegisterActivity extends AppCompatActivity {
     protected Button register;
     protected ImageButton goBack;
 
-    String pleaseFillAllFields = getResources().getString(R.string.pleaseFillAllFields);
-    String invalidEmail = getResources().getString(R.string.invalidEmail);
-    String invalidUsername = getResources().getString(R.string.invalidUsername);
-    String passwordsDontMatch = getResources().getString(R.string.passwordsDontMatch);
-    String passwordShouldBe = getResources().getString(R.string.passwordShouldBe);
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -48,7 +44,11 @@ public class RegisterActivity extends AppCompatActivity {
         passwordRep = findViewById(R.id.repeatPasswordEditText);
         register = findViewById(R.id.registerFormButton);
 
-
+        String pleaseFillAllFields = getResources().getString(R.string.pleaseFillAllFields);
+        String invalidEmail = getResources().getString(R.string.invalidEmail);
+        String invalidUsername = getResources().getString(R.string.invalidUsername);
+        String passwordsDontMatch = getResources().getString(R.string.passwordsDontMatch);
+        String passwordShouldBe = getResources().getString(R.string.passwordShouldBe);
         register.setOnClickListener(new Button.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -169,6 +169,7 @@ public class RegisterActivity extends AppCompatActivity {
         FirebaseUser user = auth.getCurrentUser();
         UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                 .setDisplayName(String.valueOf(username.getText()))
+                .setPhotoUri(Uri.parse("android.resource://cat.udl.tidic.amb.janari0android/" + R.drawable.login_icon))
                 .build();
         user.updateProfile(profileUpdates);
     }
