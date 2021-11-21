@@ -36,7 +36,9 @@
         app:layout_constraintVertical_bias="0.213" />
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/profilePicture"
+        android:clickable="true"
+        android:focusable="true"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:background="@drawable/circle_login"

@@ -1,17 +1,25 @@
 package cat.udl.tidic.amb.janari0android;
 
+import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
@@ -21,6 +29,7 @@ public class UserProfileActivity extends AppCompatActivity {
 
     private Button signOut, changePassword;
     private TextView textEmail,textName;
+    private ImageView profilePicture;
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
     @Override
@@ -31,6 +40,7 @@ public class UserProfileActivity extends AppCompatActivity {
         textEmail = findViewById(R.id.profileEmail);
         textName = findViewById(R.id.profileName);
         changePassword = findViewById(R.id.changePasswordButton);
+        profilePicture = findViewById(R.id.profilePicture);
         textEmail.setText(user.getEmail());
         textName.setText(user.getDisplayName());
 
@@ -55,6 +65,12 @@ public class UserProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(UserProfileActivity.this, ChangePasswordActivity.class));
+            }
+        });
+        profilePicture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
             }
         });
     }
