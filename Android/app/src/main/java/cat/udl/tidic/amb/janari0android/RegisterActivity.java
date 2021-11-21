@@ -29,6 +29,13 @@ public class RegisterActivity extends AppCompatActivity {
     protected EditText username, email, password, passwordRep;
     protected Button register;
     protected ImageButton goBack;
+
+    String pleaseFillAllFields = getResources().getString(R.string.pleaseFillAllFields);
+    String invalidEmail = getResources().getString(R.string.invalidEmail);
+    String invalidUsername = getResources().getString(R.string.invalidUsername);
+    String passwordsDontMatch = getResources().getString(R.string.passwordsDontMatch);
+    String passwordShouldBe = getResources().getString(R.string.passwordShouldBe);
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +48,7 @@ public class RegisterActivity extends AppCompatActivity {
         passwordRep = findViewById(R.id.repeatPasswordEditText);
         register = findViewById(R.id.registerFormButton);
 
+
         register.setOnClickListener(new Button.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -51,19 +59,19 @@ public class RegisterActivity extends AppCompatActivity {
 
                 if (us.isEmpty() || em.isEmpty() || pas.isEmpty() || pasR.isEmpty()){
                     Toast.makeText(getApplicationContext(),
-                            "Please fill all the fields", Toast.LENGTH_LONG).show();
+                            pleaseFillAllFields, Toast.LENGTH_LONG).show();
                 } else if (!isValidEmail(em))
                     Toast.makeText(getApplicationContext(),
-                            "Invalid mail", Toast.LENGTH_LONG).show();
+                            invalidEmail, Toast.LENGTH_LONG).show();
                 else if (isStringBlank(us))
                     Toast.makeText(getApplicationContext(),
-                            "Invalid username", Toast.LENGTH_LONG).show();
+                            invalidUsername, Toast.LENGTH_LONG).show();
                 else if (!pas.equals(pasR))
                     Toast.makeText(getApplicationContext(),
-                            "Passwords doesn't match", Toast.LENGTH_LONG).show();
+                            passwordsDontMatch, Toast.LENGTH_LONG).show();
                 else if (pas.length() < 5)
                     Toast.makeText(getApplicationContext(),
-                            "Password should be at least 6 characters", Toast.LENGTH_LONG).show();
+                            passwordShouldBe, Toast.LENGTH_LONG).show();
                 else
                     createAccount(em, pas);
             }
