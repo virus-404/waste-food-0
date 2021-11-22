@@ -105,21 +105,6 @@
         app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
 
-    <TextView
-        android:id="@+id/tw_on_sale"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="20dp"
-        android:text="@string/onSale"
-        android:textColor="@color/colorAccent"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/divider2" />
-
-
-
     <View
         android:id="@+id/divider2"
         android:layout_width="match_parent"
@@ -199,9 +184,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tw_on_sale"
-        app:layout_constraintVertical_bias="0.906" />
+        app:layout_constraintStart_toStartOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
