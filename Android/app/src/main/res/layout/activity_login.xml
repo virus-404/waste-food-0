@@ -93,8 +93,11 @@
             android:id="@+id/editTextTextEmailAddress"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:hint="@string/email"
-            android:inputType="textEmailAddress" />
+            android:drawableStart="@drawable/ic_baseline_alternate_email_24"
+            android:drawableLeft="@drawable/ic_baseline_alternate_email_24"
+            android:drawablePadding="10dp"
+            android:inputType="textEmailAddress"
+            android:hint="@string/email"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -115,6 +118,9 @@
             android:id="@+id/editTextTextPassword"
             android:layout_width="match_parent"
             android:layout_height="60dp"
+            android:drawableStart="@drawable/ic_baseline_lock_24"
+            android:drawableLeft="@drawable/ic_baseline_lock_24"
+            android:drawablePadding="10dp"
             android:hint="@string/password"
             android:inputType="textPassword" />
     </com.google.android.material.textfield.TextInputLayout>

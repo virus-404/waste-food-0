@@ -28,7 +28,7 @@ public class layout_2 extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.layout_2);
 
-
+        viewPager2 = findViewById(R.id.viewpager2_layout2);
         //Slider de imatges
         //viewPager2 = findViewById(R.id.viewpager2_layout2);
 
