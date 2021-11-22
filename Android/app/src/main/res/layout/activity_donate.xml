@@ -5,15 +5,16 @@
     android:clickable="true"
     android:focusableInTouchMode="true"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/colorOffWhite">
 
     <ImageButton
         android:id="@+id/goBackButton"
-        android:layout_width="56dp"
-        android:layout_height="51dp"
-        android:layout_marginTop="4dp"
-        android:background="@drawable/ic_baseline_arrow_back"
-        android:backgroundTint="@color/colorPrimary"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/ic_baseline_arrow_back_24"
+        android:backgroundTint="@color/colorBlack"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.028"
         app:layout_constraintStart_toStartOf="parent"
