@@ -51,7 +51,13 @@ public class UserProfileActivity extends AppCompatActivity {
         textName = findViewById(R.id.profileName);
         changePassword = findViewById(R.id.changePasswordButton);
         profilePicture = findViewById(R.id.profilePicture);
-        profilePicture.setImageURI(user.getPhotoUrl());
+        try {
+            profilePicture.setImageURI(user.getPhotoUrl());
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
         textEmail.setText(user.getEmail());
         textName.setText(user.getDisplayName());
 
@@ -88,7 +94,7 @@ public class UserProfileActivity extends AppCompatActivity {
             }
         });
     }
-    private ActivityResultLauncher<Intent> galleryActivityResultLauncher = registerForActivityResult(
+    private final ActivityResultLauncher<Intent> galleryActivityResultLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             new ActivityResultCallback<ActivityResult>() {
                 @Override
@@ -98,6 +104,7 @@ public class UserProfileActivity extends AppCompatActivity {
                         //image picked
                         //get uri of image
                         Intent data = result.getData();
+                        assert data != null;
                         Uri imageUri = data.getData();
                         profilePicture.setImageURI(imageUri);
                         changeDisplayPicture(imageUri);

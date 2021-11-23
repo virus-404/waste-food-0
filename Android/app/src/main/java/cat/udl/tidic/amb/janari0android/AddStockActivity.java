@@ -4,40 +4,66 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.media.Image;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.sql.Array;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 public class AddStockActivity extends AppCompatActivity {
 
+    private static final String TAG = "bakedbeans";
     private ImageButton go_back;
-    private Button addPhoto,gallery,camera;
-    private TextInputEditText name;
+    private Button addPhoto,gallery,camera, addToStock;
+    private TextInputEditText name, expirationDate;
+    private final FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private RecyclerView products;
     static final int REQUEST_IMAGE_CAPTURE = 1;
+    ArrayList<String> images = new ArrayList<>();
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_stock);
-
         go_back = findViewById(R.id.goBackButton);
         addPhoto = findViewById(R.id.addPhoto);
         gallery = findViewById(R.id.addGallery);
         camera = findViewById(R.id.addCamera);
         name = findViewById(R.id.addProductName);
+        expirationDate = findViewById(R.id.addExpirationDate);
+        addToStock = findViewById(R.id.addToStock);
+        products = findViewById(R.id.photosViewer);
+
+        //products.addView();
         go_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -49,7 +75,10 @@ public class AddStockActivity extends AppCompatActivity {
         addPhoto.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Code here executes on main thread after user presses button
-                ToggleButtons(v);
+                Intent intent = new Intent(Intent.ACTION_PICK);
+                //set type
+                intent.setType("image/*");
+                galleryActivityResultLauncher.launch(intent);
             }
         });
 
@@ -80,10 +109,33 @@ public class AddStockActivity extends AppCompatActivity {
                 }
             }
         });
+        addToStock.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Map<String, Object> product = new HashMap<>();
+                String nameProduct = String.valueOf(name.getText());
+                product.put("name", nameProduct);
+                product.put("expirationDate", String.valueOf(expirationDate.getText()));
+                product.put("images", images);
+                db.collection("products").document(nameProduct)
+                        .set(product)
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Log.d(TAG, "DocumentSnapshot successfully written!");
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.w(TAG, "Error writing document", e);
+                            }
+                        });
+            }
+        });
         // Date picker for expiration date
         final Calendar myCalendar = Calendar.getInstance();
 
-        EditText edittext= (EditText) findViewById(R.id.addExpirationDate);
         DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
 
             @Override
@@ -100,12 +152,12 @@ public class AddStockActivity extends AppCompatActivity {
                 String myFormat = "dd/MM/yy"; //In which you need put here
                 SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.CANADA);
 
-                edittext.setText(sdf.format(myCalendar.getTime()));
+                expirationDate.setText(sdf.format(myCalendar.getTime()));
             }
 
         };
 
-        edittext.setOnClickListener(new View.OnClickListener() {
+        expirationDate.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -138,7 +190,35 @@ public class AddStockActivity extends AppCompatActivity {
             camera.setVisibility(View.INVISIBLE);
         }
     }
+    private ActivityResultLauncher<Intent> galleryActivityResultLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    //here we will handle the result of our intent
+                    if (result.getResultCode() == Activity.RESULT_OK){
+                        //image picked
+                        //get uri of image
+                        Intent data = result.getData();
+                        Uri imageUri = data.getData();
 
+                        images.add(imageUri.toString());
+                    }
+                    else {
+                        //cancelled
+                        Toast.makeText(AddStockActivity.this, "Cancelled...", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+    );
+    /*ActivityResultLauncher<String> galleryActivityResultLauncher = registerForActivityResult(new ActivityResultContracts.GetContent(),
+            new ActivityResultCallback<Uri>() {
+                @Override
+                public void onActivityResult(Uri uri) {
+                    // Handle the returned Uri
+                    images.add(uri.toString());
+                }
+            });*/
     public void hideKeyboard(View view) {
         InputMethodManager inputMethodManager =(InputMethodManager)getSystemService(Activity.INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
