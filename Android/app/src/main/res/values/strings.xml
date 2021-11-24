@@ -28,6 +28,7 @@
     <string name="incorrectPassword">Incorrect username or password</string>
     <string name="layoutChangePassword">Change password</string>
     <string name="layoutProfile">Profile</string>
+    <string name="editProfile">Edit Profile</string>
     <string name="login">Login</string>gi9
     <string name="name">Name</string>
     <string name="newPasword">New Password</string>

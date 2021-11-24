@@ -28,6 +28,7 @@
     <string name="incorrectPassword">Nombre de usuario o contraseña incorrectos</string>
     <string name="layoutChangePassword">Cambiar la contraseña</string>
     <string name="layoutProfile">Perfil</string>
+    <string name="editProfile">Editar Perfil</string>
     <string name="login">Inicio de sesión</string>
     <string name="name">Nombre</string>
     <string name="newPasword">Nueva Contraseña</string>

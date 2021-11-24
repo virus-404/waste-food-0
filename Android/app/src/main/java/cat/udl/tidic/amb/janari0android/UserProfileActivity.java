@@ -38,7 +38,7 @@ import java.net.URI;
 
 public class UserProfileActivity extends AppCompatActivity {
 
-    private Button signOut, changePassword;
+    private Button signOut, changePassword, editProfile;
     private TextView textEmail,textName;
     private ImageView profilePicture;
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -47,6 +47,7 @@ public class UserProfileActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.profile);
+        editProfile = findViewById(R.id.editProfile);
         textEmail = findViewById(R.id.profileEmail);
         textName = findViewById(R.id.profileName);
         changePassword = findViewById(R.id.changePasswordButton);
@@ -87,6 +88,7 @@ public class UserProfileActivity extends AppCompatActivity {
                 galleryActivityResultLauncher.launch(intent);
             }
         });
+
     }
     private ActivityResultLauncher<Intent> galleryActivityResultLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
