@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:paddingLeft="10dp"
     android:paddingRight="10dp"
-    android:background="#E9FFD9">
+    android:background="@color/colorOffWhite">
 
     <!--Image view in which image will be set-->
 
@@ -39,7 +39,7 @@
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintWidth_percent="0.5" />
-        />
+
 
     <TextView
         android:id="@+id/textView"
