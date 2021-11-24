@@ -38,7 +38,7 @@ import java.net.URI;
 
 public class UserProfileActivity extends AppCompatActivity {
 
-    private Button signOut, changePassword, editProfile;
+    private Button signOut, editProfile;
     private TextView textEmail,textName;
     private ImageView profilePicture;
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -50,7 +50,6 @@ public class UserProfileActivity extends AppCompatActivity {
         editProfile = findViewById(R.id.editProfile);
         textEmail = findViewById(R.id.profileEmail);
         textName = findViewById(R.id.profileName);
-        changePassword = findViewById(R.id.changePasswordButton);
         profilePicture = findViewById(R.id.profilePicture);
         profilePicture.setImageURI(user.getPhotoUrl());
         textEmail.setText(user.getEmail());
@@ -73,12 +72,7 @@ public class UserProfileActivity extends AppCompatActivity {
                 FirebaseAuth.getInstance().signOut();
             }
         });
-        changePassword.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(UserProfileActivity.this, ChangePasswordActivity.class));
-            }
-        });
+
         profilePicture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -86,6 +80,13 @@ public class UserProfileActivity extends AppCompatActivity {
                 //set type
                 intent.setType("image/*");
                 galleryActivityResultLauncher.launch(intent);
+            }
+        });
+        editProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(UserProfileActivity.this, EditProfileActivity.class);
+                startActivity(intent);
             }
         });
 

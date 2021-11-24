@@ -46,7 +46,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ChangePasswordActivity.this, UserProfileActivity.class);
+                Intent intent = new Intent(ChangePasswordActivity.this, EditProfileActivity.class);
                 startActivity(intent);
             }
         });
@@ -92,6 +92,9 @@ public class ChangePasswordActivity extends AppCompatActivity {
                             passwordShouldBe, Toast.LENGTH_LONG).show();
                 else
                     updatePassword();
+
+                Intent intent = new Intent(ChangePasswordActivity.this, EditProfileActivity.class);
+                startActivity(intent);
             }
         });
     }
