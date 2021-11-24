@@ -44,41 +44,21 @@
     <SearchView
 
         android:id="@+id/searchView"
-        android:layout_width="325dp"
-        android:layout_height="55dp"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
         android:layout_marginTop="8dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
         android:addStatesFromChildren="false"
         android:background="@drawable/rounded_button"
-        android:queryHint="hola hola hola"
+        android:queryHint="@string/searchHint"
 
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.636"
-        app:layout_constraintStart_toEndOf="@+id/imageView"
         app:layout_constraintTop_toBottomOf="@+id/textView2">
 
         <requestFocus />
     </SearchView>
 
-    <ListView
-        android:id="@+id/list_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/searchView" />
-
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="71dp"
-        android:layout_height="54dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginLeft="4dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2"
-        app:srcCompat="@drawable/__2_burger_png_file" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/name_text_input"
@@ -141,9 +121,7 @@
         app:layout_constraintBottom_toTopOf="@+id/name_text_input"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.487"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/list_view"
-        app:layout_constraintVertical_bias="0.945">
+        app:layout_constraintStart_toStartOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/descriptionSell"
@@ -153,5 +131,11 @@
             android:hint="@string/description"
             android:inputType="textMultiLine" />
     </com.google.android.material.textfield.TextInputLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="407dp"
+        android:layout_height="217dp"
+        tools:layout_editor_absoluteX="2dp"
+        tools:layout_editor_absoluteY="159dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
