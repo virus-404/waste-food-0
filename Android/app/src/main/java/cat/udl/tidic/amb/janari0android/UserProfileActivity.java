@@ -38,7 +38,7 @@ import java.net.URI;
 
 public class UserProfileActivity extends AppCompatActivity {
 
-    private Button signOut, changePassword;
+    private Button signOut, editProfile;
     private TextView textEmail,textName;
     private ImageView profilePicture;
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -47,9 +47,9 @@ public class UserProfileActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.profile);
+        editProfile = findViewById(R.id.editProfile);
         textEmail = findViewById(R.id.profileEmail);
         textName = findViewById(R.id.profileName);
-        changePassword = findViewById(R.id.changePasswordButton);
         profilePicture = findViewById(R.id.profilePicture);
         try {
             profilePicture.setImageURI(user.getPhotoUrl());
@@ -78,12 +78,7 @@ public class UserProfileActivity extends AppCompatActivity {
                 FirebaseAuth.getInstance().signOut();
             }
         });
-        changePassword.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(UserProfileActivity.this, ChangePasswordActivity.class));
-            }
-        });
+
         profilePicture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -93,6 +88,14 @@ public class UserProfileActivity extends AppCompatActivity {
                 galleryActivityResultLauncher.launch(intent);
             }
         });
+        editProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(UserProfileActivity.this, EditProfileActivity.class);
+                startActivity(intent);
+            }
+        });
+
     }
     private final ActivityResultLauncher<Intent> galleryActivityResultLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
