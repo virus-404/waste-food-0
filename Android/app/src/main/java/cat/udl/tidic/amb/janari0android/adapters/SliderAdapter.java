@@ -3,6 +3,8 @@ package cat.udl.tidic.amb.janari0android.adapters;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -30,7 +32,7 @@ public class SliderAdapter extends RecyclerView.Adapter <SliderAdapter.SliderVie
     public SliderViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new SliderViewHolder(
                 LayoutInflater.from(parent.getContext()).inflate(
-                        R.layout.slide_item_container,
+                        R.layout.new_slide_product,
                         parent,
                         false
                 )
@@ -40,6 +42,8 @@ public class SliderAdapter extends RecyclerView.Adapter <SliderAdapter.SliderVie
     @Override
     public void onBindViewHolder(@NonNull SliderViewHolder holder, int position) {
         holder.setImage(sliderItems.get(position));
+        holder.setName(sliderItems.get(position));
+        holder.setDescription(sliderItems.get(position));
         if (position == sliderItems.size() - 2){
             viewPager2.post(runnable);
         }
@@ -50,18 +54,31 @@ public class SliderAdapter extends RecyclerView.Adapter <SliderAdapter.SliderVie
         return sliderItems.size();
     }
 
+
     class SliderViewHolder extends RecyclerView.ViewHolder{
 
-        private RoundedImageView imageView;
+        private ImageView imageView;
+        private TextView product_name;
+        private TextView product_description;
 
         SliderViewHolder(@NonNull View itemView) {
             super(itemView);
-            imageView = itemView.findViewById(R.id.imageSlide);
+            imageView = itemView.findViewById(R.id.image_product);
+            product_name = itemView.findViewById(R.id.name_product);
+            product_description = itemView.findViewById(R.id.description_product);
         }
 
         void setImage(SetDataSliderProducts setDataSliderProducts){
             imageView.setImageResource(setDataSliderProducts.getImage());
         }
+
+        void setName(SetDataSliderProducts setDataSliderProducts){
+            product_name.setText(setDataSliderProducts.getName_product());
+        }
+        void setDescription(SetDataSliderProducts setDataSliderProducts){
+            product_description.setText(setDataSliderProducts.getDescription_product());
+        }
+
     }
 
     private Runnable runnable = new Runnable() {
