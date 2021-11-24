@@ -10,11 +10,13 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResult;
@@ -24,6 +26,8 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -31,6 +35,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.io.File;
 import java.sql.Array;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -40,16 +45,22 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+import cat.udl.tidic.amb.janari0android.adapters.AddStockAdapter;
+
 public class AddStockActivity extends AppCompatActivity {
 
     private static final String TAG = "bakedbeans";
     private ImageButton go_back;
+    private ImageView productPicture, productInfoDelete;
     private Button addPhoto,gallery,camera, addToStock;
     private TextInputEditText name, expirationDate;
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
     private RecyclerView products;
     static final int REQUEST_IMAGE_CAPTURE = 1;
     ArrayList<String> images = new ArrayList<>();
+    ArrayList<String> listProducts = new ArrayList<>();
+    ArrayList<String> imageInfo = new ArrayList<>();
+    AddStockAdapter addStockAdapter;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,9 +72,9 @@ public class AddStockActivity extends AppCompatActivity {
         name = findViewById(R.id.addProductName);
         expirationDate = findViewById(R.id.addExpirationDate);
         addToStock = findViewById(R.id.addToStock);
-        products = findViewById(R.id.photosViewer);
 
-        //products.addView();
+        buildRecyclerView();
+
         go_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -133,6 +144,7 @@ public class AddStockActivity extends AppCompatActivity {
                         });
             }
         });
+
         // Date picker for expiration date
         final Calendar myCalendar = Calendar.getInstance();
 
@@ -177,7 +189,25 @@ public class AddStockActivity extends AppCompatActivity {
             }
         });
     }
+    public void buildRecyclerView() {
+        products = findViewById(R.id.photosViewer);
+        addStockAdapter = new AddStockAdapter(this,images,imageInfo, productInfoDelete);
+        products.setLayoutManager(new LinearLayoutManager(this));
+        products.setAdapter(addStockAdapter);
 
+        addStockAdapter.setOnItemClickListener(new AddStockAdapter.OnItemClickListener() {
+            @Override
+            public void onDeleteClick(int position) {
+                removeItem(position);
+            }
+        });
+
+    }
+    public void removeItem(int position) {
+        images.remove(position);
+        imageInfo.remove(position);
+        addStockAdapter.notifyItemRemoved(position);
+    }
     private void ToggleButtons(View v) {
         Button gallery = (Button) findViewById(R.id.addGallery);
         Button camera = (Button) findViewById(R.id.addCamera);
@@ -203,6 +233,22 @@ public class AddStockActivity extends AppCompatActivity {
                         Uri imageUri = data.getData();
 
                         images.add(imageUri.toString());
+                        Toast.makeText(AddStockActivity.this, "Added", Toast.LENGTH_SHORT).show();
+                        // Make picture visible to user
+                        File f = new File(String.valueOf(imageUri));
+                        imageInfo.add(f.getName());
+
+
+                        products.setAdapter(addStockAdapter);
+                        /*View productView = getLayoutInflater().inflate(R.layout.row_add_product_info,null,false);
+                        products.addView(productView);
+                        productPicture = new ImageView(AddStockActivity.this);
+                        productPicture.setId(View.generateViewId());
+                        productPicture.setLayoutParams(new ConstraintLayout.LayoutParams(
+                                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                        productPicture.setImageURI(imageUri);
+                        products.addView(productPicture);*/
+
                     }
                     else {
                         //cancelled
@@ -211,14 +257,6 @@ public class AddStockActivity extends AppCompatActivity {
                 }
             }
     );
-    /*ActivityResultLauncher<String> galleryActivityResultLauncher = registerForActivityResult(new ActivityResultContracts.GetContent(),
-            new ActivityResultCallback<Uri>() {
-                @Override
-                public void onActivityResult(Uri uri) {
-                    // Handle the returned Uri
-                    images.add(uri.toString());
-                }
-            });*/
     public void hideKeyboard(View view) {
         InputMethodManager inputMethodManager =(InputMethodManager)getSystemService(Activity.INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
