@@ -30,6 +30,7 @@
         <activity android:name=".UserProfileActivity"/>
         <activity android:name=".SellActivity"/>
         <activity android:name=".ChangePasswordActivity"/>
+        <activity android:name=".EditProfileActivity"/>
     </application>
 
 </manifest>
