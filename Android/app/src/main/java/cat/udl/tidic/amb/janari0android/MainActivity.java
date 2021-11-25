@@ -15,6 +15,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -22,9 +23,15 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +40,7 @@ import cat.udl.tidic.amb.janari0android.adapters.SliderAdapter;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final String TAG = "bakedbeans";
     private FirebaseAuth auth;
 
     private static final int PERMISSION_CODE = 1000;
@@ -48,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
     private Handler sliderHandler = new Handler();
 
     Uri image_uri;
-
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -182,9 +190,28 @@ public class MainActivity extends AppCompatActivity {
         //We pass images list, we will have to take them from the API
         //By now i put them manually
         List<SetDataSliderProducts> sliderItems = new ArrayList<>();
-        sliderItems.add(new SetDataSliderProducts(R.drawable.__2_burger_free_download_png, "Hamburguesa con queso", "Burger rebuena"));
+        /*CollectionReference productsDb = db.collection("products");
+        productsDb
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Log.d(TAG, document.getId() + " => " + document.getData());
+                                ArrayList<String> images = new ArrayList<String>((ArrayList<String>) document.getData().get());
+                                String name = (String) document.getData().get("name");
+                                String description = "Bababla";
+                                sliderItems.add(new SetDataSliderProducts(images.get(0), name, description));
+                            }
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
+                    }
+                });*/
+        /*sliderItems.add(new SetDataSliderProducts(R.drawable.__2_burger_free_download_png, "Hamburguesa con queso", "Burger rebuena"));
         sliderItems.add(new SetDataSliderProducts(R.drawable.__2_burger_png_file, "Lasañita rica", "En buen estado"));
-        sliderItems.add(new SetDataSliderProducts(R.drawable.dollar, "Dolarsito", "Money pa todos"));
+        sliderItems.add(new SetDataSliderProducts(R.drawable.dollar, "Dolarsito", "Money pa todos"));*/
 
 
         viewPager2.setAdapter(new SliderAdapter(sliderItems, viewPager2));

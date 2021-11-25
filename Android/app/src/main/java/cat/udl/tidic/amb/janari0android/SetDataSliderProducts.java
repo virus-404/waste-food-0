@@ -4,7 +4,7 @@ import android.media.Image;
 
 public class SetDataSliderProducts {
 
-    private int image;
+    private String image;
     String name_product, description_product;
 
     public String getName_product() {
@@ -15,11 +15,11 @@ public class SetDataSliderProducts {
         return description_product;
     }
 
-    public int getImage() {
+    public String getImage() {
         return image;
     }
 
-    SetDataSliderProducts(int image, String name_product, String description_product){
+    SetDataSliderProducts(String image, String name_product, String description_product){
         this.image = image;
         this.name_product = name_product;
         this.description_product = description_product;

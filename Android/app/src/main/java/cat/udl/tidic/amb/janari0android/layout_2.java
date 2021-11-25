@@ -35,9 +35,9 @@ public class layout_2 extends AppCompatActivity{
         //We pass images list, we will have to take them from the API
         //By now i put them manually
         List<SetDataSliderProducts> sliderItems = new ArrayList<>();
-        sliderItems.add(new SetDataSliderProducts(R.drawable.__2_burger_free_download_png, "Hamburguesa con queso", "Burger rebuena"));
+       /* sliderItems.add(new SetDataSliderProducts(R.drawable.__2_burger_free_download_png, "Hamburguesa con queso", "Burger rebuena"));
         sliderItems.add(new SetDataSliderProducts(R.drawable.__2_burger_png_file, "Lasañita rica", "En buen estado"));
-
+*/
         viewPager2.setAdapter(new SliderAdapter(sliderItems, viewPager2));
 
         viewPager2.setClipToPadding(false);

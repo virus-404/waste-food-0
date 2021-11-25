@@ -1,5 +1,6 @@
 package cat.udl.tidic.amb.janari0android.adapters;
 
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -69,7 +70,7 @@ public class SliderAdapter extends RecyclerView.Adapter <SliderAdapter.SliderVie
         }
 
         void setImage(SetDataSliderProducts setDataSliderProducts){
-            imageView.setImageResource(setDataSliderProducts.getImage());
+            imageView.setImageURI(Uri.parse(setDataSliderProducts.getImage()));
         }
 
         void setName(SetDataSliderProducts setDataSliderProducts){
