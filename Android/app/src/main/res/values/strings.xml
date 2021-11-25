@@ -61,4 +61,5 @@
     <string name="passwordUpdated">Password updated.</string>
     <string name="wrongPassword">Wrong password</string>
     <string name="saveChanges">Save Changes</string>
+    <string name="searchHint">Search Products</string>
 </resources>

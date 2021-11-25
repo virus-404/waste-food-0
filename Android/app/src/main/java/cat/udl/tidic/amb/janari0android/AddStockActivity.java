@@ -37,6 +37,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.io.File;
 import java.sql.Array;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -126,7 +127,12 @@ public class AddStockActivity extends AppCompatActivity {
                 Map<String, Object> product = new HashMap<>();
                 String nameProduct = String.valueOf(name.getText());
                 product.put("name", nameProduct);
-                product.put("expirationDate", String.valueOf(expirationDate.getText()));
+                try {
+                    product.put("expirationDate",new SimpleDateFormat("dd/MM/yy").parse(String.valueOf(expirationDate.getText())));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                //product.put("expirationDate", String.valueOf(expirationDate.getText()));
                 product.put("images", images);
                 db.collection("products").document(nameProduct)
                         .set(product)
