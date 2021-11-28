@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
@@ -34,9 +35,13 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
 import java.sql.Array;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -56,6 +61,7 @@ public class AddStockActivity extends AppCompatActivity {
     private Button addPhoto,gallery,camera, addToStock;
     private TextInputEditText name, expirationDate;
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
+    FirebaseStorage storage = FirebaseStorage.getInstance();
     private RecyclerView products;
     static final int REQUEST_IMAGE_CAPTURE = 1;
     ArrayList<String> images = new ArrayList<>();
@@ -124,30 +130,50 @@ public class AddStockActivity extends AppCompatActivity {
         addToStock.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Map<String, Object> product = new HashMap<>();
                 String nameProduct = String.valueOf(name.getText());
-                product.put("name", nameProduct);
+                Product product = null;
                 try {
-                    product.put("expirationDate",new SimpleDateFormat("dd/MM/yy").parse(String.valueOf(expirationDate.getText())));
+                    product = new Product(nameProduct, images, new SimpleDateFormat("dd/MM/yy").parse(String.valueOf(expirationDate.getText())));
                 } catch (ParseException e) {
                     e.printStackTrace();
+                    Toast.makeText(AddStockActivity.this, "Error adding product", Toast.LENGTH_SHORT).show();
+                    return;
                 }
-                //product.put("expirationDate", String.valueOf(expirationDate.getText()));
-                product.put("images", images);
-                db.collection("products").document(nameProduct)
-                        .set(product)
-                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void aVoid) {
-                                Log.d(TAG, "DocumentSnapshot successfully written!");
-                            }
-                        })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Log.w(TAG, "Error writing document", e);
-                            }
-                        });
+                StorageReference storageRef = storage.getReference();
+                StorageReference imagesRef = storageRef.child("images");
+                for (String image : images)
+                {
+                    imagesRef = storageRef.child("images/" + Uri.parse(image).getLastPathSegment());
+                    UploadTask uploadTask = imagesRef.putFile(Uri.parse(image));
+                    Product finalProduct = product;
+                    uploadTask.addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception exception) {
+                            // Handle unsuccessful uploads
+                        }
+                    }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
+                            db.collection("products").document(nameProduct)
+                                    .set(finalProduct)
+                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            Log.d(TAG, "DocumentSnapshot successfully written!");
+                                            Toast.makeText(AddStockActivity.this, "Product successfully added", Toast.LENGTH_SHORT).show();
+                                        }
+                                    })
+                                    .addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Log.w(TAG, "Error writing document", e);
+                                        }
+                                    });
+                        }
+                    });
+                }
+
             }
         });
 
