@@ -9,17 +9,16 @@
     android:background="@color/colorOffWhite">
 
     <TextView
-        android:id="@+id/textView9"
-        android:layout_width="361dp"
-        android:layout_height="31dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginLeft="10dp"
+        android:id="@+id/changePassword"
+        android:layout_width="330dp"
+        android:layout_height="30dp"
         android:layout_marginTop="8dp"
+        android:gravity="center_vertical"
         android:text="@string/donate"
-        android:textSize="18sp"
+        android:textColor="@color/colorBlack"
+        android:textSize="20sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.058"
-        app:layout_constraintStart_toEndOf="@+id/goBackButton"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
@@ -54,19 +53,17 @@
         android:layout_width="114dp"
         android:layout_height="35dp"
         android:layout_marginStart="30dp"
-        android:layout_marginLeft="30dp"
         android:layout_marginEnd="123dp"
-        android:layout_marginRight="123dp"
         android:layout_marginBottom="16dp"
         android:background="@drawable/button_rectangle_rounded"
         android:text="@string/donate"
         android:textColor="#000000"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.75"
+        app:layout_constraintHorizontal_bias="0.819"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/name_text_input1"
-        app:layout_constraintVertical_bias="0.626"
+        app:layout_constraintVertical_bias="0.629"
         tools:ignore="TextContrastCheck,TextContrastCheck,TextContrastCheck" />
 
     <SearchView
@@ -96,15 +93,13 @@
         android:layout_width="match_parent"
         android:layout_height="180dp"
         android:layout_marginStart="5dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="148dp"
         android:layout_marginEnd="5dp"
         app:errorEnabled="true"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.282"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recyclerView"
-        app:layout_constraintVertical_bias="0.0">
+        app:layout_constraintTop_toBottomOf="@+id/searchProductsView">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/descriptionDonate"
@@ -116,10 +111,13 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
-        android:layout_width="0dp"
-        android:layout_height="250dp"
+        android:id="@+id/searchProductsView"
+        android:layout_width="match_parent"
+        android:layout_height="175dp"
+        android:layout_marginStart="5dp"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="5dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"

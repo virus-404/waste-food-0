@@ -31,9 +31,13 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -59,13 +63,13 @@ public class AddStockActivity extends AppCompatActivity {
     private ImageButton go_back;
     private ImageView productPicture, productInfoDelete;
     private Button addPhoto,gallery,camera, addToStock;
-    private TextInputEditText name, expirationDate;
+    private TextInputEditText expirationDate;
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
     FirebaseStorage storage = FirebaseStorage.getInstance();
+    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     private RecyclerView products;
     static final int REQUEST_IMAGE_CAPTURE = 1;
     ArrayList<String> images = new ArrayList<>();
-    ArrayList<String> listProducts = new ArrayList<>();
     ArrayList<String> imageInfo = new ArrayList<>();
     AddStockAdapter addStockAdapter;
     @Override
@@ -76,12 +80,16 @@ public class AddStockActivity extends AppCompatActivity {
         addPhoto = findViewById(R.id.addPhoto);
         gallery = findViewById(R.id.addGallery);
         camera = findViewById(R.id.addCamera);
-        name = findViewById(R.id.addProductName);
         expirationDate = findViewById(R.id.addExpirationDate);
         addToStock = findViewById(R.id.addToStock);
 
         buildRecyclerView();
 
+        Bundle extras = getIntent().getExtras();
+        String name = "";
+        if(extras!=null) {
+            name = extras.getString("name");
+        }
         go_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -127,53 +135,34 @@ public class AddStockActivity extends AppCompatActivity {
                 }
             }
         });
+        String finalName = name;
         addToStock.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String nameProduct = String.valueOf(name.getText());
                 Product product = null;
                 try {
-                    product = new Product(nameProduct, images, new SimpleDateFormat("dd/MM/yy").parse(String.valueOf(expirationDate.getText())));
+                    product = new Product(finalName, images, new SimpleDateFormat("dd/MM/yy").parse(String.valueOf(expirationDate.getText())));
                 } catch (ParseException e) {
                     e.printStackTrace();
                     Toast.makeText(AddStockActivity.this, "Error adding product", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                StorageReference storageRef = storage.getReference();
-                StorageReference imagesRef = storageRef.child("images");
-                for (String image : images)
-                {
-                    imagesRef = storageRef.child("images/" + Uri.parse(image).getLastPathSegment());
-                    UploadTask uploadTask = imagesRef.putFile(Uri.parse(image));
-                    Product finalProduct = product;
-                    uploadTask.addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception exception) {
-                            // Handle unsuccessful uploads
-                        }
-                    }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
-                            db.collection("products").document(nameProduct)
-                                    .set(finalProduct)
-                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                        @Override
-                                        public void onSuccess(Void aVoid) {
-                                            Log.d(TAG, "DocumentSnapshot successfully written!");
-                                            Toast.makeText(AddStockActivity.this, "Product successfully added", Toast.LENGTH_SHORT).show();
-                                        }
-                                    })
-                                    .addOnFailureListener(new OnFailureListener() {
-                                        @Override
-                                        public void onFailure(@NonNull Exception e) {
-                                            Log.w(TAG, "Error writing document", e);
-                                        }
-                                    });
-                        }
-                    });
-                }
-
+                Toast.makeText(AddStockActivity.this, finalName, Toast.LENGTH_SHORT).show();
+                db.collection("users").document(user.getUid()).collection("products").document(finalName)
+                        .set(product)
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Log.d(TAG, "DocumentSnapshot successfully written!");
+                                Toast.makeText(AddStockActivity.this, "Product successfully added", Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.w(TAG, "Error writing document", e);
+                            }
+                        });
             }
         });
 
@@ -211,15 +200,6 @@ public class AddStockActivity extends AppCompatActivity {
                         myCalendar.get(Calendar.DAY_OF_MONTH)).show();
             }
         });
-
-        name.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
-                    hideKeyboard(v);
-                }
-            }
-        });
     }
     public void buildRecyclerView() {
         products = findViewById(R.id.photosViewer);
@@ -252,7 +232,7 @@ public class AddStockActivity extends AppCompatActivity {
             camera.setVisibility(View.INVISIBLE);
         }
     }
-    private ActivityResultLauncher<Intent> galleryActivityResultLauncher = registerForActivityResult(
+    private final ActivityResultLauncher<Intent> galleryActivityResultLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             new ActivityResultCallback<ActivityResult>() {
                 @Override
@@ -264,22 +244,44 @@ public class AddStockActivity extends AppCompatActivity {
                         Intent data = result.getData();
                         Uri imageUri = data.getData();
 
-                        images.add(imageUri.toString());
-                        Toast.makeText(AddStockActivity.this, "Added", Toast.LENGTH_SHORT).show();
-                        // Make picture visible to user
+                        StorageReference storageRef = storage.getReference();
+                        StorageReference imageRef;
+                        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+                        assert user != null;
+                        imageRef = storageRef.child("images/" + user.getUid() + "/" +  imageUri.getLastPathSegment());
+                        UploadTask uploadTask = imageRef.putFile(imageUri);
+                        uploadTask.addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception exception) {
+                                // Handle unsuccessful uploads
+                            }
+                        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                            @Override
+                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
+                                Task<Uri> urlTask = imageRef.getDownloadUrl();
+                                urlTask.addOnCompleteListener(new OnCompleteListener<Uri>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Uri> task) {
+                                        if (task.isSuccessful()) {
+                                            Uri downloadUri = task.getResult();
+                                            images.add(String.valueOf(downloadUri));
+                                        } else {
+                                            // Handle failures
+                                            // ...
+                                            Toast.makeText(AddStockActivity.this, "Something's wrong", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                });
+
+                            }
+                        });
                         File f = new File(String.valueOf(imageUri));
                         imageInfo.add(f.getName());
-
-
+                        Toast.makeText(AddStockActivity.this, "Added", Toast.LENGTH_SHORT).show();
                         products.setAdapter(addStockAdapter);
-                        /*View productView = getLayoutInflater().inflate(R.layout.row_add_product_info,null,false);
-                        products.addView(productView);
-                        productPicture = new ImageView(AddStockActivity.this);
-                        productPicture.setId(View.generateViewId());
-                        productPicture.setLayoutParams(new ConstraintLayout.LayoutParams(
-                                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                        productPicture.setImageURI(imageUri);
-                        products.addView(productPicture);*/
+
 
                     }
                     else {

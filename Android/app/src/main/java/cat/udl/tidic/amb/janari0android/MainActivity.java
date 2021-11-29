@@ -2,6 +2,7 @@ package cat.udl.tidic.amb.janari0android;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.CompositePageTransformer;
 import androidx.viewpager2.widget.MarginPageTransformer;
@@ -16,6 +17,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -116,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, AddStockActivity.class);
+                Intent intent = new Intent(MainActivity.this, AddStockProductNameActivity.class);
                 startActivity(intent);
             }
         });
@@ -190,25 +194,6 @@ public class MainActivity extends AppCompatActivity {
         //We pass images list, we will have to take them from the API
         //By now i put them manually
         List<SetDataSliderProducts> sliderItems = new ArrayList<>();
-        /*CollectionReference productsDb = db.collection("products");
-        productsDb
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.d(TAG, document.getId() + " => " + document.getData());
-                                ArrayList<String> images = new ArrayList<String>((ArrayList<String>) document.getData().get());
-                                String name = (String) document.getData().get("name");
-                                String description = "Bababla";
-                                sliderItems.add(new SetDataSliderProducts(images.get(0), name, description));
-                            }
-                        } else {
-                            Log.d(TAG, "Error getting documents: ", task.getException());
-                        }
-                    }
-                });*/
         /*sliderItems.add(new SetDataSliderProducts(R.drawable.__2_burger_free_download_png, "Hamburguesa con queso", "Burger rebuena"));
         sliderItems.add(new SetDataSliderProducts(R.drawable.__2_burger_png_file, "Lasañita rica", "En buen estado"));
         sliderItems.add(new SetDataSliderProducts(R.drawable.dollar, "Dolarsito", "Money pa todos"));*/
@@ -245,7 +230,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
-
     private Runnable sliderRunnable = new Runnable() {
         @Override
         public void run() {

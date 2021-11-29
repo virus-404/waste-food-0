@@ -9,13 +9,16 @@ import java.util.Date;
 import java.util.List;
 
 public class Product {
-    Date expirationDate;
+    Date expirationDate = new Date();
     List<String> photos = new ArrayList<String>();
     String name;
     public Product(String name, List<String> photos, Date expirationDate){
         this.name = name;
         this.photos = photos;
         this.expirationDate = expirationDate;
+    }
+    public Product(){
+        this.name = "bakedbeans";
     }
     public Date getExpirationDate() {
         return expirationDate;
