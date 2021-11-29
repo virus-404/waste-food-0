@@ -97,7 +97,6 @@ public class AddStockActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
         addPhoto.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Code here executes on main thread after user presses button
@@ -107,7 +106,6 @@ public class AddStockActivity extends AppCompatActivity {
                 galleryActivityResultLauncher.launch(intent);
             }
         });
-
         gallery.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -165,36 +163,26 @@ public class AddStockActivity extends AppCompatActivity {
                         });
             }
         });
-
         // Date picker for expiration date
         final Calendar myCalendar = Calendar.getInstance();
-
         DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
-
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear,
                                   int dayOfMonth) {
-                // TODO Auto-generated method stub
                 myCalendar.set(Calendar.YEAR, year);
                 myCalendar.set(Calendar.MONTH, monthOfYear);
                 myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
                 updateLabel();
             }
-
             private void updateLabel() {
                 String myFormat = "dd/MM/yy"; //In which you need put here
                 SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.CANADA);
-
                 expirationDate.setText(sdf.format(myCalendar.getTime()));
             }
-
         };
-
         expirationDate.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
                 new DatePickerDialog(AddStockActivity.this, date, myCalendar
                         .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
                         myCalendar.get(Calendar.DAY_OF_MONTH)).show();
@@ -213,7 +201,6 @@ public class AddStockActivity extends AppCompatActivity {
                 removeItem(position);
             }
         });
-
     }
     public void removeItem(int position) {
         images.remove(position);
@@ -237,10 +224,7 @@ public class AddStockActivity extends AppCompatActivity {
             new ActivityResultCallback<ActivityResult>() {
                 @Override
                 public void onActivityResult(ActivityResult result) {
-                    //here we will handle the result of our intent
                     if (result.getResultCode() == Activity.RESULT_OK){
-                        //image picked
-                        //get uri of image
                         Intent data = result.getData();
                         Uri imageUri = data.getData();
 
@@ -254,12 +238,11 @@ public class AddStockActivity extends AppCompatActivity {
                         uploadTask.addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception exception) {
-                                // Handle unsuccessful uploads
+                                Toast.makeText(AddStockActivity.this, "Unsuccessful upload", Toast.LENGTH_SHORT).show();
                             }
                         }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                             @Override
                             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                                // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
                                 Task<Uri> urlTask = imageRef.getDownloadUrl();
                                 urlTask.addOnCompleteListener(new OnCompleteListener<Uri>() {
                                     @Override
@@ -267,9 +250,11 @@ public class AddStockActivity extends AppCompatActivity {
                                         if (task.isSuccessful()) {
                                             Uri downloadUri = task.getResult();
                                             images.add(String.valueOf(downloadUri));
+                                            File f = new File(String.valueOf(imageUri));
+                                            imageInfo.add(f.getName());
+                                            products.setAdapter(addStockAdapter);
+                                            Toast.makeText(AddStockActivity.this, "Image uploaded", Toast.LENGTH_SHORT).show();
                                         } else {
-                                            // Handle failures
-                                            // ...
                                             Toast.makeText(AddStockActivity.this, "Something's wrong", Toast.LENGTH_SHORT).show();
                                         }
                                     }
@@ -277,16 +262,10 @@ public class AddStockActivity extends AppCompatActivity {
 
                             }
                         });
-                        File f = new File(String.valueOf(imageUri));
-                        imageInfo.add(f.getName());
-                        Toast.makeText(AddStockActivity.this, "Added", Toast.LENGTH_SHORT).show();
-                        products.setAdapter(addStockAdapter);
-
 
                     }
                     else {
-                        //cancelled
-                        Toast.makeText(AddStockActivity.this, "Cancelled...", Toast.LENGTH_SHORT).show();
+                        Log.d(TAG, "Cancelled");
                     }
                 }
             }

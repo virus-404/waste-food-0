@@ -12,6 +12,8 @@ import cat.udl.tidic.amb.janari0android.R;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.ArrayList;
 
 public class AddStockAdapter extends RecyclerView.Adapter<AddStockAdapter.AddStockViewHolder>{
@@ -45,7 +47,9 @@ public class AddStockAdapter extends RecyclerView.Adapter<AddStockAdapter.AddSto
 
     @Override
     public void onBindViewHolder(@NonNull AddStockViewHolder holder, int position) {
-        holder.image.setImageURI(Uri.parse(productImages.get(position)));
+        Glide.with(context)
+                .load(productImages.get(position))
+                .into(holder.image);
         holder.imageInfo.setText(productImageInfo.get(position));
         holder.delete = deleteImage;
     }

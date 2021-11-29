@@ -70,16 +70,6 @@ public class DonateActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        // Doesn't work, need to find a way to close a search view out of focus
-        searchProducts.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
-                    enableSearchView(v,false);
-                    hideKeyboard(v);
-                }
-            }
-        });
         description.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -88,15 +78,11 @@ public class DonateActivity extends AppCompatActivity {
                 }
             }
         });
-
         searchProducts.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 searchProducts.setIconified(false);
-
-                Toast.makeText(DonateActivity.this, "Added", Toast.LENGTH_SHORT).show();
                 recyclerView.setAdapter(searchStockAdapter);
-                searchStockAdapter.notifyDataSetChanged();
             }
         });
         searchProducts.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -104,19 +90,15 @@ public class DonateActivity extends AppCompatActivity {
             public boolean onQueryTextSubmit(String query) {
                 return false;
             }
-
             @Override
             public boolean onQueryTextChange(String newText) {
-                // inside on query text change method we are
-                // calling a method to filter our recycler view.
                 filter(newText);
                 return false;
             }
         });
     }
-
     private void getSearchData() {
-        db.collection(user.getUid()).document("product").collection("products")
+        db.collection("users").document(user.getUid()).collection("products")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -128,34 +110,18 @@ public class DonateActivity extends AppCompatActivity {
                             }
                         } else {
                             Log.d(TAG, "Error getting documents: ", task.getException());
-                            return;
                         }
                     }
                 });
     }
-
     private void filter(String text) {
-        // creating a new array list to filter our data.
         ArrayList<Product> filteredlist = new ArrayList<>();
-
-        // running a for loop to compare elements.
         for (Product item : products) {
-            // checking if the entered string matched with any item of our recycler view.
             if (item.getName().toLowerCase().contains(text.toLowerCase())) {
-                // if the item is matched we are
-                // adding it to our filtered list.
                 filteredlist.add(item);
             }
         }
-        if (filteredlist.isEmpty()) {
-            // if no item is added in filtered list we are
-            // displaying a toast message as no data found.
-            Toast.makeText(this, "No Data Found..", Toast.LENGTH_SHORT).show();
-        } else {
-            // at last we are passing that filtered
-            // list to our adapter class.
-            searchStockAdapter.filterList(filteredlist);
-        }
+        searchStockAdapter.filterList(filteredlist);
     }
     public void buildRecyclerView() {
         recyclerView = findViewById(R.id.searchProductsView);
@@ -166,15 +132,5 @@ public class DonateActivity extends AppCompatActivity {
     public void hideKeyboard(View view) {
         InputMethodManager inputMethodManager =(InputMethodManager)getSystemService(Activity.INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
-    }
-    private void enableSearchView(View view, boolean enabled) {
-        view.setEnabled(enabled);
-        if (view instanceof ViewGroup) {
-            ViewGroup viewGroup = (ViewGroup) view;
-            for (int i = 0; i < viewGroup.getChildCount(); i++) {
-                View child = viewGroup.getChildAt(i);
-                enableSearchView(child, enabled);
-            }
-        }
     }
 }

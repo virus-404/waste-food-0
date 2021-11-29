@@ -11,6 +11,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+
+import java.io.File;
 import java.util.ArrayList;
 
 import cat.udl.tidic.amb.janari0android.Product;
@@ -21,11 +24,9 @@ public class SearchStockAdapter extends RecyclerView.Adapter<SearchStockAdapter.
     Context context;
     ArrayList<Product> products;
     AddStockAdapter.OnItemClickListener Listener;
-
     public void setOnItemClickListener(AddStockAdapter.OnItemClickListener onItemClickListener) {
         Listener = onItemClickListener;
     }
-
     // method for filtering our recyclerview items.
     public void filterList(ArrayList<Product> filterllist) {
         // below line is to add our filtered
@@ -35,7 +36,6 @@ public class SearchStockAdapter extends RecyclerView.Adapter<SearchStockAdapter.
         // as change in recycler view data.
         notifyDataSetChanged();
     }
-
     public interface OnItemClickListener {
         void onDeleteClick(int position);
     }
@@ -49,22 +49,22 @@ public class SearchStockAdapter extends RecyclerView.Adapter<SearchStockAdapter.
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_search_product, parent, false);
         return new SearchStockViewHolder(view);
     }
-
     @Override
     public void onBindViewHolder(@NonNull SearchStockViewHolder holder, int position) {
         Product product = products.get(position);
         if(product.getPhotos().size()==0)
             holder.image.setImageResource(R.drawable.__2_burger_free_download_png);
-        else
-            holder.image.setImageURI(Uri.parse(product.getPhotos().get(0)));
+        else {
+            Glide.with(context)
+                    .load(product.getPhotos().get(0))
+                    .into(holder.image);
+        }
         holder.name.setText(product.getName());
     }
-
     @Override
     public int getItemCount() {
         return products.size();
     }
-
     public class SearchStockViewHolder extends RecyclerView.ViewHolder{
 
         ImageView image;
@@ -75,6 +75,5 @@ public class SearchStockAdapter extends RecyclerView.Adapter<SearchStockAdapter.
             image = itemView.findViewById(R.id.rowProductImage);
             name = itemView.findViewById(R.id.rowProductName);
         }
-
     }
 }
