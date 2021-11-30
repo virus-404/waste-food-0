@@ -39,6 +39,7 @@
     <string name="password">Constraseña</string>
     <string name="productDescription"> Descripcion del porducto</string>
     <string name="productName"> Nombre del producto</string>
+    <string name="productList" > Lista de Productos</string>
     <string name="putPrice"> añadir precio </string>
     <string name="register">Registrar</string>
     <string name="repeatPassword">Repetir contraseña</string>

@@ -40,6 +40,7 @@
     <string name="password">Password</string>
     <string name="productDescription"> Product description</string>
     <string name="productName"> Product name</string>
+    <string name="productList" > Product list</string>
     <string name="putPrice"> Put price</string>
     <string name="register">Register</string>
     <string name="repeatPassword">Repeat password</string>
