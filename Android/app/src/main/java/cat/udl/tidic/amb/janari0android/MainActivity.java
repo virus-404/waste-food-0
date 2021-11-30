@@ -36,8 +36,11 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.type.DateTime;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import cat.udl.tidic.amb.janari0android.adapters.SliderAdapter;
@@ -61,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
 
     Uri image_uri;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
+    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -229,7 +233,41 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+
+        DateTime timenow = DateTime.getDefaultInstance();
+        Calendar c = Calendar.getInstance();
+        c.add(Calendar.DATE, 7);
+
+        db.collection("users").document(user.getUid()).collection("products").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                int num_products = 0;
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        Log.d(TAG,document.getId() + " => " + document.getData());
+                        Product p = document.toObject(Product.class);
+                        Calendar cprod = Calendar.getInstance();
+                        cprod.setTime(p.expirationDate);
+                        if (cprod.compareTo(c) <= 0){
+                            num_products ++;
+                        }
+                    }
+                    //QuerySnapshot t = ;
+                    //int number_products = task.getResult().getDocumentChanges().size();
+                    list.setText(String.valueOf(num_products));
+                } else {
+                    Log.d(TAG, "Error getting documents: ", task.getException());
+                }
+            }
+        });
+
+
+
     }
+
+
+
     private Runnable sliderRunnable = new Runnable() {
         @Override
         public void run() {
