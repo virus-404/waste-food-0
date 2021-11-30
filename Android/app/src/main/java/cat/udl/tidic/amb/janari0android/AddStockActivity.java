@@ -1,11 +1,13 @@
 package cat.udl.tidic.amb.janari0android;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -13,6 +15,8 @@ import android.widget.ImageButton;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.material.textfield.TextInputEditText;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -22,7 +26,7 @@ public class AddStockActivity extends AppCompatActivity {
 
     private ImageButton go_back;
     private Button addPhoto,gallery,camera;
-
+    private TextInputEditText name;
     static final int REQUEST_IMAGE_CAPTURE = 1;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -33,7 +37,7 @@ public class AddStockActivity extends AppCompatActivity {
         addPhoto = findViewById(R.id.addPhoto);
         gallery = findViewById(R.id.addGallery);
         camera = findViewById(R.id.addCamera);
-
+        name = findViewById(R.id.addProductName);
         go_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -45,16 +49,7 @@ public class AddStockActivity extends AppCompatActivity {
         addPhoto.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Code here executes on main thread after user presses button
-                Button gallery = (Button) findViewById(R.id.addGallery);
-                Button camera = (Button) findViewById(R.id.addCamera);
-                if(gallery.getVisibility()==View.INVISIBLE) {
-                    gallery.setVisibility(View.VISIBLE);
-                    camera.setVisibility(View.VISIBLE);
-                }
-                else{
-                    gallery.setVisibility(View.INVISIBLE);
-                    camera.setVisibility(View.INVISIBLE);
-                }
+                ToggleButtons(v);
             }
         });
 
@@ -120,5 +115,32 @@ public class AddStockActivity extends AppCompatActivity {
                         myCalendar.get(Calendar.DAY_OF_MONTH)).show();
             }
         });
+
+        name.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    hideKeyboard(v);
+                }
+            }
+        });
+    }
+
+    private void ToggleButtons(View v) {
+        Button gallery = (Button) findViewById(R.id.addGallery);
+        Button camera = (Button) findViewById(R.id.addCamera);
+        if(gallery.getVisibility()==View.INVISIBLE) {
+            gallery.setVisibility(View.VISIBLE);
+            camera.setVisibility(View.VISIBLE);
+        }
+        else{
+            gallery.setVisibility(View.INVISIBLE);
+            camera.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    public void hideKeyboard(View view) {
+        InputMethodManager inputMethodManager =(InputMethodManager)getSystemService(Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 }

@@ -1,11 +1,15 @@
 package cat.udl.tidic.amb.janari0android;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,24 +22,33 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 
 public class RegisterActivity extends AppCompatActivity {
     private FirebaseAuth auth;
     protected EditText username, email, password, passwordRep;
     protected Button register;
+    protected ImageButton goBack;
+
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
         auth = FirebaseAuth.getInstance();
-
+        goBack = findViewById(R.id.goBackButton);
         username = findViewById(R.id.usernameEditText);
         email = findViewById(R.id.emailEditText);
         password = findViewById(R.id.passwordEditText);
         passwordRep = findViewById(R.id.repeatPasswordEditText);
         register = findViewById(R.id.registerFormButton);
 
+        String pleaseFillAllFields = getResources().getString(R.string.pleaseFillAllFields);
+        String invalidEmail = getResources().getString(R.string.invalidEmail);
+        String invalidUsername = getResources().getString(R.string.invalidUsername);
+        String passwordsDontMatch = getResources().getString(R.string.passwordsDontMatch);
+        String passwordShouldBe = getResources().getString(R.string.passwordShouldBe);
         register.setOnClickListener(new Button.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -46,24 +59,69 @@ public class RegisterActivity extends AppCompatActivity {
 
                 if (us.isEmpty() || em.isEmpty() || pas.isEmpty() || pasR.isEmpty()){
                     Toast.makeText(getApplicationContext(),
-                            "Please fill all the fields", Toast.LENGTH_LONG).show();
+                            pleaseFillAllFields, Toast.LENGTH_LONG).show();
                 } else if (!isValidEmail(em))
                     Toast.makeText(getApplicationContext(),
-                            "Invalid mail", Toast.LENGTH_LONG).show();
+                            invalidEmail, Toast.LENGTH_LONG).show();
                 else if (isStringBlank(us))
                     Toast.makeText(getApplicationContext(),
-                            "Invalid username", Toast.LENGTH_LONG).show();
+                            invalidUsername, Toast.LENGTH_LONG).show();
                 else if (!pas.equals(pasR))
                     Toast.makeText(getApplicationContext(),
-                            "Passwords doesn't match", Toast.LENGTH_LONG).show();
+                            passwordsDontMatch, Toast.LENGTH_LONG).show();
                 else if (pas.length() < 5)
                     Toast.makeText(getApplicationContext(),
-                            "Password should be at least 6 characters", Toast.LENGTH_LONG).show();
+                            passwordShouldBe, Toast.LENGTH_LONG).show();
                 else
                     createAccount(em, pas);
             }
         });
+        goBack.setOnClickListener(new ImageButton.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                startActivity(intent);
+            }
+        });
+        username.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    hideKeyboard(v);
+                }
+            }
+        });
+        email.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    hideKeyboard(v);
+                }
+            }
+        });
+        password.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    hideKeyboard(v);
+                }
+            }
+        });
+        passwordRep.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    hideKeyboard(v);
+                }
+            }
+        });
     }
+
+    public void hideKeyboard(View view) {
+        InputMethodManager inputMethodManager =(InputMethodManager)getSystemService(Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+
     public static boolean isStringBlank(final CharSequence cs) {
         int strLen;
         if (cs == null || (strLen = cs.length()) == 0) {
@@ -93,6 +151,7 @@ public class RegisterActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             FirebaseUser user = auth.getCurrentUser();
+                            setDisplayName();
                             updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
@@ -105,7 +164,15 @@ public class RegisterActivity extends AppCompatActivity {
 
 
     }
-
+    private void setDisplayName()
+    {
+        FirebaseUser user = auth.getCurrentUser();
+        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                .setDisplayName(String.valueOf(username.getText()))
+                .setPhotoUri(Uri.parse("android.resource://cat.udl.tidic.amb.janari0android/" + R.drawable.login_icon))
+                .build();
+        user.updateProfile(profileUpdates);
+    }
     private void updateUI(FirebaseUser user) {
         if (user != null){
             Intent intent = new Intent(this , LoginActivity.class);
