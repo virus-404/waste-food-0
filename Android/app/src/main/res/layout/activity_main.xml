@@ -2,11 +2,8 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:clickable="true"
-    android:focusableInTouchMode="true"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/colorOffWhite">
+    android:layout_height="match_parent">
 
 
     <Button
@@ -24,14 +21,9 @@
         app:layout_constraintVertical_bias="0.619" />
 
     <SearchView
-        android:id="@+id/searchView"
-        android:layout_width="260dp"
+        android:layout_width="304dp"
         android:layout_height="42dp"
         android:layout_marginTop="16dp"
-        android:textSize="24sp"
-        android:queryBackground="@android:color/transparent"
-        android:queryHint="@string/searchProduct"
-        android:iconifiedByDefault="false"
         app:layout_constraintEnd_toStartOf="@+id/toolbarUserMenuButton"
         app:layout_constraintHorizontal_bias="0.483"
         app:layout_constraintStart_toEndOf="@+id/toolbarMenuButton"
@@ -103,6 +95,21 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
+
+    <TextView
+        android:id="@+id/tw_on_sale"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:text="@string/onSale"
+        android:textColor="@color/colorAccent"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/divider2" />
+
 
 
     <View
@@ -184,7 +191,9 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tw_on_sale"
+        app:layout_constraintVertical_bias="0.906" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
