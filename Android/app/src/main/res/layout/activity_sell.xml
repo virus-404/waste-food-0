@@ -21,7 +21,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.487"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/goBackButton" />
+        app:layout_constraintTop_toBottomOf=" @+id/goBackButton" />
 
     <Button
         android:id="@+id/button2"
@@ -43,11 +43,10 @@
 
     <SearchView
 
-        android:id="@+id/searchView"
+        android:id="@+id/SellSearchV"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginTop="8dp"
-        android:layout_marginStart="5dp"
         android:layout_marginEnd="5dp"
         android:addStatesFromChildren="false"
         android:background="@drawable/rounded_button"
@@ -101,13 +100,14 @@
         android:layout_width="36dp"
         android:layout_height="56dp"
         android:layout_marginTop="5dp"
+        android:layout_marginBottom="52dp"
         android:gravity="center"
         android:text="@string/euroSymbol"
         android:textColor="@color/colorAccent"
         android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.986"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/searchView"
         app:layout_constraintVertical_bias="0.848" />
@@ -133,9 +133,15 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:layout_width="407dp"
-        android:layout_height="217dp"
-        tools:layout_editor_absoluteX="2dp"
-        tools:layout_editor_absoluteY="159dp" />
+        android:id="@+id/recycle_sell"
+        android:layout_width="match_parent"
+        android:layout_height="285dp"
+        android:layout_marginTop="6dp"
+        app:layout_constraintBottom_toTopOf="@+id/name_text_input1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/SellSearchV"
+        app:layout_constraintVertical_bias="0.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
