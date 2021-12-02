@@ -42,6 +42,7 @@ public class SellActivity extends AppCompatActivity {
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
 
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,6 +67,7 @@ public class SellActivity extends AppCompatActivity {
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
                     hideKeyboard(v);
+                    
                 }
             }
         });
@@ -74,16 +76,32 @@ public class SellActivity extends AppCompatActivity {
             public void onClick(View v) {
                 searchProducts.setIconified(false);
                 recyclerView.setAdapter(searchStockAdapter);
+                recyclerView.setVisibility(View.VISIBLE);
+            }
+
+        });
+
+        searchProducts.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean queryTextFocused) {
+                if(!queryTextFocused) {
+                    recyclerView.setVisibility(View.INVISIBLE);
+                    searchProducts.setQuery("", false);
+                    hideKeyboard(v);
+                }
             }
         });
+
         searchProducts.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
+
                 return false;
             }
             @Override
             public boolean onQueryTextChange(String newText) {
                 filter(newText);
+
                 return false;
             }
         });

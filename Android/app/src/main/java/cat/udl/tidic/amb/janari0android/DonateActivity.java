@@ -83,8 +83,21 @@ public class DonateActivity extends AppCompatActivity {
             public void onClick(View v) {
                 searchProducts.setIconified(false);
                 recyclerView.setAdapter(searchStockAdapter);
+                recyclerView.setVisibility(View.VISIBLE);
             }
         });
+
+        searchProducts.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean queryTextFocused) {
+                if(!queryTextFocused) {
+                    recyclerView.setVisibility(View.INVISIBLE);
+                    searchProducts.setQuery("", false);
+                    hideKeyboard(v);
+                }
+            }
+        });
+
         searchProducts.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {

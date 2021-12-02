@@ -2,11 +2,12 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:clickable="true"
-    android:focusableInTouchMode="true"
+    android:id="@+id/background"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorOffWhite">
+    android:background="@color/colorOffWhite"
+    android:clickable="true"
+    android:focusableInTouchMode="true">
 
     <TextView
         android:id="@+id/textView2"
@@ -135,7 +136,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycle_sell"
         android:layout_width="match_parent"
-        android:layout_height="285dp"
+        android:layout_height="150dp"
         android:layout_marginTop="6dp"
         app:layout_constraintBottom_toTopOf="@+id/name_text_input1"
         app:layout_constraintEnd_toEndOf="parent"
