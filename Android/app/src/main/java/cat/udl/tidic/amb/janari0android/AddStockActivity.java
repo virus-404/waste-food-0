@@ -5,9 +5,11 @@ import android.app.DatePickerDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
@@ -43,7 +45,10 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileDescriptor;
+import java.io.IOException;
 import java.sql.Array;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -145,7 +150,6 @@ public class AddStockActivity extends AppCompatActivity {
                     Toast.makeText(AddStockActivity.this, "Error adding product", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                Toast.makeText(AddStockActivity.this, finalName, Toast.LENGTH_SHORT).show();
                 db.collection("users").document(user.getUid()).collection("products").document(finalName)
                         .set(product)
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -219,6 +223,20 @@ public class AddStockActivity extends AppCompatActivity {
             camera.setVisibility(View.INVISIBLE);
         }
     }
+    private Bitmap uriToBitmap(Uri selectedFileUri) {
+        try {
+            ParcelFileDescriptor parcelFileDescriptor =
+                    getContentResolver().openFileDescriptor(selectedFileUri, "r");
+            FileDescriptor fileDescriptor = parcelFileDescriptor.getFileDescriptor();
+            Bitmap image = BitmapFactory.decodeFileDescriptor(fileDescriptor);
+
+            parcelFileDescriptor.close();
+            return image;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
     private final ActivityResultLauncher<Intent> galleryActivityResultLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             new ActivityResultCallback<ActivityResult>() {
@@ -226,6 +244,7 @@ public class AddStockActivity extends AppCompatActivity {
                 public void onActivityResult(ActivityResult result) {
                     if (result.getResultCode() == Activity.RESULT_OK){
                         Intent data = result.getData();
+                        assert data != null;
                         Uri imageUri = data.getData();
 
                         StorageReference storageRef = storage.getReference();
@@ -234,7 +253,13 @@ public class AddStockActivity extends AppCompatActivity {
 
                         assert user != null;
                         imageRef = storageRef.child("images/" + user.getUid() + "/" +  imageUri.getLastPathSegment());
-                        UploadTask uploadTask = imageRef.putFile(imageUri);
+                        Bitmap bitmap = uriToBitmap(imageUri);
+                        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                        assert bitmap != null;
+                        bitmap.compress(Bitmap.CompressFormat.JPEG, 25, baos);
+                        byte[] imageData = baos.toByteArray();
+
+                        UploadTask uploadTask = imageRef.putBytes(imageData);
                         uploadTask.addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception exception) {

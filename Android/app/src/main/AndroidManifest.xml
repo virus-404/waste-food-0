@@ -16,22 +16,23 @@
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity"
             android:exported="true"
-            android:theme="@style/SplashTheme">
+            android:theme="@style/SplashTheme"
+            android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LoginActivity"/>
-        <activity android:name=".RegisterActivity"/>
-        <activity android:name=".AddStockActivity"/>
-        <activity android:name=".AddStockProductNameActivity"/>
-        <activity android:name=".ListProductsActivity"/>
-        <activity android:name=".DonateActivity"/>
-        <activity android:name=".UserProfileActivity"/>
-        <activity android:name=".SellActivity"/>
-        <activity android:name=".ChangePasswordActivity"/>
-        <activity android:name=".EditProfileActivity"/>
+        <activity android:name=".LoginActivity" android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".RegisterActivity" android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".AddStockActivity" android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".AddStockProductNameActivity" android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".ListProductsActivity" android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".DonateActivity" android:windowSoftInputMode="adjustPan" />
+        <activity android:name=".UserProfileActivity" android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".SellActivity" android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".ChangePasswordActivity" android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".EditProfileActivity" android:windowSoftInputMode="adjustPan"/>
     </application>
 
 </manifest>

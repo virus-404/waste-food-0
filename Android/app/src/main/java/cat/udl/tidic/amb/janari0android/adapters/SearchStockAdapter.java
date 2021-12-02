@@ -23,21 +23,17 @@ public class SearchStockAdapter extends RecyclerView.Adapter<SearchStockAdapter.
 
     Context context;
     ArrayList<Product> products;
-    AddStockAdapter.OnItemClickListener Listener;
-    public void setOnItemClickListener(AddStockAdapter.OnItemClickListener onItemClickListener) {
-        Listener = onItemClickListener;
+    OnItemClickListener listener;
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        listener = onItemClickListener;
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(int position);
     }
     // method for filtering our recyclerview items.
-    public void filterList(ArrayList<Product> filterllist) {
-        // below line is to add our filtered
-        // list in our course array list.
-        products = filterllist;
-        // below line is to notify our adapter
-        // as change in recycler view data.
-        notifyDataSetChanged();
-    }
-    public interface OnItemClickListener {
-        void onDeleteClick(int position);
+    public void filterList(ArrayList<Product> filterList) {
+        products = filterList;
     }
     public SearchStockAdapter(Context ct, ArrayList<Product> products){
         context=ct;
@@ -47,7 +43,7 @@ public class SearchStockAdapter extends RecyclerView.Adapter<SearchStockAdapter.
     @Override
     public SearchStockViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_search_product, parent, false);
-        return new SearchStockViewHolder(view);
+        return new SearchStockViewHolder(view, listener);
     }
     @Override
     public void onBindViewHolder(@NonNull SearchStockViewHolder holder, int position) {
@@ -69,11 +65,22 @@ public class SearchStockAdapter extends RecyclerView.Adapter<SearchStockAdapter.
 
         ImageView image;
         TextView name;
-        public SearchStockViewHolder(@NonNull View itemView)
+        public SearchStockViewHolder(@NonNull View itemView, final OnItemClickListener listener)
         {
             super(itemView);
             image = itemView.findViewById(R.id.rowProductImage);
             name = itemView.findViewById(R.id.rowProductName);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (listener != null) {
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            listener.onItemClick(position);
+                        }
+                    }
+                }
+            });
         }
     }
 }

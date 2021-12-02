@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.SearchView;
 import android.widget.Toast;
@@ -25,6 +26,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
@@ -44,6 +47,8 @@ import cat.udl.tidic.amb.janari0android.adapters.SearchStockAdapter;
 public class DonateActivity extends AppCompatActivity {
 
     private static final String TAG = "bakedbeans";
+    Button donate;
+    View rootView;
     ImageButton go_back;
     SearchView searchProducts;
     TextInputEditText description;
@@ -52,6 +57,7 @@ public class DonateActivity extends AppCompatActivity {
     ArrayList<Product> products = new ArrayList<>();
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    Product product = null;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,10 +65,12 @@ public class DonateActivity extends AppCompatActivity {
 
         go_back = findViewById(R.id.goBackButton);
         description = findViewById(R.id.descriptionDonate);
-        searchProducts = (SearchView)findViewById(R.id.searchProductsDonate);
-        getSearchData();
+        searchProducts = findViewById(R.id.searchProductsDonate);
+        donate = findViewById(R.id.addProductDonate);
+        rootView = findViewById(R.id.root);
+        rootView.requestFocus();
         buildRecyclerView();
-
+        getSearchData();
         go_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -78,22 +86,56 @@ public class DonateActivity extends AppCompatActivity {
                 }
             }
         });
+        searchProducts.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    searchProducts.clearFocus();
+                    searchProducts.setIconified(true);
+                    hideKeyboard(v);
+                    rootView.requestFocus();
+                }
+            }
+        });
         searchProducts.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 searchProducts.setIconified(false);
+
                 recyclerView.setAdapter(searchStockAdapter);
             }
         });
         searchProducts.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
+                searchProducts.clearFocus();
                 return false;
             }
             @Override
             public boolean onQueryTextChange(String newText) {
                 filter(newText);
                 return false;
+            }
+        });
+        donate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ProductSale productSale = new ProductSale(product,String.valueOf(description.getText()),0);
+                db.collection("users").document(user.getUid()).collection("productsSale").document(product.getName())
+                        .set(productSale)
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Log.d(TAG, "DocumentSnapshot successfully written!");
+                                Toast.makeText(DonateActivity.this, "Product successfully added", Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.w(TAG, "Error writing document", e);
+                            }
+                        });
             }
         });
     }
@@ -122,12 +164,19 @@ public class DonateActivity extends AppCompatActivity {
             }
         }
         searchStockAdapter.filterList(filteredlist);
+        recyclerView.setAdapter(searchStockAdapter);
     }
     public void buildRecyclerView() {
         recyclerView = findViewById(R.id.searchProductsView);
         searchStockAdapter = new SearchStockAdapter(this, products);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(searchStockAdapter);
+        searchStockAdapter.setOnItemClickListener(new SearchStockAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                product = products.get(position);
+            }
+        });
     }
     public void hideKeyboard(View view) {
         InputMethodManager inputMethodManager =(InputMethodManager)getSystemService(Activity.INPUT_METHOD_SERVICE);
