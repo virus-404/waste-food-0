@@ -1,5 +1,6 @@
 package cat.udl.tidic.amb.janari0android.adapters;
 
+import android.content.Context;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,21 +12,25 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.bumptech.glide.Glide;
 import com.makeramen.roundedimageview.RoundedImageView;
 
 import java.util.List;
 
+import cat.udl.tidic.amb.janari0android.Product;
+import cat.udl.tidic.amb.janari0android.ProductSale;
 import cat.udl.tidic.amb.janari0android.R;
 import cat.udl.tidic.amb.janari0android.SetDataSliderProducts;
 
 public class SliderAdapter extends RecyclerView.Adapter <SliderAdapter.SliderViewHolder>{
 
-    private List<SetDataSliderProducts> sliderItems;
+    private List<ProductSale> sliderItems;
     private ViewPager2 viewPager2;
-
-    public SliderAdapter(List<SetDataSliderProducts> sliderItems, ViewPager2 viewPager2) {
+    private Context context;
+    public SliderAdapter(List<ProductSale> sliderItems, ViewPager2 viewPager2, Context context) {
         this.sliderItems = sliderItems;
         this.viewPager2 = viewPager2;
+        this.context = context;
     }
 
     @NonNull
@@ -42,7 +47,15 @@ public class SliderAdapter extends RecyclerView.Adapter <SliderAdapter.SliderVie
 
     @Override
     public void onBindViewHolder(@NonNull SliderViewHolder holder, int position) {
-        holder.setImage(sliderItems.get(position));
+        // if there is no image, put a default one
+        if(sliderItems.get(position).getProduct().getPhotos().size()==0)
+            holder.imageView.setImageResource(R.drawable.__2_burger_free_download_png);
+        else {
+            // Loading image with firebase
+            Glide.with(context)
+                    .load(sliderItems.get(position).getProduct().getPhotos().get(0))
+                    .into(holder.imageView);
+        }
         holder.setName(sliderItems.get(position));
         holder.setDescription(sliderItems.get(position));
         if (position == sliderItems.size() - 2){
@@ -69,15 +82,15 @@ public class SliderAdapter extends RecyclerView.Adapter <SliderAdapter.SliderVie
             product_description = itemView.findViewById(R.id.description_product);
         }
 
-        void setImage(SetDataSliderProducts setDataSliderProducts){
-            imageView.setImageURI(Uri.parse(setDataSliderProducts.getImage()));
+        void setImage(ProductSale setDataSliderProducts){
+            imageView.setImageURI(Uri.parse(setDataSliderProducts.getProduct().getPhotos().get(0)));
         }
 
-        void setName(SetDataSliderProducts setDataSliderProducts){
-            product_name.setText(setDataSliderProducts.getName_product());
+        void setName(ProductSale setDataSliderProducts){
+            product_name.setText(setDataSliderProducts.getProduct().getName());
         }
-        void setDescription(SetDataSliderProducts setDataSliderProducts){
-            product_description.setText(setDataSliderProducts.getDescription_product());
+        void setDescription(ProductSale setDataSliderProducts){
+            product_description.setText(setDataSliderProducts.getProduct().getName());
         }
 
     }

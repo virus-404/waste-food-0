@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
     private boolean visibleFloatingButton = false;
     private ViewPager2 viewPager2;
     private Handler sliderHandler = new Handler();
-
+    private ArrayList<ProductSale> products = new ArrayList<>();
     Uri image_uri;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -128,7 +128,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
         list.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -136,7 +135,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
         give.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -144,7 +142,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
         sell.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -159,51 +156,11 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        //mImageView = findViewById(R.id.image_view);
-        //mCaptureBtn = findViewById(R.id.capture_image_btn);
 
-        //button click
-       /*
-        mCaptureBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //if system os is >= marshmallow, request runtime permission
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
-                    if (checkSelfPermission(Manifest.permission.CAMERA) ==
-                            PackageManager.PERMISSION_DENIED ||
-                            checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) ==
-                                    PackageManager.PERMISSION_DENIED){
-                        //permission not enabled, request it
-                        String[] permission = {Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
-                        //show popup to request permissions
-                        requestPermissions(permission, PERMISSION_CODE);
-                    }
-                    else {
-                        //permission already granted
-                        openCamera();
-                    }
-                }
-                else {
-                    //system os < marshmallow
-                    openCamera();
-                }
-            }
-        });
-        */
+        getSliderData();
+        List<ProductSale> sliderItems = products;
 
-
-        //Slider de imatges
-        //viewPager2 = findViewById(R.id.viewpager2_layout2);
-
-        //We pass images list, we will have to take them from the API
-        //By now i put them manually
-        List<SetDataSliderProducts> sliderItems = new ArrayList<>();
-        /*sliderItems.add(new SetDataSliderProducts(R.drawable.__2_burger_free_download_png, "Hamburguesa con queso", "Burger rebuena"));
-        sliderItems.add(new SetDataSliderProducts(R.drawable.__2_burger_png_file, "Lasañita rica", "En buen estado"));
-        sliderItems.add(new SetDataSliderProducts(R.drawable.dollar, "Dolarsito", "Money pa todos"));*/
-
-
-        viewPager2.setAdapter(new SliderAdapter(sliderItems, viewPager2));
+        viewPager2.setAdapter(new SliderAdapter(sliderItems, viewPager2, this));
 
         viewPager2.setClipToPadding(false);
         viewPager2.setClipChildren(false);
@@ -261,12 +218,25 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-
-
-
     }
 
-
+    private void getSliderData() {
+        db.collection("productsSale")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Log.d(TAG, document.getId() + " => " + document.getData());
+                                products.add(document.toObject(ProductSale.class));
+                            }
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
+    }
 
     private Runnable sliderRunnable = new Runnable() {
         @Override
@@ -274,63 +244,18 @@ public class MainActivity extends AppCompatActivity {
             viewPager2.setCurrentItem(viewPager2.getCurrentItem() + 1);
         }
     };
-
     @Override
     protected void onPause() {
         super.onPause();
         sliderHandler.removeCallbacks(sliderRunnable);
     }
-
     @Override
     protected void onResume() {
         super.onResume();
         sliderHandler.postDelayed(sliderRunnable, 3000);
     }
-
     public void hideKeyboard(View view) {
         InputMethodManager inputMethodManager =(InputMethodManager)getSystemService(Activity.INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
-    }
-
-    private void openCamera() {
-        ContentValues values = new ContentValues();
-        values.put(MediaStore.Images.Media.TITLE, "New Picture");
-        values.put(MediaStore.Images.Media.DESCRIPTION, "From the Camera");
-        image_uri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
-        //Camera intent
-        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, image_uri);
-        startActivityForResult(cameraIntent, IMAGE_CAPTURE_CODE);
-    }
-
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        //this method is called, when user presses Allow or Deny from Permission Request Popup
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch (requestCode) {
-            case PERMISSION_CODE: {
-                if (grantResults.length > 0 && grantResults[0] ==
-                        PackageManager.PERMISSION_GRANTED) {
-                    //permission from popup was granted
-                    openCamera();
-                } else {
-                    //permission from popup was denied
-                    Toast.makeText(this, "Permission denied...", Toast.LENGTH_SHORT).show();
-                }
-            }
-        }
-    }
-
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        //called when image was captured from camera
-
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK) {
-            //set the image captured to our ImageView
-            mImageView.setImageURI(image_uri);
-        }
     }
 }
