@@ -115,6 +115,9 @@ public class DonateActivity extends AppCompatActivity {
                     searchProducts.setQuery("", false);
                     hideKeyboard(v);
                 }
+                else{
+                    recyclerView.setVisibility(View.VISIBLE);
+                }
             }
         });
 
