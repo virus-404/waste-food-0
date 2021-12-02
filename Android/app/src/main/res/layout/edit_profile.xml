@@ -21,55 +21,57 @@
         app:layout_constraintTop_toTopOf="parent" />
 
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="79dp"
-        android:layout_height="102dp"
-        android:layout_centerInParent="true"
-        android:layout_marginTop="48dp"
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/profilePicture"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_marginTop="55dp"
+        android:src="@drawable/login_icon"
+        app:civ_border_color="#FFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.072"
+        app:layout_constraintHorizontal_bias="0.073"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/login_icon" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/name_text_input"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="180dp"
-        android:layout_height="60dp"
+        android:layout_width="240dp"
+        android:layout_height="55dp"
+        android:layout_marginTop="55dp"
         app:errorEnabled="true"
-        android:layout_marginTop="45dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageView"
+        app:layout_constraintStart_toEndOf="@+id/profilePicture"
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/editTextTextName"
             android:layout_width="match_parent"
-            android:layout_height="55dp"
-            android:hint="@string/name"
+            android:layout_height="50dp"
             android:background="@null"
+            android:hint="@string/name"
+            android:textSize="15dp"
             android:inputType="textPersonName" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/email_text_input"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="180dp"
-        android:layout_height="60dp"
-        app:errorEnabled="true"
+        android:layout_width="240dp"
+        android:layout_height="55dp"
         android:layout_marginTop="15dp"
+        app:errorEnabled="true"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageView"
+        app:layout_constraintStart_toEndOf="@+id/profilePicture"
         app:layout_constraintTop_toBottomOf="@+id/name_text_input">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/editTextTextEmail"
             android:layout_width="match_parent"
-            android:layout_height="55dp"
-            android:hint="@string/email"
+            android:layout_height="50dp"
             android:background="@null"
+            android:hint="@string/email"
+            android:textSize="15dp"
             android:inputType="textEmailAddress" />
     </com.google.android.material.textfield.TextInputLayout>
 
