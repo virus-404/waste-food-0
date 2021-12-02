@@ -2,6 +2,7 @@ package cat.udl.tidic.amb.janari0android.adapters;
 
 import android.content.Context;
 import android.net.Uri;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,9 +12,13 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 
 import cat.udl.tidic.amb.janari0android.Product;
 import cat.udl.tidic.amb.janari0android.R;
@@ -47,8 +52,8 @@ public class ListProductAdapter extends RecyclerView.Adapter<ListProductAdapter.
                     .into(holder.image);
         }
         holder.name.setText(product.getName());
-        holder.expDate.setText(product.getExpirationDate().toString());
-
+        DateFormat fmt = new SimpleDateFormat("dd MMM yyyy", Locale.US);
+        holder.expDate.setText("Expiration date: " + fmt.format(product.getExpirationDate()));
     }
 
     @Override
