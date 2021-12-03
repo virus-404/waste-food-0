@@ -8,6 +8,7 @@ import androidx.viewpager2.widget.CompositePageTransformer;
 import androidx.viewpager2.widget.MarginPageTransformer;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Intent;
@@ -53,8 +54,8 @@ public class MainActivity extends AppCompatActivity {
     private static final int PERMISSION_CODE = 1000;
     private static final int IMAGE_CAPTURE_CODE = 1001;
 
-    //Button mCaptureBtn;
-    private ImageButton mCaptureBtn;
+    private Button mCaptureBtn;
+
     private ImageView mImageView;
     private FloatingActionButton open, give, add, sell;
     private Button list, profile;
@@ -65,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
     Uri image_uri;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    @SuppressLint("WrongViewCast")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -101,6 +103,7 @@ public class MainActivity extends AppCompatActivity {
         list = findViewById(R.id.numberItems);
         profile = findViewById(R.id.toolbarUserMenuButton);
         viewPager2 = findViewById(R.id.viewpager2_layout2);
+        mCaptureBtn = findViewById(R.id.toolbarMenuButton);
 
 
         open.setOnClickListener(new View.OnClickListener() {
@@ -120,7 +123,13 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-
+        mCaptureBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, ScannActivity.class);
+                startActivity(intent);
+            }
+        });
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

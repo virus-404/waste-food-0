@@ -33,6 +33,7 @@
         <activity android:name=".SellActivity" android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".ChangePasswordActivity" android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".EditProfileActivity" android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".ScannActivity" android:windowSoftInputMode="adjustPan"/>
     </application>
 
 </manifest>
