@@ -145,7 +145,7 @@ public class AddStockActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Product product = null;
                 try {
-                    product = new Product(finalName, images, new SimpleDateFormat("dd/MM/yy").parse(String.valueOf(expirationDate.getText())));
+                    product = new Product(finalName, images, new SimpleDateFormat("dd MMM yyyy").parse(String.valueOf(expirationDate.getText())));
                 } catch (ParseException e) {
                     e.printStackTrace();
                     Toast.makeText(AddStockActivity.this, "Error adding product", Toast.LENGTH_SHORT).show();

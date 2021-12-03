@@ -46,8 +46,9 @@
     <string name="repeatPassword">Repeat password</string>
     <string name="scan">Take Photo</string>
     <string name="searchProduct"> Search a product</string>
-    <string name="selectProduct"> Select Product</string>
+    <string name="selectProduct"> Select a product from your grocery list</string>
     <string name="sellIt">Sell It!</string>
+    <string name="sellProduct">Sell</string>
     <string name="signOut">Sign Out</string>
     <string name="submit">Submit</string>
     <string name="takeAPhoto">Take a photo</string>

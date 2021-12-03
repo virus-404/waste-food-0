@@ -54,14 +54,14 @@
         android:id="@+id/addProductDonate"
         android:layout_width="114dp"
         android:layout_height="35dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginBottom="24dp"
         android:background="@drawable/button_rectangle_rounded"
         android:text="@string/donate"
         android:textColor="#000000"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/name_text_input1"
         tools:ignore="TextContrastCheck,TextContrastCheck,TextContrastCheck" />
 
     <SearchView
@@ -89,10 +89,12 @@
         android:layout_marginTop="316dp"
         android:layout_marginEnd="5dp"
         app:errorEnabled="true"
+        app:layout_constraintBottom_toTopOf="@+id/addProductDonate"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/searchProductsDonate">
+        app:layout_constraintTop_toBottomOf="@+id/searchProductsDonate"
+        app:layout_constraintVertical_bias="0.12">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/descriptionDonate"
