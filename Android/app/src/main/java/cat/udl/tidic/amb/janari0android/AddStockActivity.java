@@ -193,9 +193,8 @@ public class AddStockActivity extends AppCompatActivity {
                 updateLabel();
             }
             private void updateLabel() {
-                String myFormat = "dd/MM/yy"; //In which you need put here
-                SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.CANADA);
-                expirationDate.setText(sdf.format(myCalendar.getTime()));
+                DateFormat fmt = new SimpleDateFormat("dd MMM yyyy", Locale.US);
+                expirationDate.setText(fmt.format(myCalendar.getTime()));
             }
         };
         expirationDate.setOnClickListener(new View.OnClickListener() {

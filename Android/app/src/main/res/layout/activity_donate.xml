@@ -38,16 +38,15 @@
 
     <TextView
         android:id="@+id/textView2"
-        android:layout_width="409dp"
+        android:layout_width="match_parent"
         android:layout_height="47dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="16dp"
         android:gravity="center_horizontal"
         android:text="@string/selectProduct"
         android:textAlignment="center"
         android:textColor="@color/colorAccent"
         android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/goBackButton" />
 
@@ -87,13 +86,13 @@
         android:layout_width="match_parent"
         android:layout_height="180dp"
         android:layout_marginStart="5dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="316dp"
         android:layout_marginEnd="5dp"
         app:errorEnabled="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/searchProductsView">
+        app:layout_constraintTop_toBottomOf="@+id/searchProductsDonate">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/descriptionDonate"
@@ -109,12 +108,70 @@
         android:layout_width="match_parent"
         android:layout_height="175dp"
         android:layout_marginStart="5dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="4dp"
         android:layout_marginEnd="5dp"
+        android:visibility="gone"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/searchProductsDonate" />
 
+    <androidx.cardview.widget.CardView
+        android:id="@+id/product_list"
+        android:layout_width="match_parent"
+        android:layout_height="109dp"
+        android:layout_margin="10dp"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/name_text_input1"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/background_list_products">
+
+            <TextView
+                android:id="@+id/name_product"
+                android:layout_width="304dp"
+                android:layout_height="53dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginEnd="0dp"
+                android:layout_toEndOf="@+id/image_product"
+                android:text="@string/productName"
+                android:textColor="@color/colorAccent"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/expirationDate"
+                android:layout_width="304dp"
+                android:layout_height="45dp"
+                android:layout_below="@+id/name_product"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginEnd="0dp"
+                android:layout_marginBottom="0dp"
+                android:layout_toEndOf="@+id/image_product"
+                android:text="@string/productDescription" />
+
+            <ImageView
+                android:id="@+id/image_product"
+                android:layout_width="87dp"
+                android:layout_height="91dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="7dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="10dp"
+                app:srcCompat="@drawable/__2_burger_free_download_png" />
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

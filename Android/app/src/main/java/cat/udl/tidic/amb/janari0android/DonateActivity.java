@@ -15,16 +15,21 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.SearchView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.core.view.MenuItemCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -38,8 +43,11 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import cat.udl.tidic.amb.janari0android.adapters.AddStockAdapter;
 import cat.udl.tidic.amb.janari0android.adapters.SearchStockAdapter;
@@ -48,12 +56,14 @@ public class DonateActivity extends AppCompatActivity {
 
     private static final String TAG = "bakedbeans";
     Button donate;
-    View rootView;
+    TextView nameProduct, expirationDate;
+    ImageView imageProduct;
     ImageButton go_back;
     SearchView searchProducts;
     TextInputEditText description;
     RecyclerView recyclerView;
     SearchStockAdapter searchStockAdapter;
+    CardView product_details;
     ArrayList<Product> products = new ArrayList<>();
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -67,8 +77,10 @@ public class DonateActivity extends AppCompatActivity {
         description = findViewById(R.id.descriptionDonate);
         searchProducts = findViewById(R.id.searchProductsDonate);
         donate = findViewById(R.id.addProductDonate);
-        rootView = findViewById(R.id.root);
-        rootView.requestFocus();
+        nameProduct = findViewById(R.id.name_product);
+        expirationDate = findViewById(R.id.expirationDate);
+        imageProduct = findViewById(R.id.image_product);
+        product_details = findViewById(R.id.product_list);
         buildRecyclerView();
         getSearchData();
         go_back.setOnClickListener(new View.OnClickListener() {
@@ -93,7 +105,6 @@ public class DonateActivity extends AppCompatActivity {
                     searchProducts.clearFocus();
                     searchProducts.setIconified(true);
                     hideKeyboard(v);
-                    rootView.requestFocus();
                 }
             }
         });
@@ -111,8 +122,10 @@ public class DonateActivity extends AppCompatActivity {
             @Override
             public void onFocusChange(View v, boolean queryTextFocused) {
                 if(!queryTextFocused) {
-                    recyclerView.setVisibility(View.INVISIBLE);
+                    recyclerView.setVisibility(View.GONE);
                     searchProducts.setQuery("", false);
+                    searchProducts.clearFocus();
+                    searchProducts.setIconified(true);
                     hideKeyboard(v);
                 }
                 else{
@@ -222,6 +235,16 @@ public class DonateActivity extends AppCompatActivity {
             @Override
             public void onItemClick(int position) {
                 product = products.get(position);
+                Glide.with(DonateActivity.this)
+                        .load(product.getPhotos().get(0))
+                        .into(imageProduct);
+                nameProduct.setText(product.getName().toString());
+                DateFormat fmt = new SimpleDateFormat("dd MMM yyyy", Locale.US);
+                expirationDate.setText("Expiration date: " + fmt.format(product.getExpirationDate()));
+                product_details.setVisibility(View.VISIBLE);
+                recyclerView.setVisibility(View.GONE);
+                searchProducts.clearFocus();
+                searchProducts.setIconified(true);
             }
         });
     }

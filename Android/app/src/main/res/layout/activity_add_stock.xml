@@ -153,16 +153,17 @@
 
     <Button
         android:id="@+id/addToStock"
-        android:layout_width="match_parent"
-        android:layout_height="55dp"
-        android:layout_marginBottom="0dp"
-        android:text="@string/add"
-        android:background="@color/colorSecondary"
-        android:textColor="@color/colorWhite"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="114dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="192dp"
+        android:background="@drawable/button_rectangle_rounded"
+        android:text="@string/donate"
+        android:textColor="#000000"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/name_text_input"
+        tools:ignore="TextContrastCheck,TextContrastCheck,TextContrastCheck" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/photosViewer"
