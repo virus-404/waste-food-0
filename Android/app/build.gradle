@@ -47,4 +47,8 @@ dependencies {
     implementation 'de.hdodenhof:circleimageview:3.1.0'
     implementation 'com.google.firebase:firebase-firestore'
     implementation 'com.firebaseui:firebase-ui-storage:7.2.0'
+    // scan qr and code bar
+    implementation 'com.journeyapps:zxing-android-embedded:4.3.0'
+    implementation 'com.budiyev.android:code-scanner:2.1.0'
+    implementation 'com.google.zxing:core:3.3.0'
 }
