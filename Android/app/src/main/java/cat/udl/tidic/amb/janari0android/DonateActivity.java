@@ -196,13 +196,14 @@ public class DonateActivity extends AppCompatActivity {
                                 Log.w(TAG, "Error writing document", e);
                             }
                         });
-                showProductDetails(product.getName());
+                showProductDetails(productSale);
+                finish();
             }
         });
     }
-    private void showProductDetails(String name) {
+    private void showProductDetails(ProductSale productSale) {
         Intent intent = new Intent(DonateActivity.this, ProductDetailsActivity.class);
-        intent.putExtra("name",name);
+        intent.putExtra("name", productSale.getProduct().getName());
         startActivity(intent);
     }
     private void getSearchData() {
