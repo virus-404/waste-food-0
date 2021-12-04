@@ -48,7 +48,8 @@
     <string name="searchProduct"> Search a product</string>
     <string name="selectProduct"> Select a product from your grocery list</string>
     <string name="sellIt">Sell It!</string>
-    <string name="sellProduct">Sell</string>
+    <string name="sellProduct">Put product on sale</string>
+    <string name="addProductToStock">Add a product</string>
     <string name="signOut">Sign Out</string>
     <string name="submit">Submit</string>
     <string name="takeAPhoto">Take a photo</string>

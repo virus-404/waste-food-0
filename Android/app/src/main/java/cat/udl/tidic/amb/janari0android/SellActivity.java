@@ -5,6 +5,7 @@ import static androidx.core.view.MenuItemCompat.collapseActionView;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -96,8 +97,7 @@ public class SellActivity extends AppCompatActivity {
         go_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(SellActivity.this, MainActivity.class);
-                startActivity(intent);
+                finish();
             }
         });
         description.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -156,6 +156,8 @@ public class SellActivity extends AppCompatActivity {
         sell.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(inputPrice.getText().toString().isEmpty())
+                    inputPrice.setText("0");
                 ProductSale productSale = new ProductSale(product,String.valueOf(description.getText()),Float.parseFloat(inputPrice.getText().toString()));
                 // Saving in a place that user can access
                 db.collection("users").document(user.getUid()).collection("productsSale").document(product.getName())
@@ -203,8 +205,15 @@ public class SellActivity extends AppCompatActivity {
                                 Log.w(TAG, "Error writing document", e);
                             }
                         });
+                showProductDetails(productSale);
+                finish();
             }
         });
+    }
+    private void showProductDetails(ProductSale productSale) {
+        Intent intent = new Intent(SellActivity.this, ProductDetailsActivity.class);
+        intent.putExtra("name", productSale.getProduct().getName());
+        startActivity(intent);
     }
     private void getSearchData() {
         db.collection("users").document(user.getUid()).collection("products")

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="cat.udl.tidic.amb.janari0android">
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.INTERNET" />
@@ -8,6 +9,7 @@
     <uses-feature android:name="android.hardware.camera"
         android:required="true" />
     <application
+        tools:replace="android:label"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher_janari"
         android:label="@string/appName"
@@ -34,6 +36,7 @@
         <activity android:name=".ChangePasswordActivity" android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".EditProfileActivity" android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".ScannActivity" android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".ProductDetailsActivity" android:windowSoftInputMode="adjustPan"/>
     </application>
 
 </manifest>

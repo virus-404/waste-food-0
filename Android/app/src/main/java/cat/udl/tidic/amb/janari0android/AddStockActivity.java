@@ -91,21 +91,21 @@ public class AddStockActivity extends AppCompatActivity {
 
         buildRecyclerView();
 
+        // Getting the product name from previous activity
         Bundle extras = getIntent().getExtras();
         String name = "";
         if(extras!=null) {
             name = extras.getString("name");
         }
+
         go_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(AddStockActivity.this, MainActivity.class);
-                startActivity(intent);
+                returnToMain();
             }
         });
         addPhoto.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                // Code here executes on main thread after user presses button
                 Intent intent = new Intent(Intent.ACTION_PICK);
                 //set type
                 intent.setType("image/*");
@@ -149,6 +149,7 @@ public class AddStockActivity extends AppCompatActivity {
                 } catch (ParseException e) {
                     e.printStackTrace();
                     Toast.makeText(AddStockActivity.this, "Error adding product", Toast.LENGTH_SHORT).show();
+                    returnToProductName();
                     return;
                 }
                 db.collection("users").document(user.getUid()).collection("products").document(finalName)
@@ -164,6 +165,7 @@ public class AddStockActivity extends AppCompatActivity {
                             @Override
                             public void onFailure(@NonNull Exception e) {
                                 Log.w(TAG, "Error writing document", e);
+                                returnToProductName();
                             }
                         });
                 db.collection("products").add(product)
@@ -179,6 +181,7 @@ public class AddStockActivity extends AppCompatActivity {
                                 Log.w(TAG, "Error writing document", e);
                             }
                         });
+                returnToMain();
             }
         });
         // Date picker for expiration date
@@ -206,6 +209,16 @@ public class AddStockActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void returnToMain() {
+        Intent intent = new Intent(AddStockActivity.this, MainActivity.class);
+        startActivity(intent);
+    }
+
+    private void returnToProductName() {
+        finish();
+    }
+
     public void buildRecyclerView() {
         products = findViewById(R.id.photosViewer);
         addStockAdapter = new AddStockAdapter(this,images,imageInfo, productInfoDelete);
