@@ -60,6 +60,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 
 import cat.udl.tidic.amb.janari0android.adapters.AddStockAdapter;
 
@@ -144,44 +145,49 @@ public class AddStockActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Product product = null;
-                try {
-                    product = new Product(finalName, images, new SimpleDateFormat("dd MMM yyyy").parse(String.valueOf(expirationDate.getText())));
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                    Toast.makeText(AddStockActivity.this, "Error adding product", Toast.LENGTH_SHORT).show();
-                    returnToProductName();
-                    return;
+                if (Objects.requireNonNull(expirationDate.getText()).toString().isEmpty())
+                    Toast.makeText(getApplicationContext(),
+                            "Please enter expiration date", Toast.LENGTH_LONG).show();
+                else {
+                    try {
+                        product = new Product(finalName, images, new SimpleDateFormat("dd MMM yyyy").parse(String.valueOf(expirationDate.getText())));
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                        Toast.makeText(AddStockActivity.this, "Error adding product", Toast.LENGTH_SHORT).show();
+                        returnToProductName();
+                        return;
+                    }
+                    db.collection("users").document(user.getUid()).collection("products").document(finalName)
+                            .set(product)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Log.d(TAG, "DocumentSnapshot successfully written!");
+                                    Toast.makeText(AddStockActivity.this, "Product successfully added", Toast.LENGTH_SHORT).show();
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.w(TAG, "Error writing document", e);
+                                    returnToProductName();
+                                }
+                            });
+                    db.collection("products").add(product)
+                            .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                @Override
+                                public void onSuccess(DocumentReference documentReference) {
+                                    Log.d(TAG, "DocumentSnapshot written with ID: " + documentReference.getId());
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.w(TAG, "Error writing document", e);
+                                }
+                            });
+                    returnToMain();
                 }
-                db.collection("users").document(user.getUid()).collection("products").document(finalName)
-                        .set(product)
-                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void aVoid) {
-                                Log.d(TAG, "DocumentSnapshot successfully written!");
-                                Toast.makeText(AddStockActivity.this, "Product successfully added", Toast.LENGTH_SHORT).show();
-                            }
-                        })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Log.w(TAG, "Error writing document", e);
-                                returnToProductName();
-                            }
-                        });
-                db.collection("products").add(product)
-                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                            @Override
-                            public void onSuccess(DocumentReference documentReference) {
-                                Log.d(TAG, "DocumentSnapshot written with ID: " + documentReference.getId());
-                            }
-                        })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Log.w(TAG, "Error writing document", e);
-                            }
-                        });
-                returnToMain();
             }
         });
         // Date picker for expiration date

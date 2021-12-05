@@ -17,20 +17,32 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Locale;
+import java.util.Objects;
 
 public class AddStockProductNameActivity extends AppCompatActivity {
     private static final String TAG = "bakedbeans";
     private ImageButton go_back;
     private TextInputEditText name;
     private Button next;
+    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,7 +57,6 @@ public class AddStockProductNameActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
         name.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -57,9 +68,38 @@ public class AddStockProductNameActivity extends AppCompatActivity {
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(AddStockProductNameActivity.this, AddStockActivity.class);
-                intent.putExtra("name",name.getText().toString());
-                startActivity(intent);
+
+                db.collection("users").document(user.getUid()).collection("products").whereEqualTo("name", Objects.requireNonNull(name.getText()).toString())
+                        .get()
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if(task.isSuccessful()){
+                                    for(DocumentSnapshot documentSnapshot : task.getResult()){
+                                        String user = documentSnapshot.getString("username");
+                                        Product product = documentSnapshot.toObject(Product.class);
+                                        assert product != null;
+                                        if(product.getName().equals(Objects.requireNonNull(name.getText()).toString())){
+                                            Log.d(TAG, "Name exists");
+                                            Toast.makeText(AddStockProductNameActivity.this, "Product name already exists", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                }
+
+                                if(Objects.requireNonNull(task.getResult()).size() == 0 ){
+                                    Log.d(TAG, "Name does not Exist");
+                                    if(Objects.requireNonNull(name.getText()).toString().isEmpty())
+                                        Toast.makeText(getApplicationContext(),"Name field can not be empty", Toast.LENGTH_SHORT).show();
+                                    else if(name.getText().toString().length() < 3)
+                                        Toast.makeText(getApplicationContext(),"Name must be longer than two letters", Toast.LENGTH_SHORT).show();
+                                    else {
+                                        Intent intent = new Intent(AddStockProductNameActivity.this, AddStockActivity.class);
+                                        intent.putExtra("name", name.getText().toString());
+                                        startActivity(intent);
+                                    }
+                                }
+                            }
+                });
             }
         });
     }

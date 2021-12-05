@@ -94,7 +94,7 @@
             android:id="@+id/inputPrice"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:hint="@string/euros"
+            android:hint="@string/money"
             android:inputType="numberDecimal" />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -157,7 +157,7 @@
         android:layout_marginTop="6dp"
         android:layout_marginStart="5dp"
         android:layout_marginEnd="5dp"
-        android:visibility="visible"
+        android:visibility="gone"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toTopOf="@+id/name_text_input1"
         app:layout_constraintEnd_toEndOf="parent"
