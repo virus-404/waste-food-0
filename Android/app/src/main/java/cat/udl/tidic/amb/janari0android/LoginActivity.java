@@ -27,7 +27,8 @@ import com.google.firebase.auth.FirebaseUser;
 public class LoginActivity extends AppCompatActivity {
 
     protected TextView email, password;
-    protected ImageButton loginButton, registerButton;
+    private Button loginButton;
+    protected ImageButton registerButton;
     private static final String TAG = "EmailPassword";
     private FirebaseAuth auth;
 

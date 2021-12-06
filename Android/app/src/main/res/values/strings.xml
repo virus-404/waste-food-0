@@ -66,4 +66,5 @@
     <string name="saveChanges">Save Changes</string>
     <string name="searchHint">Search Products</string>
     <string name="money">Money</string>
+    <string name="helloThere">Hello there!</string>
 </resources>
