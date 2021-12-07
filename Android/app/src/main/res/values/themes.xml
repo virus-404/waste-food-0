@@ -7,8 +7,14 @@
         <item name="colorAccent">#A10909</item>
     </style>
     <style name="LoginTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
-        <item name="colorPrimary">@color/colorLogin</item>
+        <item name="colorPrimary">@color/white</item>
         <item name="colorPrimaryDark">@color/colorLogin</item>
         <item name="colorAccent">@color/colorLogin</item>
+    </style>
+    <style name="RegisterTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="colorPrimary">@color/white</item>
+        <item name="colorPrimaryDark">@color/colorRegister</item>
+        <item name="colorAccent">@color/colorRegister</item>
+        <item name="colorControlActivated">@color/white</item>
     </style>
 </resources>

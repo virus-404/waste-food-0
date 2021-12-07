@@ -49,7 +49,7 @@ import cat.udl.tidic.amb.janari0android.adapters.SliderAdapter;
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "bakedbeans";
-    private FirebaseAuth auth;
+    private FirebaseAuth auth = FirebaseAuth.getInstance();;
 
     private static final int PERMISSION_CODE = 1000;
     private static final int IMAGE_CAPTURE_CODE = 1001;
@@ -72,8 +72,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setTheme(R.style.AppTheme);
         // Check if user is signed in (non-null) and update UI accordingly.
-        auth = FirebaseAuth.getInstance();
-
 
         if (auth.getCurrentUser() == null) {
             Intent i = new Intent(this, LoginActivity.class);

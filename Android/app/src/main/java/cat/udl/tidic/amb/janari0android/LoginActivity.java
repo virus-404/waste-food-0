@@ -30,7 +30,7 @@ public class LoginActivity extends AppCompatActivity {
     protected TextView email, password;
     private Button loginButton, registerButton;
     private static final String TAG = "EmailPassword";
-    private FirebaseAuth auth;
+    private FirebaseAuth auth = FirebaseAuth.getInstance();;
 
 
     @Override
@@ -39,6 +39,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         ScrollView sv = findViewById(R.id.scrollLogin);
         sv.setEnabled(false);
+
         auth = FirebaseAuth.getInstance();
 
         email = findViewById(R.id.editTextTextEmailAddress);
