@@ -50,7 +50,8 @@
         tools:layout_editor_absoluteX="16dp" />
 
     <TextView
-        android:id="@+id/textView6"
+        android:clickable="true"
+        android:id="@+id/forgotPassword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/forgetPassword"
@@ -60,7 +61,8 @@
         app:layout_constraintHorizontal_bias="0.888"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etPasswordLayout"
-        app:layout_constraintVertical_bias="0.5" />
+        app:layout_constraintVertical_bias="0.5"
+        android:focusable="true" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tilemail"

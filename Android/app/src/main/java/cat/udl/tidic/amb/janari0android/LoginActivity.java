@@ -27,7 +27,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class LoginActivity extends AppCompatActivity {
 
-    protected TextView email, password;
+    protected TextView email, password, forgotPassword;
     private Button loginButton, registerButton;
     private static final String TAG = "EmailPassword";
     private FirebaseAuth auth = FirebaseAuth.getInstance();;
@@ -46,7 +46,7 @@ public class LoginActivity extends AppCompatActivity {
         password = findViewById(R.id.editTextTextPassword);
         loginButton = findViewById(R.id.loginButton);
         registerButton = findViewById(R.id.registerButton);
-
+        forgotPassword = findViewById(R.id.forgotPassword);
         loginButton.setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
                 String e = email.getText().toString();
@@ -85,6 +85,13 @@ public class LoginActivity extends AppCompatActivity {
                 if (!hasFocus && !email.hasFocus()) {
                     hideKeyboard(v);
                 }
+            }
+        });
+
+        forgotPassword.setOnClickListener(new Button.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), ForgotPasswordActivity.class);
+                startActivity(intent);
             }
         });
     }

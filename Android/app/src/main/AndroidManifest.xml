@@ -37,6 +37,7 @@
         <activity android:name=".EditProfileActivity" android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".ScannActivity" android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".ProductDetailsActivity" android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".ForgotPasswordActivity" android:windowSoftInputMode="adjustPan"/>
     </application>
 
 </manifest>
