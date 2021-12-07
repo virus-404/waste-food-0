@@ -11,6 +11,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,8 +28,7 @@ import com.google.firebase.auth.FirebaseUser;
 public class LoginActivity extends AppCompatActivity {
 
     protected TextView email, password;
-    private Button loginButton;
-    protected ImageButton registerButton;
+    private Button loginButton, registerButton;
     private static final String TAG = "EmailPassword";
     private FirebaseAuth auth;
 
@@ -37,7 +37,8 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
+        ScrollView sv = findViewById(R.id.scrollLogin);
+        sv.setEnabled(false);
         auth = FirebaseAuth.getInstance();
 
         email = findViewById(R.id.editTextTextEmailAddress);
@@ -71,7 +72,7 @@ public class LoginActivity extends AppCompatActivity {
         email.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
+                if (!hasFocus && !password.hasFocus()) {
                     hideKeyboard(v);
                 }
             }
@@ -80,7 +81,7 @@ public class LoginActivity extends AppCompatActivity {
         password.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
+                if (!hasFocus && !email.hasFocus()) {
                     hideKeyboard(v);
                 }
             }

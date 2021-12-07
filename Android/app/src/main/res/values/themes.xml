@@ -6,4 +6,9 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">#A10909</item>
     </style>
+    <style name="LoginTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorLogin</item>
+        <item name="colorPrimaryDark">@color/colorLogin</item>
+        <item name="colorAccent">@color/colorLogin</item>
+    </style>
 </resources>

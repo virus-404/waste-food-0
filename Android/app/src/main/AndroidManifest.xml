@@ -25,7 +25,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LoginActivity" android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".LoginActivity" android:windowSoftInputMode="adjustResize" android:theme="@style/LoginTheme"/>
         <activity android:name=".RegisterActivity" android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".AddStockActivity" android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".AddStockProductNameActivity" android:windowSoftInputMode="adjustPan"/>
