@@ -6,6 +6,7 @@ import android.app.Instrumentation;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -23,15 +24,26 @@ import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.net.URI;
@@ -42,7 +54,8 @@ public class UserProfileActivity extends AppCompatActivity {
     private TextView textEmail,textName;
     private ImageView profilePicture;
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-
+    FirebaseStorage storage = FirebaseStorage.getInstance();
+    Uri profilePictureUri;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,7 +65,9 @@ public class UserProfileActivity extends AppCompatActivity {
         textName = findViewById(R.id.profileName);
         profilePicture = findViewById(R.id.profilePicture);
         try {
-            profilePicture.setImageURI(user.getPhotoUrl());
+            Glide.with(this)
+                    .load(user.getPhotoUrl())
+                    .into(profilePicture);
         }
         catch(Exception e)
         {
@@ -112,19 +127,46 @@ public class UserProfileActivity extends AppCompatActivity {
                         profilePicture.setImageURI(imageUri);
                         changeDisplayPicture(imageUri);
                     }
-                    else {
-                        //cancelled
-                        Toast.makeText(UserProfileActivity.this, "Cancelled...", Toast.LENGTH_SHORT).show();
-                    }
                 }
             }
     );
 
-    private void changeDisplayPicture(Uri uri) {
+    private void changeDisplayPicture(Uri imageUri) {
+        StorageReference storageRef = storage.getReference();
+        StorageReference imageRef;
+
+        assert user != null;
+        imageRef = storageRef.child("images/" + user.getUid() + "/" +  imageUri.getLastPathSegment());
+
+        UploadTask uploadTask = imageRef.putFile(imageUri);
+        uploadTask.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                Toast.makeText(UserProfileActivity.this, "Unsuccessful upload", Toast.LENGTH_SHORT).show();
+            }
+        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                Task<Uri> urlTask = imageRef.getDownloadUrl();
+                urlTask.addOnCompleteListener(new OnCompleteListener<Uri>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Uri> task) {
+                        if (task.isSuccessful()) {
+                            profilePictureUri = task.getResult();
+                            Toast.makeText(getApplicationContext(), "Image uploaded", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(getApplicationContext(), "Something's wrong", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+
+            }
+        });
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                .setPhotoUri(uri)
+                .setPhotoUri(profilePictureUri)
                 .build();
+        assert user != null;
         user.updateProfile(profileUpdates);
     }
 
