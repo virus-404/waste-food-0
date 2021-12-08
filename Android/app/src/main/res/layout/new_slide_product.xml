@@ -36,6 +36,7 @@
                 android:layout_marginLeft="0dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="150dp"
+                android:adjustViewBounds="true"
                 app:srcCompat="@drawable/__2_burger_free_download_png" />
 
             <TextView
