@@ -52,4 +52,7 @@ dependencies {
     implementation 'com.budiyev.android:code-scanner:2.1.0'
     implementation 'com.google.zxing:core:3.3.0'
     implementation 'com.synnapps:carouselview:0.1.4'
+    // intro toaplication
+    implementation 'com.getkeepsafe.taptargetview:taptargetview:1.10.0'
+
 }

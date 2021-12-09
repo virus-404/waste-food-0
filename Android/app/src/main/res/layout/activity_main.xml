@@ -23,20 +23,22 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.619" />
 
+
     <SearchView
         android:id="@+id/searchView"
-        android:layout_width="260dp"
-        android:layout_height="42dp"
+        android:layout_width="216dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
-        android:textSize="24sp"
+        android:layout_marginEnd="63dp"
+        android:iconifiedByDefault="false"
         android:queryBackground="@android:color/transparent"
         android:queryHint="@string/searchProduct"
-        android:iconifiedByDefault="false"
-        app:layout_constraintEnd_toStartOf="@+id/toolbarUserMenuButton"
-        app:layout_constraintHorizontal_bias="0.483"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toStartOf="@+id/toolbarHelpbottom"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/toolbarMenuButton"
         app:layout_constraintTop_toTopOf="parent" />
-
 
     <Button
         android:id="@+id/toolbarUserMenuButton"
@@ -49,6 +51,20 @@
         android:background="@drawable/user_icon"
         app:layout_constraintEnd_toEndOf="parent"
 
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/toolbarHelpbottom"
+        android:layout_width="38dp"
+        android:layout_height="42dp"
+        android:layout_gravity="start"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="64dp"
+        android:background="@drawable/ic_baseline_help_24"
+        app:layout_constraintEnd_toEndOf="parent"
+
+        app:layout_constraintHorizontal_bias="0.953"
+        app:layout_constraintStart_toEndOf="@+id/toolbarMenuButton"
         app:layout_constraintTop_toTopOf="parent" />
 
     <View

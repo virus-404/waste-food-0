@@ -4,6 +4,7 @@ import static androidx.core.view.MenuItemCompat.collapseActionView;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.Log;
@@ -31,6 +32,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.getkeepsafe.taptargetview.TapTarget;
+import com.getkeepsafe.taptargetview.TapTargetView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -86,6 +89,8 @@ public class SellActivity extends AppCompatActivity {
         inputPrice = findViewById(R.id.inputPrice);
         buildRecyclerView();
         getSearchData();
+
+
         inputPrice.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -210,6 +215,9 @@ public class SellActivity extends AppCompatActivity {
             }
         });
     }
+
+
+
     private void showProductDetails(ProductSale productSale) {
         Intent intent = new Intent(SellActivity.this, ProductDetailsActivity.class);
         intent.putExtra("name", productSale.getProduct().getName());

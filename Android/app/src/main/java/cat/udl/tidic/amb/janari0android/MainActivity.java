@@ -1,8 +1,8 @@
 package cat.udl.tidic.amb.janari0android;
 
+import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.CompositePageTransformer;
 import androidx.viewpager2.widget.MarginPageTransformer;
@@ -12,7 +12,10 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Rect;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -26,8 +29,12 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.SearchView;
 import android.widget.Toast;
 
+import com.getkeepsafe.taptargetview.TapTarget;
+import com.getkeepsafe.taptargetview.TapTargetSequence;
+import com.getkeepsafe.taptargetview.TapTargetView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -45,6 +52,7 @@ import java.util.Date;
 import java.util.List;
 
 import cat.udl.tidic.amb.janari0android.adapters.SliderAdapter;
+import io.grpc.Context;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -57,8 +65,10 @@ public class MainActivity extends AppCompatActivity {
     private Button mCaptureBtn;
 
     private ImageView mImageView;
+    SearchView search;
+
     private FloatingActionButton open, give, add, sell;
-    private Button list, profile;
+    private Button list, profile,help;
     private boolean visibleFloatingButton = false;
     private ViewPager2 viewPager2;
     private Handler sliderHandler = new Handler();
@@ -68,6 +78,11 @@ public class MainActivity extends AppCompatActivity {
     Uri image_uri;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+
+
+
+
     @SuppressLint("WrongViewCast")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +90,8 @@ public class MainActivity extends AppCompatActivity {
         setTheme(R.style.AppTheme);
         // Check if user is signed in (non-null) and update UI accordingly.
 
+        auth = FirebaseAuth.getInstance();
+ 
         if (auth.getCurrentUser() == null) {
             Intent i = new Intent(this, LoginActivity.class);
             startActivity(i);
@@ -104,6 +121,12 @@ public class MainActivity extends AppCompatActivity {
         profile = findViewById(R.id.toolbarUserMenuButton);
         viewPager2 = findViewById(R.id.viewpager2_layout2);
         mCaptureBtn = findViewById(R.id.toolbarMenuButton);
+        search = findViewById(R.id.searchView);
+        help = findViewById(R.id.toolbarHelpbottom);
+
+
+
+
 
 
         open.setOnClickListener(new View.OnClickListener() {
@@ -165,6 +188,21 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        help.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tarjetaPrueba2();
+            }
+        });
+
+        // for the firs time , do the tutorial
+        SharedPreferences prefs = getSharedPreferences("prefs",MODE_PRIVATE);
+        boolean firstTime = prefs.getBoolean("firstTime",true);
+        if (firstTime){
+           //onPause();
+            tarjetaPrueba2();
+        }
+
 
         getSliderData();
         List<ProductSale> sliderItems = products;
@@ -227,6 +265,9 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+
+
     }
 
     private void getSliderData() {
@@ -269,4 +310,163 @@ public class MainActivity extends AppCompatActivity {
         InputMethodManager inputMethodManager =(InputMethodManager)getSystemService(Activity.INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
+
+    private void tarjetaPrueba2() {
+        give.setVisibility(View.VISIBLE);
+        add.setVisibility(View.VISIBLE);
+        sell.setVisibility(View.VISIBLE);
+        final TapTargetSequence sequence =new TapTargetSequence(this)
+                .targets(
+                        TapTarget.forView(findViewById(R.id.toolbarUserMenuButton), "Your Profile",
+                                "here you can edit your account, see personal information and log out")
+                                .outerCircleColor(R.color.colorPrimary900)
+                                //.dimColor(R.color.colorPrimary700)
+                                .outerCircleAlpha(0.95f)
+                                .titleTextSize(25)                  // Specify the size (in sp) of the title text
+                                .titleTextColor(R.color.white)      // Specify the color of the title text
+                                .descriptionTextSize(15)            // Specify the size (in sp) of the description text
+                                .descriptionTextColor(R.color.colorDarkGrey)  // Specify the color of the description text
+                                .textTypeface(Typeface.SANS_SERIF)
+                                .tintTarget(true)
+                                .transparentTarget(false)
+                                .cancelable(false),
+                        //TapTarget.forView(findViewById(R.id.searchView), "You", "Up"),
+                        TapTarget.forView(findViewById(R.id.searchView), "Search tool", "look for any product we have for you")
+                                .outerCircleColor(R.color.colorPrimary900)
+                                //.dimColor(R.color.colorPrimary700)
+                                .outerCircleAlpha(0.95f)
+                                .titleTextSize(25)                  // Specify the size (in sp) of the title text
+                                .titleTextColor(R.color.white)      // Specify the color of the title text
+                                .descriptionTextSize(15)            // Specify the size (in sp) of the description text
+                                .descriptionTextColor(R.color.colorDarkGrey)  // Specify the color of the description text
+                                .textTypeface(Typeface.SANS_SERIF)
+                                .tintTarget(true)
+                                .transparentTarget(false)
+                                .targetRadius(100)
+                                .cancelable(false),
+                        TapTarget.forView(findViewById(R.id.toolbarMenuButton), "QR Scan", "add products to your list just by scanning their barcode or QR")
+                                .outerCircleColor(R.color.colorPrimary900)
+                                //.dimColor(R.color.colorPrimary700)
+                                .outerCircleAlpha(0.95f)
+                                .titleTextSize(25)                  // Specify the size (in sp) of the title text
+                                .titleTextColor(R.color.white)      // Specify the color of the title text
+                                .descriptionTextSize(15)            // Specify the size (in sp) of the description text
+                                .descriptionTextColor(R.color.colorDarkGrey)  // Specify the color of the description text
+                                .textTypeface(Typeface.SANS_SERIF)
+                                .tintTarget(true)
+                                .transparentTarget(false)
+                                .targetRadius(50)
+                                .cancelable(false),
+                        TapTarget.forView(findViewById(R.id.numberItems), "Products to Expire", "If you click here, a list of your products that are about to expire will appear")
+                                .outerCircleColor(R.color.colorPrimary900)
+                                //.dimColor(R.color.colorPrimary700)
+                                .outerCircleAlpha(0.95f)
+                                .titleTextSize(25)                  // Specify the size (in sp) of the title text
+                                .titleTextColor(R.color.white)      // Specify the color of the title text
+                                .descriptionTextSize(15)            // Specify the size (in sp) of the description text
+                                .descriptionTextColor(R.color.colorDarkGrey)  // Specify the color of the description text
+                                .textTypeface(Typeface.SANS_SERIF)
+                                .tintTarget(true)
+                                .transparentTarget(false)
+                                .targetRadius(80)
+                                .cancelable(false),
+                                //.icon(gift)
+                        TapTarget.forView(open, "More options", "click here and there are more options to do with your products")
+                                .outerCircleColor(R.color.colorPrimary900)
+                                //.dimColor(R.color.colorPrimary700)
+                                .outerCircleAlpha(0.95f)
+                                .titleTextSize(25)                  // Specify the size (in sp) of the title text
+                                .titleTextColor(R.color.white)      // Specify the color of the title text
+                                .descriptionTextSize(15)            // Specify the size (in sp) of the description text
+                                .descriptionTextColor(R.color.colorDarkGrey)  // Specify the color of the description text
+                                .textTypeface(Typeface.SANS_SERIF)
+                                .tintTarget(false)
+                                .transparentTarget(false)
+                                .targetRadius(50)
+                                .cancelable(false),
+                        TapTarget.forView(add, "Add products", "1. add products to your own catalog")
+                                .outerCircleColor(R.color.colorPrimary900)
+                                //.dimColor(R.color.colorPrimary700)
+                                .outerCircleAlpha(0.95f)
+                                .titleTextSize(25)                  // Specify the size (in sp) of the title text
+                                .titleTextColor(R.color.white)      // Specify the color of the title text
+                                .descriptionTextSize(15)            // Specify the size (in sp) of the description text
+                                .descriptionTextColor(R.color.colorDarkGrey)  // Specify the color of the description text
+                                .textTypeface(Typeface.SANS_SERIF)
+                                .tintTarget(false)
+                                .transparentTarget(false)
+                                .targetRadius(35)
+                                .cancelable(false),
+                        TapTarget.forView(give, "Donate products", "2. click here and there are more options to do with your products")
+                                .outerCircleColor(R.color.colorPrimary900)
+                                //.dimColor(R.color.colorPrimary700)
+                                .outerCircleAlpha(0.95f)
+                                .titleTextSize(25)                  // Specify the size (in sp) of the title text
+                                .titleTextColor(R.color.white)      // Specify the color of the title text
+                                .descriptionTextSize(15)            // Specify the size (in sp) of the description text
+                                .descriptionTextColor(R.color.colorDarkGrey)  // Specify the color of the description text
+                                .textTypeface(Typeface.SANS_SERIF)
+                                .tintTarget(false)
+                                .transparentTarget(false)
+                                .targetRadius(35)
+                                .cancelable(false),
+                        TapTarget.forView(sell, "Sell Products", "3. sell your products in our huge virtual store")
+                                .outerCircleColor(R.color.colorPrimary900)
+                                //.dimColor(R.color.colorPrimary700)
+                                .outerCircleAlpha(0.95f)
+                                .titleTextSize(25)                  // Specify the size (in sp) of the title text
+                                .titleTextColor(R.color.white)      // Specify the color of the title text
+                                .descriptionTextSize(15)            // Specify the size (in sp) of the description text
+                                .descriptionTextColor(R.color.colorDarkGrey)  // Specify the color of the description text
+                                .textTypeface(Typeface.SANS_SERIF)
+                                .tintTarget(false)
+                                .transparentTarget(false)
+                                .targetRadius(35)
+                                .cancelable(false),
+                        TapTarget.forView(help, "Help button",
+                                "If you want to see this tutorial again, you can always click here and it will appear again")
+                                .outerCircleColor(R.color.colorPrimary900)
+                                //.dimColor(R.color.colorPrimary700)
+                                .outerCircleAlpha(0.95f)
+                                .titleTextSize(25)                  // Specify the size (in sp) of the title text
+                                .titleTextColor(R.color.white)      // Specify the color of the title text
+                                .descriptionTextSize(15)            // Specify the size (in sp) of the description text
+                                .descriptionTextColor(R.color.colorDarkGrey)  // Specify the color of the description text
+                                .textTypeface(Typeface.SANS_SERIF)
+                                .tintTarget(false)
+                                .transparentTarget(false)
+                                .targetRadius(35)
+                                .cancelable(false)
+                                )
+                .listener(new TapTargetSequence.Listener() {
+                    // This listener will tell us when interesting(tm) events happen in regards
+                    // to the sequence
+                    @Override
+                    public void onSequenceFinish() {
+                        give.setVisibility(View.INVISIBLE);
+                        add.setVisibility(View.INVISIBLE);
+                        sell.setVisibility(View.INVISIBLE);
+                    }
+
+                    @Override
+                    public void onSequenceStep(TapTarget lastTarget, boolean targetClicked) {
+                        // Perform action for the current target
+                    }
+
+                    @Override
+                    public void onSequenceCanceled(TapTarget lastTarget) {
+                        // Boo
+                    }
+                });
+        sequence.start();
+        SharedPreferences prefs = getSharedPreferences("prefs",MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putBoolean("firstTime",false);
+        editor.apply();
+
+
+    }
+
+
+
 }
