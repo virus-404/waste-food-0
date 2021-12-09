@@ -25,8 +25,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LoginActivity" android:windowSoftInputMode="adjustPan"/>
-        <activity android:name=".RegisterActivity" android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".LoginActivity" android:windowSoftInputMode="adjustResize" android:theme="@style/LoginTheme"/>
+        <activity android:name=".RegisterActivity" android:windowSoftInputMode="adjustResize" android:theme="@style/RegisterTheme"/>
         <activity android:name=".AddStockActivity" android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".AddStockProductNameActivity" android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".ListProductsActivity" android:windowSoftInputMode="adjustPan"/>
@@ -37,6 +37,7 @@
         <activity android:name=".EditProfileActivity" android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".ScannActivity" android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".ProductDetailsActivity" android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".ForgotPasswordActivity" android:windowSoftInputMode="adjustPan"/>
     </application>
 
 </manifest>

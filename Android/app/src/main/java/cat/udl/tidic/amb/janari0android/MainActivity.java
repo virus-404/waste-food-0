@@ -57,7 +57,7 @@ import io.grpc.Context;
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "bakedbeans";
-    private FirebaseAuth auth;
+    private FirebaseAuth auth = FirebaseAuth.getInstance();;
 
     private static final int PERMISSION_CODE = 1000;
     private static final int IMAGE_CAPTURE_CODE = 1001;
@@ -73,6 +73,8 @@ public class MainActivity extends AppCompatActivity {
     private ViewPager2 viewPager2;
     private Handler sliderHandler = new Handler();
     private ArrayList<ProductSale> products = new ArrayList<>();
+    private List<ProductSale> sliderItems = new ArrayList<>();
+    private SliderAdapter sliderAdapter;
     Uri image_uri;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -87,7 +89,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setTheme(R.style.AppTheme);
         // Check if user is signed in (non-null) and update UI accordingly.
+
         auth = FirebaseAuth.getInstance();
+ 
         if (auth.getCurrentUser() == null) {
             Intent i = new Intent(this, LoginActivity.class);
             startActivity(i);
@@ -202,8 +206,8 @@ public class MainActivity extends AppCompatActivity {
 
         getSliderData();
         List<ProductSale> sliderItems = products;
-
-        viewPager2.setAdapter(new SliderAdapter(sliderItems, viewPager2, this));
+        sliderAdapter = new SliderAdapter(sliderItems, viewPager2, this);
+        viewPager2.setAdapter(sliderAdapter);
 
         viewPager2.setClipToPadding(false);
         viewPager2.setClipChildren(false);
@@ -277,6 +281,8 @@ public class MainActivity extends AppCompatActivity {
                                 Log.d(TAG, document.getId() + " => " + document.getData());
                                 products.add(document.toObject(ProductSale.class));
                             }
+                            sliderItems = products;
+                            viewPager2.setAdapter(sliderAdapter);
                         } else {
                             Log.d(TAG, "Error getting documents: ", task.getException());
                         }

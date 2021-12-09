@@ -67,4 +67,8 @@
     <string name="searchHint">Search Products</string>
     <string name="money">Money</string>
     <string name="helloThere">Hello there!</string>
+    <string name="notAMember">You are not a member?</string>
+    <string name="signUp">Sign up</string>
+    <string name="whatIsYourEmail">What is your email?</string>
+    <string name="sendPasswordResetLink">Send password reset link</string>
 </resources>

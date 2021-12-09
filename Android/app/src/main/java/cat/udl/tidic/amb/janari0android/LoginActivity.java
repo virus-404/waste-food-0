@@ -11,6 +11,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,17 +27,18 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class LoginActivity extends AppCompatActivity {
 
-    protected TextView email, password;
-    private Button loginButton;
-    protected ImageButton registerButton;
+    protected TextView email, password, forgotPassword;
+    private Button loginButton, registerButton;
     private static final String TAG = "EmailPassword";
-    private FirebaseAuth auth;
+    private FirebaseAuth auth = FirebaseAuth.getInstance();;
 
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        ScrollView sv = findViewById(R.id.scrollLogin);
+        sv.setEnabled(false);
 
         auth = FirebaseAuth.getInstance();
 
@@ -44,7 +46,7 @@ public class LoginActivity extends AppCompatActivity {
         password = findViewById(R.id.editTextTextPassword);
         loginButton = findViewById(R.id.loginButton);
         registerButton = findViewById(R.id.registerButton);
-
+        forgotPassword = findViewById(R.id.forgotPassword);
         loginButton.setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
                 String e = email.getText().toString();
@@ -71,7 +73,7 @@ public class LoginActivity extends AppCompatActivity {
         email.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
+                if (!hasFocus && !password.hasFocus()) {
                     hideKeyboard(v);
                 }
             }
@@ -80,9 +82,16 @@ public class LoginActivity extends AppCompatActivity {
         password.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
+                if (!hasFocus && !email.hasFocus()) {
                     hideKeyboard(v);
                 }
+            }
+        });
+
+        forgotPassword.setOnClickListener(new Button.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), ForgotPasswordActivity.class);
+                startActivity(intent);
             }
         });
     }

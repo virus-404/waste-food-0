@@ -54,6 +54,7 @@ public class SliderAdapter extends RecyclerView.Adapter <SliderAdapter.SliderVie
             // Loading image with firebase
             Glide.with(context)
                     .load(sliderItems.get(position).getProduct().getPhotos().get(0))
+                    .fitCenter()
                     .into(holder.imageView);
         }
         holder.setName(sliderItems.get(position));
