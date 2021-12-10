@@ -7,9 +7,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
@@ -26,6 +29,7 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
@@ -44,12 +48,17 @@ import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileDescriptor;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 
 public class UserProfileActivity extends AppCompatActivity {
 
+    private static final String TAG = "bakedbeans";
+    private static final int MY_CAMERA_REQUEST_CODE = 100;
+    int TAKE_IMAGE_CODE = 10001;
     private Button signOut, editProfile;
     private TextView textEmail,textName;
     private ImageView profilePicture;
@@ -81,26 +90,42 @@ public class UserProfileActivity extends AppCompatActivity {
         goBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(UserProfileActivity.this, MainActivity.class);
-                startActivity(intent);
+                finish();
             }
         });
         signOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                FirebaseAuth.getInstance().signOut();
                 Intent intent = new Intent(UserProfileActivity.this, LoginActivity.class);
                 startActivity(intent);
-                FirebaseAuth.getInstance().signOut();
             }
         });
-
         profilePicture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_PICK);
-                //set type
-                intent.setType("image/*");
-                galleryActivityResultLauncher.launch(intent);
+                if (checkSelfPermission(Manifest.permission.CAMERA)
+                        != PackageManager.PERMISSION_GRANTED) {
+                    requestPermissions(new String[]{Manifest.permission.CAMERA},
+                            MY_CAMERA_REQUEST_CODE);
+                }
+                String[] options = {"  Camera", "  Gallery"};
+                AlertDialog.Builder builder = new AlertDialog.Builder(UserProfileActivity.this);
+                builder.setTitle("Take a picture or use a picture from gallery");
+                builder.setItems(options, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if(which == 0) {
+                            handleImageClick(profilePicture);
+                        }
+                        else {
+                            Intent intent = new Intent(Intent.ACTION_PICK);
+                            intent.setType("image/*");
+                            galleryActivityResultLauncher.launch(intent);
+                        }
+                    }
+                });
+                builder.show();
             }
         });
         editProfile.setOnClickListener(new View.OnClickListener() {
@@ -110,68 +135,106 @@ public class UserProfileActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
     }
     private final ActivityResultLauncher<Intent> galleryActivityResultLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             new ActivityResultCallback<ActivityResult>() {
                 @Override
                 public void onActivityResult(ActivityResult result) {
-                    //here we will handle the result of our intent
                     if (result.getResultCode() == Activity.RESULT_OK){
-                        //image picked
-                        //get uri of image
                         Intent data = result.getData();
                         assert data != null;
-                        Uri imageUri = data.getData();
-                        profilePicture.setImageURI(imageUri);
-                        changeDisplayPicture(imageUri);
+                        Bitmap bitmap = uriToBitmap(data.getData());
+                        profilePicture.setImageBitmap(bitmap);
+                        assert bitmap != null;
+                        handleUpload(bitmap);
                     }
                 }
             }
     );
+    private Bitmap uriToBitmap(Uri selectedFileUri) {
+        try {
+            ParcelFileDescriptor parcelFileDescriptor =
+                    getContentResolver().openFileDescriptor(selectedFileUri, "r");
+            FileDescriptor fileDescriptor = parcelFileDescriptor.getFileDescriptor();
+            Bitmap image = BitmapFactory.decodeFileDescriptor(fileDescriptor);
 
-    private void changeDisplayPicture(Uri imageUri) {
-        StorageReference storageRef = storage.getReference();
-        StorageReference imageRef;
-
-        assert user != null;
-        imageRef = storageRef.child("images/" + user.getUid() + "/" +  imageUri.getLastPathSegment());
-
-        UploadTask uploadTask = imageRef.putFile(imageUri);
-        uploadTask.addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception exception) {
-                Toast.makeText(UserProfileActivity.this, "Unsuccessful upload", Toast.LENGTH_SHORT).show();
+            parcelFileDescriptor.close();
+            return image;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    public void handleImageClick(View view) {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        startActivityForResult(intent, TAKE_IMAGE_CODE);
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == TAKE_IMAGE_CODE) {
+            if (resultCode == RESULT_OK) {
+                assert data != null;
+                Bitmap bitmap = (Bitmap) data.getExtras().get("data");
+                profilePicture.setImageBitmap(bitmap);
+                handleUpload(bitmap);
             }
-        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                Task<Uri> urlTask = imageRef.getDownloadUrl();
-                urlTask.addOnCompleteListener(new OnCompleteListener<Uri>() {
+        }
+    }
+    private void handleUpload(Bitmap bitmap) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 50, baos);
+
+        String uid = user.getUid();
+        final StorageReference reference = FirebaseStorage.getInstance().getReference()
+                .child("profileImages")
+                .child(uid + ".jpeg");
+
+        reference.putBytes(baos.toByteArray())
+                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
-                    public void onComplete(@NonNull Task<Uri> task) {
-                        if (task.isSuccessful()) {
-                            profilePictureUri = task.getResult();
-                            Toast.makeText(getApplicationContext(), "Image uploaded", Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(getApplicationContext(), "Something's wrong", Toast.LENGTH_SHORT).show();
-                        }
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        getDownloadUrl(reference);
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.e(TAG, "onFailure: ",e.getCause() );
                     }
                 });
-
-            }
-        });
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                .setPhotoUri(profilePictureUri)
-                .build();
-        assert user != null;
-        user.updateProfile(profileUpdates);
     }
+    private void getDownloadUrl(StorageReference reference) {
+        reference.getDownloadUrl()
+                .addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        Log.d(TAG, "onSuccess: " + uri);
+                        setUserProfileUrl(uri);
+                    }
+                });
+    }
+    private void setUserProfileUrl(Uri uri) {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-    public void hideKeyboard(View view) {
-        InputMethodManager inputMethodManager =(InputMethodManager)getSystemService(Activity.INPUT_METHOD_SERVICE);
-        inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        UserProfileChangeRequest request = new UserProfileChangeRequest.Builder()
+                .setPhotoUri(uri)
+                .build();
+
+        assert user != null;
+        user.updateProfile(request)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Toast.makeText(UserProfileActivity.this, "Updated succesfully", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(UserProfileActivity.this, "Profile image failed...", Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 }

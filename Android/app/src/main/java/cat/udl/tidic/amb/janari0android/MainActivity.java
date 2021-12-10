@@ -237,8 +237,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-
         DateTime timenow = DateTime.getDefaultInstance();
         Calendar c = Calendar.getInstance();
         c.add(Calendar.DATE, 7);
@@ -257,8 +255,6 @@ public class MainActivity extends AppCompatActivity {
                             num_products ++;
                         }
                     }
-                    //QuerySnapshot t = ;
-                    //int number_products = task.getResult().getDocumentChanges().size();
                     list.setText(String.valueOf(num_products));
                 } else {
                     Log.d(TAG, "Error getting documents: ", task.getException());

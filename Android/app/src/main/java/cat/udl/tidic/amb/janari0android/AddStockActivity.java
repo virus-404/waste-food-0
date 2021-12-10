@@ -1,9 +1,13 @@
 package cat.udl.tidic.amb.janari0android;
 
+import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.ActivityNotFoundException;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.Image;
@@ -75,7 +79,7 @@ public class AddStockActivity extends AppCompatActivity {
     FirebaseStorage storage = FirebaseStorage.getInstance();
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     private RecyclerView products;
-    static final int REQUEST_IMAGE_CAPTURE = 1;
+    private static final int TAKE_IMAGE_CODE = 100;
     ArrayList<String> images = new ArrayList<>();
     ArrayList<String> imageInfo = new ArrayList<>();
     AddStockAdapter addStockAdapter;
@@ -107,10 +111,33 @@ public class AddStockActivity extends AppCompatActivity {
         });
         addPhoto.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_PICK);
+                if (checkSelfPermission(Manifest.permission.CAMERA)
+                        != PackageManager.PERMISSION_GRANTED) {
+                    requestPermissions(new String[]{Manifest.permission.CAMERA},
+                            TAKE_IMAGE_CODE);
+                }
+                String[] options = {"  Camera", "  Gallery"};
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(AddStockActivity.this);
+                builder.setTitle("Take a picture or use a picture from gallery");
+                builder.setItems(options, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if(which == 0) {
+                            handleImageClick();
+                        }
+                        else {
+                            Intent intent = new Intent(Intent.ACTION_PICK);
+                            intent.setType("image/*");
+                            galleryActivityResultLauncher.launch(intent);
+                        }
+                    }
+                });
+                builder.show();
+                /*Intent intent = new Intent(Intent.ACTION_PICK);
                 //set type
                 intent.setType("image/*");
-                galleryActivityResultLauncher.launch(intent);
+                galleryActivityResultLauncher.launch(intent);*/
             }
         });
         gallery.setOnClickListener(new View.OnClickListener() {
@@ -215,16 +242,64 @@ public class AddStockActivity extends AppCompatActivity {
             }
         });
     }
+    public void handleImageClick() {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        startActivityForResult(intent, TAKE_IMAGE_CODE);
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == TAKE_IMAGE_CODE) {
+            if (resultCode == RESULT_OK) {
+                assert data != null;
+                Bitmap bitmap = (Bitmap) data.getExtras().get("data");
+                handleUpload(bitmap);
+            }
+        }
+    }
+    private void handleUpload(Bitmap bitmap) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 25, baos);
 
+        String uid = user.getUid();
+        final StorageReference reference = FirebaseStorage.getInstance().getReference()
+                .child("images/" + user.getUid() + ".jpeg");
+
+        reference.putBytes(baos.toByteArray())
+                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        getDownloadUrl(reference);
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.e(TAG, "onFailure: ",e.getCause() );
+                    }
+                });
+    }
+    private void getDownloadUrl(StorageReference reference) {
+        reference.getDownloadUrl()
+                .addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        Log.d(TAG, "onSuccess: " + uri);
+                        images.add(String.valueOf(uri));
+                        File f = new File(String.valueOf(uri.getLastPathSegment()));
+                        imageInfo.add(f.getName());
+                        products.setAdapter(addStockAdapter);
+                        Toast.makeText(AddStockActivity.this, "Image uploaded", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
     private void returnToMain() {
         Intent intent = new Intent(AddStockActivity.this, MainActivity.class);
         startActivity(intent);
     }
-
     private void returnToProductName() {
         finish();
     }
-
     public void buildRecyclerView() {
         products = findViewById(R.id.photosViewer);
         addStockAdapter = new AddStockAdapter(this,images,imageInfo, productInfoDelete);
@@ -242,18 +317,6 @@ public class AddStockActivity extends AppCompatActivity {
         images.remove(position);
         imageInfo.remove(position);
         addStockAdapter.notifyItemRemoved(position);
-    }
-    private void ToggleButtons(View v) {
-        Button gallery = (Button) findViewById(R.id.addGallery);
-        Button camera = (Button) findViewById(R.id.addCamera);
-        if(gallery.getVisibility()==View.INVISIBLE) {
-            gallery.setVisibility(View.VISIBLE);
-            camera.setVisibility(View.VISIBLE);
-        }
-        else{
-            gallery.setVisibility(View.INVISIBLE);
-            camera.setVisibility(View.INVISIBLE);
-        }
     }
     private Bitmap uriToBitmap(Uri selectedFileUri) {
         try {
