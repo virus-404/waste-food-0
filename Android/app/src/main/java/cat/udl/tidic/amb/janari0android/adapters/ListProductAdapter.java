@@ -1,8 +1,6 @@
 package cat.udl.tidic.amb.janari0android.adapters;
 
 import android.content.Context;
-import android.net.Uri;
-import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +10,6 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.text.DateFormat;
@@ -36,7 +33,7 @@ public class ListProductAdapter extends RecyclerView.Adapter<ListProductAdapter.
     @NonNull
     @Override
     public ListProductViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycle_list_products,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_product,parent,false);
 
         return new ListProductViewHolder(view);
     }
