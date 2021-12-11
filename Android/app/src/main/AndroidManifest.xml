@@ -45,6 +45,8 @@
         <activity android:name=".ProductDetailsActivity" android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".ForgotPasswordActivity" android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".ChangeNameActivity" android:windowSoftInputMode="stateVisible"/>
+        <activity android:name=".ChangeEmailActivity" android:windowSoftInputMode="stateVisible"/>
+        <activity android:name=".ChangePhoneNumberActivity" android:windowSoftInputMode="stateVisible"/>
     </application>
 
 </manifest>
