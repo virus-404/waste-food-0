@@ -44,6 +44,7 @@
         <activity android:name=".ScannActivity" android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".ProductDetailsActivity" android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".ForgotPasswordActivity" android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".ChangeNameActivity" android:windowSoftInputMode="stateVisible"/>
     </application>
 
 </manifest>

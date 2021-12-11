@@ -77,4 +77,6 @@
     <string name="accountDetails">Account details</string>
     <string name="changeName">Name</string>
     <string name="changeProfilePhoto">Change photo</string>
+    <string name="phoneNumber">Phone number</string>
+    <string name="layoutChangeName">Change username</string>
 </resources>
