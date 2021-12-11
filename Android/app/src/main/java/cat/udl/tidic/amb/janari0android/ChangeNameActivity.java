@@ -61,6 +61,8 @@ public class ChangeNameActivity extends AppCompatActivity {
                                         setDisplayName();
                                         finish();
                                     }
+                                    else
+                                        Toast.makeText(ChangeNameActivity.this, "Username already exists", Toast.LENGTH_SHORT).show();
                                 }
                             }
                         });

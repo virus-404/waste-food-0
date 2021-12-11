@@ -144,7 +144,6 @@
 
     <string name="welcome">Welcome</string>
     <string name="whatIsYourEmail">What is your email?</string>
-    <string name="sendPasswordResetLink">Send password reset link</string>
     <string name="accountDetails">Account details</string>
     <string name="changeName">Name</string>
     <string name="changeProfilePhoto">Change photo</string>
