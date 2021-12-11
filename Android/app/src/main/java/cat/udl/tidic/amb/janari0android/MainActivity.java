@@ -1,5 +1,6 @@
 package cat.udl.tidic.amb.janari0android;
 
+
 import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -8,27 +9,32 @@ import androidx.viewpager2.widget.CompositePageTransformer;
 import androidx.viewpager2.widget.MarginPageTransformer;
 import androidx.viewpager2.widget.ViewPager2;
 
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.ContentValues;
 import android.content.Intent;
+
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Rect;
 import android.graphics.Typeface;
+
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.provider.MediaStore;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager2.widget.CompositePageTransformer;
+import androidx.viewpager2.widget.MarginPageTransformer;
+import androidx.viewpager2.widget.ViewPager2;
+
 import android.widget.SearchView;
 import android.widget.Toast;
 
@@ -40,7 +46,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -48,7 +53,6 @@ import com.google.type.DateTime;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import cat.udl.tidic.amb.janari0android.adapters.SliderAdapter;
@@ -68,7 +72,9 @@ public class MainActivity extends AppCompatActivity {
     SearchView search;
 
     private FloatingActionButton open, give, add, sell;
-    private Button list, profile,help;
+
+    private Button list, profile, list2, list3, help;
+
     private boolean visibleFloatingButton = false;
     private ViewPager2 viewPager2;
     private Handler sliderHandler = new Handler();
@@ -118,6 +124,8 @@ public class MainActivity extends AppCompatActivity {
         give = findViewById(R.id.floatingButtonGift);
         sell = findViewById(R.id.floatingButtonSell);
         list = findViewById(R.id.numberItems);
+        list2 = findViewById(R.id.numberItems2);
+        list3 = findViewById(R.id.numberItems3);
         profile = findViewById(R.id.toolbarUserMenuButton);
         viewPager2 = findViewById(R.id.viewpager2_layout2);
         mCaptureBtn = findViewById(R.id.toolbarMenuButton);
@@ -164,6 +172,23 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, ListProductsActivity.class);
+                intent.putExtra("Page", 1);
+                startActivity(intent);
+            }
+        });
+        list2.setOnClickListener(new View.OnClickListener() {//all
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, ListProductsActivity.class);
+                intent.putExtra("Page", 2);
+                startActivity(intent);
+            }
+        });
+        list3.setOnClickListener(new View.OnClickListener() {//expired
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, ListProductsActivity.class);
+                intent.putExtra("Page", 3);
                 startActivity(intent);
             }
         });
@@ -244,18 +269,29 @@ public class MainActivity extends AppCompatActivity {
         db.collection("users").document(user.getUid()).collection("products").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                int num_products = 0;
+                int num_products_toexpire = 0;
+                int num_products_expired = 0;
+                int num_products_all = 0;
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         Log.d(TAG,document.getId() + " => " + document.getData());
                         Product p = document.toObject(Product.class);
                         Calendar cprod = Calendar.getInstance();
                         cprod.setTime(p.expirationDate);
-                        if (cprod.compareTo(c) <= 0){
-                            num_products ++;
+                        if (cprod.compareTo(c) <= 0 && cprod.compareTo(Calendar.getInstance()) > 0){
+                            num_products_toexpire ++;
+                        }else if(cprod.compareTo(Calendar.getInstance()) <= 0){
+                            num_products_expired ++;
+                        }else {
+                            num_products_all++;
                         }
                     }
-                    list.setText(String.valueOf(num_products));
+                    //QuerySnapshot t = ;
+                    //int number_products = task.getResult().getDocumentChanges().size();
+                    list.setText(String.valueOf(num_products_toexpire));
+                    list3.setText(String.valueOf(num_products_expired));
+                    list2.setText(String.valueOf(num_products_all+num_products_toexpire));
+
                 } else {
                     Log.d(TAG, "Error getting documents: ", task.getException());
                 }
