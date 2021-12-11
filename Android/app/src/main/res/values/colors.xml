@@ -19,6 +19,9 @@
     <color name="colorOffWhite">#f8f8ff</color>
     <color name="colorSlideProucts">#ECE8E8</color>
     <color name="colorDarkGrey">#a9a9a9</color>
+    <color name="Yellowmain">#FFC107</color>
+    <color name="Redmain">#ff0000</color>
     <color name="colorLogin">#A3D29C</color>
     <color name="colorRegister">#72936d</color>
+
 </resources>
