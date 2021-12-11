@@ -13,14 +13,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.bumptech.glide.Glide;
-import com.makeramen.roundedimageview.RoundedImageView;
 
 import java.util.List;
 
-import cat.udl.tidic.amb.janari0android.Product;
 import cat.udl.tidic.amb.janari0android.ProductSale;
 import cat.udl.tidic.amb.janari0android.R;
-import cat.udl.tidic.amb.janari0android.SetDataSliderProducts;
 
 public class SliderAdapter extends RecyclerView.Adapter <SliderAdapter.SliderViewHolder>{
 
@@ -38,7 +35,7 @@ public class SliderAdapter extends RecyclerView.Adapter <SliderAdapter.SliderVie
     public SliderViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new SliderViewHolder(
                 LayoutInflater.from(parent.getContext()).inflate(
-                        R.layout.new_slide_product,
+                        R.layout.row_new_slide_product,
                         parent,
                         false
                 )
@@ -54,6 +51,7 @@ public class SliderAdapter extends RecyclerView.Adapter <SliderAdapter.SliderVie
             // Loading image with firebase
             Glide.with(context)
                     .load(sliderItems.get(position).getProduct().getPhotos().get(0))
+                    .fitCenter()
                     .into(holder.imageView);
         }
         holder.setName(sliderItems.get(position));

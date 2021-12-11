@@ -70,4 +70,9 @@
     <string name="helloThere">Hello there!</string>
     <string name="prodExpired">EXPIRED</string>
     <string name="prod">PRODUCTS</string>
+    <string name="notAMember">You are not a member?</string>
+    <string name="signUp">Sign up</string>
+    <string name="whatIsYourEmail">What is your email?</string>
+    <string name="sendPasswordResetLink">Send password reset link</string>
+
 </resources>
