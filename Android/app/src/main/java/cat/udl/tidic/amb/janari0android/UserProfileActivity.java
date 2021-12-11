@@ -47,7 +47,7 @@ public class UserProfileActivity extends AppCompatActivity {
     private static final int MY_CAMERA_REQUEST_CODE = 100;
     int TAKE_IMAGE_CODE = 10001;
     private Button signOut, editProfile;
-    private TextView textEmail,textName;
+    private TextView textEmail,textName, textPhoto;
     private ImageView profilePicture;
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     FirebaseStorage storage = FirebaseStorage.getInstance();
@@ -59,6 +59,7 @@ public class UserProfileActivity extends AppCompatActivity {
         editProfile = findViewById(R.id.editProfile);
         textEmail = findViewById(R.id.profileEmail);
         textName = findViewById(R.id.profileName);
+        textPhoto = findViewById(R.id.profilePictureText);
         profilePicture = findViewById(R.id.profilePicture);
         try {
             Glide.with(this)
@@ -92,28 +93,13 @@ public class UserProfileActivity extends AppCompatActivity {
         profilePicture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (checkSelfPermission(Manifest.permission.CAMERA)
-                        != PackageManager.PERMISSION_GRANTED) {
-                    requestPermissions(new String[]{Manifest.permission.CAMERA},
-                            MY_CAMERA_REQUEST_CODE);
-                }
-                String[] options = {"  Camera", "  Gallery"};
-                AlertDialog.Builder builder = new AlertDialog.Builder(UserProfileActivity.this);
-                builder.setTitle("Take a picture or use a picture from gallery");
-                builder.setItems(options, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        if(which == 0) {
-                            handleImageClick(profilePicture);
-                        }
-                        else {
-                            Intent intent = new Intent(Intent.ACTION_PICK);
-                            intent.setType("image/*");
-                            galleryActivityResultLauncher.launch(intent);
-                        }
-                    }
-                });
-                builder.show();
+                changeProfilePicture();
+            }
+        });
+        textPhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                changeProfilePicture();
             }
         });
         editProfile.setOnClickListener(new View.OnClickListener() {
@@ -124,6 +110,32 @@ public class UserProfileActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void changeProfilePicture() {
+        if (checkSelfPermission(Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.CAMERA},
+                    MY_CAMERA_REQUEST_CODE);
+        }
+        String[] options = {"  Camera", "  Gallery"};
+        AlertDialog.Builder builder = new AlertDialog.Builder(UserProfileActivity.this);
+        builder.setTitle("Take a picture or use a picture from gallery");
+        builder.setItems(options, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if(which == 0) {
+                    handleImageClick(profilePicture);
+                }
+                else {
+                    Intent intent = new Intent(Intent.ACTION_PICK);
+                    intent.setType("image/*");
+                    galleryActivityResultLauncher.launch(intent);
+                }
+            }
+        });
+        builder.show();
+    }
+
     private final ActivityResultLauncher<Intent> galleryActivityResultLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             new ActivityResultCallback<ActivityResult>() {

@@ -83,7 +83,6 @@
         android:layout_marginEnd="8dp"
         android:layout_marginTop="40dp"
         android:backgroundTint="@color/white"
-        android:drawable="@drawable/rounded_corners"
         android:drawableLeft="@drawable/ic_baseline_key_24"
         android:fontFamily="@font/roboto_medium"
         android:gravity="center_vertical"
@@ -111,5 +110,50 @@
         app:layout_constraintTop_toBottomOf="@+id/changePasswordButton"
         app:layout_constraintVertical_bias="0.966" />
 
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/changeName"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="396dp"
+        android:background="@drawable/rounded_corners"
+        android:backgroundTint="@color/white"
+        android:elevation="5dp"
+        android:fontFamily="@font/roboto_regular"
+        android:gravity="center_vertical"
+        android:letterSpacing="0.02"
+        android:paddingStart="20dp"
+        android:text="@string/changeName"
+        android:textAllCaps="false"
+        android:textColor="@color/colorBlack"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/username"
+        android:layout_width="99dp"
+        android:layout_height="19dp"
+        android:layout_marginStart="244dp"
+        android:elevation="10dp"
+        android:text="@string/name"
+        app:layout_constraintBottom_toBottomOf="@+id/changeName"
+        app:layout_constraintStart_toStartOf="@+id/changeName"
+        app:layout_constraintTop_toTopOf="@+id/changeName" />
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:layout_marginEnd="8dp"
+        android:elevation="10dp"
+        app:layout_constraintBottom_toBottomOf="@+id/changeName"
+        app:layout_constraintEnd_toEndOf="@+id/changeName"
+        app:layout_constraintTop_toTopOf="@+id/changeName"
+        app:layout_constraintVertical_bias="0.566"
+        app:srcCompat="@drawable/ic_baseline_arrow_forward_ios_24" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
