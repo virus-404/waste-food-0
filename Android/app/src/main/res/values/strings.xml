@@ -1,77 +1,148 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <resources>
     <string name="aboutToExpire">ABOUT TO EXPIRE</string>
+
     <string name="add">Add</string>
+
     <string name="addPhoto"> Add photo</string>
+
     <string name="addPhotoDescription">Add photos from your gallery or take a picture with your camera</string>
-    <string name="allProducts">ALL</string>
-    <string name="appName">Janari0</string>
-    <string name="confirm">confirm</string>
-    <string name="contactSeller">Contact Seller</string>
-    <string name="createAccount">Create account</string>
-    <string name="defaultDescription">No description</string>
-    <string name="defaultEmail">name.lastname@gmail.com</string>
-    <string name="defaultName">Scofield11</string>
-    <string name="defaultUploadedDescription">164389594560285.jpg</string>
-    <string name="description">Description</string>
-    <string name="donate">Donate</string>
-    <string name="dummy"> Holly smokes, it works!</string>
-    <string name="email">Email</string>
-    <string name="email2">email@email.com</string>
-    <string name="enterDescription">Enter description:</string>
-    <string name="enterExpirationDate">Enter expiration date:</string>
-    <string name="enterNameProduct">Enter name of the product:</string>
-    <string name="euroSymbol">€</string>
-    <string name="euros">0.00</string>
-    <string name="expirationDate">Expiration date</string>
-    <string name="forgetPassword">Forgot your password?</string>
-    <string name="fromGallery">From gallery</string>
-    <string name="incorrectPassword">Incorrect username or password</string>
-    <string name="layoutChangePassword">Change password</string>
-    <string name="layoutProfile">Profile</string>
-    <string name="editProfile">Edit Profile</string>
-    <string name="login">Login</string>gi9
-    <string name="name">Name</string>
-    <string name="newPasword">New Password</string>
-    <string name="next">Next</string>
-    <string name="numberProducts"> 3</string>
-    <string name="currentPassword">Current password</string>
-    <string name="onSale"> ON SALE!</string>
-    <string name="oneWeek"> WITHIN ONE WEEK</string>
-    <string name="password">Password</string>
-    <string name="productDescription"> Product description</string>
-    <string name="productName"> Product name</string>
-    <string name="productList" > Product list</string>
-    <string name="putPrice"> Put price</string>
-    <string name="register">Register</string>
-    <string name="repeatPassword">Repeat password</string>
-    <string name="scan">Take Photo</string>
-    <string name="searchProduct"> Search a product</string>
-    <string name="selectProduct"> Select a product from your grocery list</string>
-    <string name="sellIt">Sell It!</string>
-    <string name="sellProduct">Put product on sale</string>
+
     <string name="addProductToStock">Add a product</string>
-    <string name="signOut">Sign Out</string>
-    <string name="submit">Submit</string>
-    <string name="takeAPhoto">Take a photo</string>
-    <string name="user">User</string>
-    <string name="username">Username</string>
-    <string name="welcome">Welcome</string>
-    <string name="pleaseFillAllFields">Please fill all the fields</string>
-    <string name="invalidEmail">Invalid email</string>
-    <string name="invalidUsername">Invalid username</string>
-    <string name="passwordsDontMatch">Passwords don\'t match</string>
-    <string name="passwordShouldBe">Password should be at least 6 characters</string>
-    <string name="passwordUpdated">Password updated.</string>
-    <string name="wrongPassword">Wrong password</string>
-    <string name="saveChanges">Save Changes</string>
-    <string name="searchHint">Search Products</string>
-    <string name="money">Money</string>
+
+    <string name="allProducts">ALL</string>
+
+    <string name="appName">Janari0</string>
+
+    <string name="confirm">confirm</string>
+
+    <string name="contactSeller">Contact Seller</string>
+
+    <string name="createAccount">Create account</string>
+
+    <string name="currentPassword">Current password</string>
+
+    <string name="defaultDescription">No description</string>
+
+    <string name="defaultEmail">name.lastname@gmail.com</string>
+
+    <string name="defaultName">Scofield11</string>
+
+    <string name="defaultUploadedDescription">164389594560285.jpg</string>
+
+    <string name="description">Description</string>
+
+    <string name="donate">Donate</string>
+
+    <string name="dummy"> Holly smokes, it works!</string>
+
+    <string name="editProfile">Edit Profile</string>
+
+    <string name="email">Email</string>
+
+    <string name="email2">email@email.com</string>
+
+    <string name="enterDescription">Enter description:</string>
+
+    <string name="enterExpirationDate">Enter expiration date:</string>
+
+    <string name="enterNameProduct">Enter name of the product:</string>
+
+    <string name="euroSymbol">€</string>
+
+    <string name="euros">0.00</string>
+
+    <string name="expirationDate">Expiration date</string>
+
+    <string name="forgetPassword">Forgot your password?</string>
+
+    <string name="fromGallery">From gallery</string>
+
     <string name="helloThere">Hello there!</string>
-    <string name="prodExpired">EXPIRED</string>
-    <string name="prod">PRODUCTS</string>
+
+    <string name="incorrectPassword">Incorrect username or password</string>
+
+    <string name="invalidEmail">Invalid email</string>
+
+    <string name="invalidUsername">Invalid username</string>
+
+    <string name="layoutChangePassword">Change password</string>
+
+    <string name="layoutProfile">Profile</string>
+
+    <string name="login">Login</string>
+
+    <string name="money">Money</string>
+
+    <string name="name">Name</string>
+
+    <string name="newPasword">New Password</string>
+
+    <string name="next">Next</string>
+
     <string name="notAMember">You are not a member?</string>
+
+    <string name="numberProducts"> 3</string>
+
+    <string name="onSale"> ON SALE!</string>
+
+    <string name="oneWeek"> WITHIN ONE WEEK</string>
+
+    <string name="password">Password</string>
+
+    <string name="passwordShouldBe">Password should be at least 6 characters</string>
+
+    <string name="passwordUpdated">Password updated.</string>
+
+    <string name="passwordsDontMatch">Passwords don\'t match</string>
+
+    <string name="pleaseFillAllFields">Please fill all the fields</string>
+
+    <string name="prod">PRODUCTS</string>
+
+    <string name="prodExpired">EXPIRED</string>
+
+    <string name="productDescription"> Product description</string>
+
+    <string name="productList"> Product list</string>
+
+    <string name="productName"> Product name</string>
+
+    <string name="putPrice"> Put price</string>
+
+    <string name="register">Register</string>
+
+    <string name="repeatPassword">Repeat password</string>
+
+    <string name="saveChanges">Save Changes</string>
+
+    <string name="scan">Take Photo</string>
+
+    <string name="searchHint">Search Products</string>
+
+    <string name="searchProduct"> Search a product</string>
+
+    <string name="selectProduct"> Select a product from your grocery list</string>
+
+    <string name="sellIt">Sell It!</string>
+
+    <string name="sellProduct">Put product on sale</string>
+
+    <string name="sendPasswordResetLink">Send password reset link</string>
+
+    <string name="signOut">Sign Out</string>
+
     <string name="signUp">Sign up</string>
+
+    <string name="submit">Submit</string>
+
+    <string name="takeAPhoto">Take a photo</string>
+
+    <string name="user">User</string>
+
+    <string name="username">Username</string>
+
+    <string name="welcome">Welcome</string>
     <string name="whatIsYourEmail">What is your email?</string>
     <string name="sendPasswordResetLink">Send password reset link</string>
     <string name="accountDetails">Account details</string>
@@ -79,4 +150,5 @@
     <string name="changeProfilePhoto">Change photo</string>
     <string name="phoneNumber">Phone number</string>
     <string name="layoutChangeName">Change username</string>
+    <string name="wrongPassword">Wrong password</string>
 </resources>

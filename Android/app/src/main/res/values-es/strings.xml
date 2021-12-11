@@ -1,66 +1,150 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="ExtraTranslation">
     <string name="aboutToExpire">PROXIMOS A EXPIRAR</string>
+
     <string name="add">Añadir</string>
+
     <string name="addPhoto"> Añadir imagen</string>
+
     <string name="addPhotoDescription">Añade fotos de tu galería o haz una foto con tu cámara</string>
+
+    <string name="addProductToStock">Añadir producto</string>
+
     <string name="allProducts">TODOS</string>
+
     <string name="appName">Janari0</string>
+
     <string name="confirm">confirmar</string>
+
     <string name="contactSeller">Contactar con el vendedor</string>
+
     <string name="createAccount">Crear cuenta</string>
-    <string name="defaultDescription"> Sin descripción </string>
-    <string name="defaultEmail">name.lastname@gmail.com</string>
-    <string name="defaultName">John Doe</string>
-    <string name="defaultUploadedDescription">164389594560285.jpg</string>
-    <string name="description">Descripción</string>
-    <string name="donate">Donar</string>
-    <string name="dummy"> Holly smokes, it works!</string>
-    <string name="email">Email</string>
-    <string name="email2">email@email.com</string>
-    <string name="enterDescription">Introduzca la descripción:</string>
-    <string name="enterExpirationDate">Introduzca la fecha de caducidad:</string>
-    <string name="enterNameProduct">Introduzca el nombre del producto:</string>
-    <string name="euroSymbol">€</string>
-    <string name="euros">0.00</string>
-    <string name="expirationDate">Fecha de caducidad</string>
-    <string name="forgetPassword">¿Ha olvidado su contraseña?</string>
-    <string name="fromGallery">De la galería</string>
-    <string name="incorrectPassword">Nombre de usuario o contraseña incorrectos</string>
-    <string name="layoutChangePassword">Cambiar la contraseña</string>
-    <string name="layoutProfile">Perfil</string>
-    <string name="login">Inicio de sesión</string>
-    <string name="name">Nombre</string>
-    <string name="newPasword">Nueva Contraseña</string>
-    <string name="next">Siguiente</string>
-    <string name="numberProducts"> 3</string>
+
     <string name="currentPassword">Contraseña actual</string>
-    <string name="onSale">EN VENTA!</string>
-    <string name="oneWeek"> DENTRO DE UNAS SEMANAS</string>
-    <string name="password">Constraseña</string>
-    <string name="productDescription"> Descripcion del porducto</string>
-    <string name="productName"> Nombre del producto</string>
-    <string name="productList" > Lista de Productos</string>
-    <string name="putPrice"> añadir precio </string>
-    <string name="register">Registrar</string>
-    <string name="repeatPassword">Repetir contraseña</string>
-    <string name="scan">Tomar foto</string>
-    <string name="searchProduct"> buscar un producto</string>
-    <string name="selectProduct"> Seleccionar producto</string>
-    <string name="sellIt">Vender!</string>
-    <string name="signOut">Desconectar</string>
-    <string name="submit"> Enviar</string>
-    <string name="takeAPhoto">Toma una foto</string>
-    <string name="user">Usuario</string>
-    <string name="username">Nombre de usuario</string>
-    <string name="welcome">Bienvenido</string>
-    <string name="pleaseFillAllFields">Por favor llene todos los campos</string>
+
+    <string name="defaultDescription"> Sin descripción </string>
+
+    <string name="defaultEmail">name.lastname@gmail.com</string>
+
+    <string name="defaultName">John Doe</string>
+
+    <string name="defaultUploadedDescription">164389594560285.jpg</string>
+
+    <string name="description">Descripción</string>
+
+    <string name="donate">Donar</string>
+
+    <string name="dummy"> Holly smokes, it works!</string>
+
+    <string name="editProfile">Editar Perfil</string>
+
+    <string name="email">Email</string>
+
+    <string name="email2">email@email.com</string>
+
+    <string name="enterDescription">Introduzca la descripción:</string>
+
+    <string name="enterExpirationDate">Introduzca la fecha de caducidad:</string>
+
+    <string name="enterNameProduct">Introduzca el nombre del producto:</string>
+
+    <string name="euroSymbol">€</string>
+
+    <string name="euros">0.00</string>
+
+    <string name="expirationDate">Fecha de caducidad</string>
+
+    <string name="forgetPassword">¿Ha olvidado su contraseña?</string>
+
+    <string name="fromGallery">De la galería</string>
+
+    <string name="helloThere">¡Hola!</string>
+
+    <string name="incorrectPassword">Nombre de usuario o contraseña incorrectos</string>
+
     <string name="invalidEmail">Invalid email</string>
+
     <string name="invalidUsername">Invalid username</string>
-    <string name="passwordsDontMatch">Passwords don\'t match</string>
+
+    <string name="layoutChangePassword">Cambiar la contraseña</string>
+
+    <string name="layoutProfile">Perfil</string>
+
+    <string name="login">Inicio de sesión</string>
+
+    <string name="money">Dinero</string>
+
+    <string name="name">Nombre</string>
+
+    <string name="newPasword">Nueva Contraseña</string>
+
+    <string name="next">Siguiente</string>
+
+    <string name="notAMember">¿No eres miembro?</string>
+
+    <string name="numberProducts"> 3</string>
+
+    <string name="onSale">EN VENTA!</string>
+
+    <string name="oneWeek"> DENTRO DE UNAS SEMANAS</string>
+
+    <string name="password">Constraseña</string>
+
     <string name="passwordShouldBe">Password should be at least 6 characters</string>
+
     <string name="passwordUpdated">Password updated.</string>
-    <string name="wrongPassword">Wrong password</string>
-    <string name="prodExpired">CADUCADOS</string>
+
+    <string name="passwordsDontMatch">Passwords don\'t match</string>
+
+    <string name="pleaseFillAllFields">Por favor llene todos los campos</string>
+
     <string name="prod">PRODUCTOS</string>
+
+    <string name="prodExpired">CADUCADOS</string>
+
+    <string name="productDescription"> Descripcion del porducto</string>
+
+    <string name="productList"> Lista de Productos</string>
+
+    <string name="productName"> Nombre del producto</string>
+
+    <string name="putPrice"> añadir precio </string>
+
+    <string name="register">Registrar</string>
+
+    <string name="repeatPassword">Repetir contraseña</string>
+
+    <string name="saveChanges">Guardar cambios</string>
+
+    <string name="scan">Tomar foto</string>
+
+    <string name="searchHint">Buscar productos</string>
+
+    <string name="searchProduct"> buscar un producto</string>
+
+    <string name="selectProduct"> Seleccionar producto</string>
+
+    <string name="sellIt">Vender!</string>
+
+    <string name="sellProduct">Producto en venta</string>
+
+    <string name="sendPasswordResetLink">Enviar enlace para restablecer contraseña</string>
+
+    <string name="signOut">Desconectar</string>
+
+    <string name="signUp">Registrarse</string>
+
+    <string name="submit"> Enviar</string>
+
+    <string name="takeAPhoto">Toma una foto</string>
+
+    <string name="user">Usuario</string>
+
+    <string name="username">Nombre de usuario</string>
+
+    <string name="welcome">Bienvenido</string>
+
+    <string name="whatIsYourEmail">¿Cuál es tu e-mail?</string>
+
+    <string name="wrongPassword">Wrong password</string>
 </resources>
