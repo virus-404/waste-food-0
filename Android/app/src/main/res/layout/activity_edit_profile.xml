@@ -16,11 +16,22 @@
         android:background="@drawable/ic_baseline_arrow_back_24"
         android:backgroundTint="@color/colorBlack"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.059"
+        app:layout_constraintHorizontal_bias="0.041"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-
+    <TextView
+        android:id="@+id/changePassword"
+        android:layout_width="330dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center_vertical"
+        android:text="@string/layoutEditProfile"
+        android:textColor="@color/colorBlack"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/profilePicture"
         android:layout_width="150dp"
@@ -35,12 +46,13 @@
 
     <TextView
         android:id="@+id/profilePictureText"
-        android:layout_width="96dp"
-        android:layout_height="27dp"
-        android:layout_marginStart="160dp"
-        android:layout_marginTop="4dp"
+        android:layout_width="106dp"
+        android:layout_height="28dp"
+        android:layout_marginStart="152dp"
+        android:layout_marginTop="8dp"
         android:clickable="true"
         android:focusable="true"
+        android:gravity="center"
         android:text="@string/changeProfilePhoto"
         android:textColor="@color/colorBlack"
         android:textSize="14sp"

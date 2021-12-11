@@ -153,4 +153,5 @@
     <string name="layoutChangeEmail">Change email</string>
     <string name="layoutChangePhoneNumber">Change phone number</string>
     <string name="spanishCode">+34</string>
+    <string name="layoutEditProfile">Edit profile</string>
 </resources>
