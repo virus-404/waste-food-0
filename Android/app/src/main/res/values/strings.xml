@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <resources>
-    <string name="aboutToExpire"> PRODUCTS ABOUT TO EXPIRE</string>
+    <string name="aboutToExpire">ABOUT TO EXPIRE</string>
     <string name="add">Add</string>
     <string name="addPhoto"> Add photo</string>
     <string name="addPhotoDescription">Add photos from your gallery or take a picture with your camera</string>
-    <string name="allProducts">ALL PRODUCTS</string>
+    <string name="allProducts">ALL</string>
     <string name="appName">Janari0</string>
     <string name="confirm">confirm</string>
     <string name="contactSeller">Contact Seller</string>
@@ -68,4 +68,6 @@
     <string name="searchHint">Search Products</string>
     <string name="money">Money</string>
     <string name="helloThere">Hello there!</string>
+    <string name="prodExpired">EXPIRED</string>
+    <string name="prod">PRODUCTS</string>
 </resources>
