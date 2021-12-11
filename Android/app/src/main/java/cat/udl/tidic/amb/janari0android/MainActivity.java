@@ -132,6 +132,23 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, ListProductsActivity.class);
+                intent.putExtra("Page", 1);
+                startActivity(intent);
+            }
+        });
+        list2.setOnClickListener(new View.OnClickListener() {//all
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, ListProductsActivity.class);
+                intent.putExtra("Page", 2);
+                startActivity(intent);
+            }
+        });
+        list3.setOnClickListener(new View.OnClickListener() {//expired
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, ListProductsActivity.class);
+                intent.putExtra("Page", 3);
                 startActivity(intent);
             }
         });
@@ -212,14 +229,15 @@ public class MainActivity extends AppCompatActivity {
                             num_products_toexpire ++;
                         }else if(cprod.compareTo(Calendar.getInstance()) <= 0){
                             num_products_expired ++;
+                        }else {
+                            num_products_all++;
                         }
-                        num_products_all++;
                     }
                     //QuerySnapshot t = ;
                     //int number_products = task.getResult().getDocumentChanges().size();
                     list.setText(String.valueOf(num_products_toexpire));
                     list3.setText(String.valueOf(num_products_expired));
-                    list2.setText(String.valueOf(num_products_all-num_products_expired));
+                    list2.setText(String.valueOf(num_products_all+num_products_toexpire));
                 } else {
                     Log.d(TAG, "Error getting documents: ", task.getException());
                 }
