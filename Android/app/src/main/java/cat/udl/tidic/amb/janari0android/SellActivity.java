@@ -259,8 +259,10 @@ public class SellActivity extends AppCompatActivity {
             @Override
             public void onItemClick(int position) {
                 product = products.get(position);
-                Glide.with(SellActivity.this)
+                if(product.getPhotos().size() != 0)
+                    Glide.with(SellActivity.this)
                         .load(product.getPhotos().get(0))
+                        .placeholder(R.drawable.__2_burger_free_download_png)
                         .into(imageProduct);
                 nameProduct.setText(product.getName().toString());
                 DateFormat fmt = new SimpleDateFormat("dd MMM yyyy", Locale.US);

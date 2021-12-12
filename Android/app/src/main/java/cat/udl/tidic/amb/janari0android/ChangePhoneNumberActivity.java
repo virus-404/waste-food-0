@@ -1,11 +1,13 @@
 package cat.udl.tidic.amb.janari0android;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.telephony.PhoneNumberUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
@@ -59,6 +61,7 @@ public class ChangePhoneNumberActivity extends AppCompatActivity {
         goBack.setOnClickListener(new ImageButton.OnClickListener(){
             @Override
             public void onClick(View v) {
+                hideKeyboard(v);
                 finish();
             }
         });
@@ -77,12 +80,15 @@ public class ChangePhoneNumberActivity extends AppCompatActivity {
                         Log.d(TAG, "DocumentSnapshot data: " + document.getData());
                         phoneNumber.setText(document.get("phoneNumber",String.class));
                         phoneNumber.requestFocus();
+                        showKeyboard();
                     } else {
                         Log.d(TAG, "No phone number");
                     }
                 } else {
                     Log.d(TAG, "get failed with ", task.getException());
                 }
+                phoneNumber.requestFocus();
+                showKeyboard();
             }
         });
 
@@ -104,5 +110,13 @@ public class ChangePhoneNumberActivity extends AppCompatActivity {
                         Log.w(TAG, "Error writing document", e);
                     }
                 });
+    }
+    public void hideKeyboard(View view) {
+        InputMethodManager inputMethodManager =(InputMethodManager)getSystemService(Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+    public void showKeyboard(){
+        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
     }
 }
