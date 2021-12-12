@@ -87,10 +87,6 @@ public class MainActivity extends AppCompatActivity {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-
-
-
-
     @SuppressLint("WrongViewCast")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -201,6 +197,7 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this, ListProductsActivity.class);
                 intent.putExtra("Page", 4);
                 startActivity(intent);
+                //Make code from line 313 into a function and call this function here
             }
         });
         give.setOnClickListener(new View.OnClickListener() {
@@ -308,7 +305,10 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+        getUserProductsOnSale();
+    }
 
+    private void getUserProductsOnSale() {
         db.collection("users").document(user.getUid()).collection("productsSale").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -334,9 +334,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-
-
-
     }
 
     private void getSliderData() {
@@ -374,6 +371,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         sliderHandler.postDelayed(sliderRunnable, 3000);
+        getUserProductsOnSale();
     }
     public void hideKeyboard(View view) {
         InputMethodManager inputMethodManager =(InputMethodManager)getSystemService(Activity.INPUT_METHOD_SERVICE);

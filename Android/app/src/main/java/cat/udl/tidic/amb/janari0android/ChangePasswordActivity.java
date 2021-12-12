@@ -1,6 +1,7 @@
 package cat.udl.tidic.amb.janari0android;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -37,7 +38,8 @@ public class ChangePasswordActivity extends AppCompatActivity {
         newPassword = findViewById(R.id.newPassEditText);
         reNewPassword = findViewById(R.id.repPassEditText);
         confirmChangePassword = findViewById(R.id.changePasswordConfirmButton);
-
+        currentPassword.requestFocus();
+        showKeyboard();
         String pleaseFillAllFields = getString(R.string.pleaseFillAllFields);
         String passwordsDontMatch = getString(R.string.passwordsDontMatch);
         String passwordShouldBe = getString(R.string.passwordShouldBe);
@@ -46,6 +48,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
+                hideKeyboard(v);
                 Intent intent = new Intent(ChangePasswordActivity.this, EditProfileActivity.class);
                 startActivity(intent);
             }
@@ -127,5 +130,9 @@ public class ChangePasswordActivity extends AppCompatActivity {
     public void hideKeyboard(View view) {
         InputMethodManager inputMethodManager =(InputMethodManager)getSystemService(Activity.INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+    public void showKeyboard(){
+        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
     }
 }
