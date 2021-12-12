@@ -146,7 +146,18 @@
 
     <string name="whatIsYourEmail">¿Cuál es tu e-mail?</string>
 
-    <string name="wrongPassword">Wrong password</string>
 
     <string name="prodOnSale">PRODUCTOS EN VENTA: 0</string>
+
+    <string name="accountDetails">Detalles cuenta</string>
+    <string name="changeName">Nombre</string>
+    <string name="changeProfilePhoto">Cambiar foto</string>
+    <string name="phoneNumber">Teléfono</string>
+    <string name="layoutChangeName">Cambiar nombre usuario</string>
+    <string name="wrongPassword">Contraseña incorrecta</string>
+
+    <string name="layoutChangeEmail">Cambiar e-mail</string>
+    <string name="layoutChangePhoneNumber">Cambiar teléfono</string>
+    <string name="spanishCode">+34</string>
+    <string name="layoutEditProfile">Editar perfil</string>
 </resources>
