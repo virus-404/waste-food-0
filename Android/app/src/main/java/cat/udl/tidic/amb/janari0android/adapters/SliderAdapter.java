@@ -88,7 +88,7 @@ public class SliderAdapter extends RecyclerView.Adapter <SliderAdapter.SliderVie
             product_name.setText(setDataSliderProducts.getProduct().getName());
         }
         void setDescription(ProductSale setDataSliderProducts){
-            product_description.setText(setDataSliderProducts.getProduct().getName());
+            product_description.setText(setDataSliderProducts.getDescription());
         }
 
     }
