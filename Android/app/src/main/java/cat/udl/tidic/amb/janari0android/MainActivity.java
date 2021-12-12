@@ -195,6 +195,14 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        list4.setOnClickListener(new View.OnClickListener() {//onsell
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, ListProductsActivity.class);
+                intent.putExtra("Page", 4);
+                startActivity(intent);
+            }
+        });
         give.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
