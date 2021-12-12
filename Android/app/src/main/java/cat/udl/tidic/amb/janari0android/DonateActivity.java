@@ -40,6 +40,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -215,7 +216,23 @@ public class DonateActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Log.d(TAG, document.getId() + " => " + document.getData());
-                                products.add(document.toObject(Product.class));
+                                Product product = document.toObject(Product.class);
+                                // Check if product is already on sale
+                                Query userNameQuery = db.collection("users").document(user.getUid()).collection("productsSale").whereEqualTo("product", product);
+                                userNameQuery.limit(1).get()
+                                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                if (task.isSuccessful()) {
+                                                    boolean isEmpty = task.getResult().isEmpty();
+                                                    if (isEmpty) {
+                                                        products.add(product);
+                                                    }
+                                                }
+                                                else
+                                                    products.add(product);
+                                            }
+                                        });
                             }
                         } else {
                             Log.d(TAG, "Error getting documents: ", task.getException());

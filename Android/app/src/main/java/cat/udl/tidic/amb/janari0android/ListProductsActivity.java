@@ -57,7 +57,7 @@ public class ListProductsActivity extends AppCompatActivity {
         if(page==1)
             titleProducts.setText(getResources().getString(R.string.aboutToExpire));
         if(page==2)
-            titleProducts.setText(getResources().getString(R.string.productsDidntExpire));
+            titleProducts.setText(getResources().getString(R.string.freshProducts));
         if(page==3)
             titleProducts.setText(getResources().getString(R.string.expiredProducts));
         if(page==4) {

@@ -161,7 +161,8 @@
     <string name="PriceListProd">Price: </string>
     <string name="products">Products</string>
     <string name="articles">Articles</string>
-    <string name="productsDidntExpire">Products that didn\'t expire</string>
+    <string name="freshProducts">Fresh products</string>
+    <string name="fresh">FRESH</string>
     <string name="expiredProducts">Expired products</string>
     <string name="allArticles">All articles</string>
 </resources>
