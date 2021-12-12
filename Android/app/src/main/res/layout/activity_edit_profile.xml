@@ -16,64 +16,48 @@
         android:background="@drawable/ic_baseline_arrow_back_24"
         android:backgroundTint="@color/colorBlack"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.059"
+        app:layout_constraintHorizontal_bias="0.041"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-
+    <TextView
+        android:id="@+id/changePassword"
+        android:layout_width="330dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center_vertical"
+        android:text="@string/layoutEditProfile"
+        android:textColor="@color/colorBlack"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/profilePicture"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:layout_marginTop="55dp"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="48dp"
         android:src="@drawable/login_icon"
         app:civ_border_color="#FFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.073"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/name_text_input"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="240dp"
-        android:layout_height="55dp"
-        android:layout_marginTop="55dp"
-        app:errorEnabled="true"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/profilePicture"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/editTextTextName"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:background="@null"
-            android:hint="@string/name"
-            android:textSize="15dp"
-            android:inputType="textPersonName" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/email_text_input"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="240dp"
-        android:layout_height="55dp"
-        android:layout_marginTop="15dp"
-        app:errorEnabled="true"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/profilePicture"
-        app:layout_constraintTop_toBottomOf="@+id/name_text_input">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/editTextTextEmail"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:background="@null"
-            android:hint="@string/email"
-            android:textSize="15dp"
-            android:inputType="textEmailAddress" />
-    </com.google.android.material.textfield.TextInputLayout>
+    <TextView
+        android:id="@+id/profilePictureText"
+        android:layout_width="106dp"
+        android:layout_height="28dp"
+        android:layout_marginStart="152dp"
+        android:layout_marginTop="8dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="center"
+        android:text="@string/changeProfilePhoto"
+        android:textColor="@color/colorBlack"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/profilePicture" />
 
     <Button
         android:id="@+id/changePasswordButton"
@@ -81,9 +65,8 @@
         android:layout_height="55dp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginBottom="232dp"
         android:backgroundTint="@color/white"
-        android:drawable="@drawable/rounded_corners"
         android:drawableLeft="@drawable/ic_baseline_key_24"
         android:fontFamily="@font/roboto_medium"
         android:gravity="center_vertical"
@@ -91,10 +74,10 @@
         android:text="@string/layoutChangePassword"
         android:textAllCaps="false"
         android:textColor="@color/colorBlack"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/email_text_input" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/signOut"
@@ -110,6 +93,151 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/changePasswordButton"
         app:layout_constraintVertical_bias="0.966" />
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/changeName"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="424dp"
+        android:background="@drawable/rounded_corners"
+        android:backgroundTint="@color/white"
+        android:elevation="5dp"
+        android:fontFamily="@font/roboto_regular"
+        android:gravity="center_vertical"
+        android:letterSpacing="0.02"
+        android:paddingStart="20dp"
+        android:text="@string/username"
+        android:textAllCaps="false"
+        android:textColor="@color/colorBlack"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/profilePictureText"
+        app:layout_constraintVertical_bias="0.909" />
+
+    <TextView
+        android:id="@+id/username"
+        android:layout_width="200dp"
+        android:layout_height="19dp"
+        android:layout_marginEnd="16dp"
+        android:elevation="10dp"
+        android:gravity="end"
+        android:text="@string/name"
+        app:layout_constraintBottom_toBottomOf="@+id/changeName"
+        app:layout_constraintEnd_toStartOf="@+id/dot1"
+        app:layout_constraintTop_toTopOf="@+id/changeName"
+        app:layout_constraintVertical_bias="0.538" />
+
+    <ImageView
+        android:id="@+id/dot1"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:layout_marginEnd="8dp"
+        android:elevation="10dp"
+        app:layout_constraintBottom_toBottomOf="@+id/changeName"
+        app:layout_constraintEnd_toEndOf="@+id/changeName"
+        app:layout_constraintTop_toTopOf="@+id/changeName"
+        app:layout_constraintVertical_bias="0.566"
+        app:srcCompat="@drawable/ic_baseline_arrow_forward_ios_24" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/changeEmail"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="364dp"
+        android:background="@drawable/rounded_corners"
+        android:backgroundTint="@color/white"
+        android:elevation="5dp"
+        android:fontFamily="@font/roboto_regular"
+        android:gravity="center_vertical"
+        android:letterSpacing="0.02"
+        android:paddingStart="20dp"
+        android:text="@string/email"
+        android:textAllCaps="false"
+        android:textColor="@color/colorBlack"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/changeName" />
+
+    <TextView
+        android:id="@+id/email"
+        android:layout_width="200dp"
+        android:layout_height="20dp"
+        android:layout_marginEnd="16dp"
+        android:elevation="10dp"
+        android:text="@string/email"
+        android:gravity="end"
+        app:layout_constraintBottom_toBottomOf="@+id/changeEmail"
+        app:layout_constraintEnd_toStartOf="@+id/dot2"
+        app:layout_constraintTop_toTopOf="@+id/changeEmail"
+        app:layout_constraintVertical_bias="0.48" />
+
+    <ImageView
+        android:id="@+id/dot2"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:layout_marginEnd="8dp"
+        android:elevation="10dp"
+        app:layout_constraintBottom_toBottomOf="@+id/changeEmail"
+        app:layout_constraintEnd_toEndOf="@+id/changeEmail"
+        app:layout_constraintTop_toTopOf="@+id/changeEmail"
+        app:layout_constraintVertical_bias="0.566"
+        app:srcCompat="@drawable/ic_baseline_arrow_forward_ios_24" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/changePhoneNumber"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="312dp"
+        android:background="@drawable/rounded_corners"
+        android:backgroundTint="@color/white"
+        android:elevation="5dp"
+        android:fontFamily="@font/roboto_regular"
+        android:gravity="center_vertical"
+        android:letterSpacing="0.02"
+        android:paddingStart="20dp"
+        android:text="@string/phoneNumber"
+        android:textAllCaps="false"
+        android:textColor="@color/colorBlack"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/changeEmail" />
+
+    <TextView
+        android:id="@+id/phoneNumber"
+        android:layout_width="200dp"
+        android:layout_height="19dp"
+        android:layout_marginEnd="16dp"
+        android:elevation="10dp"
+        android:gravity="end"
+        app:layout_constraintBottom_toBottomOf="@+id/changePhoneNumber"
+        app:layout_constraintEnd_toStartOf="@+id/dot3"
+        app:layout_constraintTop_toTopOf="@+id/changePhoneNumber"
+        app:layout_constraintVertical_bias="0.538" />
+
+    <ImageView
+        android:id="@+id/dot3"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:layout_marginEnd="8dp"
+        android:elevation="10dp"
+        app:layout_constraintBottom_toBottomOf="@+id/changePhoneNumber"
+        app:layout_constraintEnd_toEndOf="@+id/changePhoneNumber"
+        app:layout_constraintTop_toTopOf="@+id/changePhoneNumber"
+        app:layout_constraintVertical_bias="0.566"
+        app:srcCompat="@drawable/ic_baseline_arrow_forward_ios_24" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -18,14 +18,19 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class RegisterActivity extends AppCompatActivity {
+    private static final String TAG = "bakedbeans";
     private FirebaseAuth auth;
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
     protected EditText username, email, password, passwordRep;
     protected Button register;
     protected ImageButton goBack;
@@ -166,12 +171,30 @@ public class RegisterActivity extends AppCompatActivity {
     }
     private void setDisplayName()
     {
+        String userName = String.valueOf(username.getText());
         FirebaseUser user = auth.getCurrentUser();
         UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                 .setDisplayName(String.valueOf(username.getText()))
                 .setPhotoUri(Uri.parse("android.resource://cat.udl.tidic.amb.janari0android/" + R.drawable.login_icon))
                 .build();
         user.updateProfile(profileUpdates);
+
+        User userDB = new User(userName);
+        db.collection("users").document(user.getUid())
+                .set(userDB)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "DocumentSnapshot successfully written!");
+                        Toast.makeText(RegisterActivity.this, "Successfully registered", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error writing document", e);
+                    }
+                });
     }
     private void updateUI(FirebaseUser user) {
         if (user != null){
