@@ -157,5 +157,7 @@
     <string name="layoutChangePhoneNumber">Change phone number</string>
     <string name="spanishCode">+34</string>
     <string name="layoutEditProfile">Edit profile</string>
+    <string name="ExpDateListProd">Expiration date: </string>
+    <string name="PriceListProd">Price: </string>
 
 </resources>

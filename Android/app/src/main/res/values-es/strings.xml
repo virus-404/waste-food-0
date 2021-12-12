@@ -160,4 +160,6 @@
     <string name="layoutChangePhoneNumber">Cambiar teléfono</string>
     <string name="spanishCode">+34</string>
     <string name="layoutEditProfile">Editar perfil</string>
+    <string name="ExpDateListProd">Fecha caducidad: </string>
+    <string name="PriceListProd">Precio: </string>
 </resources>

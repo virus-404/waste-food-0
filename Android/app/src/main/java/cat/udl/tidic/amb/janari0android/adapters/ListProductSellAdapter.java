@@ -51,9 +51,9 @@ public class ListProductSellAdapter extends RecyclerView.Adapter<ListProductSell
         }
         holder.name.setText(product.getProduct().getName());
         DateFormat fmt = new SimpleDateFormat("dd MMM yyyy", Locale.US);
-        holder.expDate.setText("Expiration date: " + fmt.format(product.getProduct().getExpirationDate()));
-        holder.price.setText(product.getPrice() + "€");
-        holder.description.setText(product.getDescription());
+        //context.getString(R.string.ExpDateListProd);
+        holder.expDate.setText(context.getString(R.string.ExpDateListProd) +" "+fmt.format(product.getProduct().getExpirationDate()));
+        holder.price.setText(context.getString(R.string.PriceListProd) +" "+product.getPrice() + "€");
 
     }
 
@@ -71,7 +71,6 @@ public class ListProductSellAdapter extends RecyclerView.Adapter<ListProductSell
             name = itemView.findViewById(R.id.name_product);
             expDate = itemView.findViewById(R.id.expirationDate);
             price = itemView.findViewById(R.id.PriceProd);
-            description = itemView.findViewById(R.id.DescriptionProd);
         }
 
 

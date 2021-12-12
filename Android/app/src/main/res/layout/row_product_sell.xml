@@ -36,6 +36,7 @@
                 android:textColor="@color/colorAccent"
                 android:textSize="20sp" />
 
+
             <TextView
                 android:id="@+id/expirationDate"
                 android:layout_width="304dp"
@@ -44,23 +45,9 @@
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentBottom="true"
                 android:layout_marginStart="7dp"
-                android:layout_marginTop="-24dp"
+                android:layout_marginTop="-19dp"
                 android:layout_marginEnd="-2dp"
-                android:layout_marginBottom="24dp"
-                android:layout_toEndOf="@+id/image_product"
-                android:text="@string/productDescription" />
-
-            <TextView
-                android:id="@+id/DescriptionProd"
-                android:layout_width="304dp"
-                android:layout_height="45dp"
-                android:layout_below="@+id/name_product"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentBottom="true"
-                android:layout_marginStart="7dp"
-                android:layout_marginTop="2dp"
-                android:layout_marginEnd="-2dp"
-                android:layout_marginBottom="-2dp"
+                android:layout_marginBottom="19dp"
                 android:layout_toEndOf="@+id/image_product"
                 android:text="@string/productDescription" />
 
@@ -71,10 +58,10 @@
                 android:layout_below="@+id/name_product"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentBottom="true"
-                android:layout_marginStart="7dp"
-                android:layout_marginTop="26dp"
-                android:layout_marginEnd="-2dp"
-                android:layout_marginBottom="-26dp"
+                android:layout_marginStart="6dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="-1dp"
+                android:layout_marginBottom="-16dp"
                 android:layout_toEndOf="@+id/image_product"
                 android:text="@string/productDescription" />
 
