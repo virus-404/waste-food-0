@@ -24,14 +24,17 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 import cat.udl.tidic.amb.janari0android.adapters.ListProductAdapter;
+import cat.udl.tidic.amb.janari0android.adapters.ListProductSellAdapter;
 import cat.udl.tidic.amb.janari0android.adapters.SearchStockAdapter;
 
 public class ListProductsActivity extends AppCompatActivity {
 
     private static final String TAG = "bakedbeans";
     ArrayList<Product> products = new ArrayList<>() ;
+    ArrayList<ProductSale> productsSale = new ArrayList<>() ;
     RecyclerView recyclerView;
     ListProductAdapter listProductAdapter;
+    ListProductSellAdapter listProductSellAdapter;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     //
@@ -43,7 +46,7 @@ public class ListProductsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_products);
         Intent myIntent = getIntent(); // gets the previously created intent
-        int page =0;
+        int page = 0;
         page = myIntent.getIntExtra("Page", 0);
         getData(page);
         goBack = findViewById(R.id.goBackButton);
@@ -58,11 +61,19 @@ public class ListProductsActivity extends AppCompatActivity {
 
     }
 
-    public void buildRecyclerView() {
-        recyclerView = findViewById(R.id.list_productRecycler);
-        listProductAdapter = new ListProductAdapter(products,this);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(listProductAdapter);
+    public void buildRecyclerView(Boolean onSale) {
+        if(onSale){
+            recyclerView = findViewById(R.id.list_productRecycler);
+            listProductSellAdapter = new ListProductSellAdapter(productsSale, this);
+            recyclerView.setLayoutManager(new LinearLayoutManager(this));
+            recyclerView.setAdapter(listProductSellAdapter);
+        }
+        else {
+            recyclerView = findViewById(R.id.list_productRecycler);
+            listProductAdapter = new ListProductAdapter(products, this);
+            recyclerView.setLayoutManager(new LinearLayoutManager(this));
+            recyclerView.setAdapter(listProductAdapter);
+        }
     }
     private void getData(int page) {
         products = new ArrayList<>();
@@ -96,7 +107,7 @@ public class ListProductsActivity extends AppCompatActivity {
                                         }
                                     }
                                 }
-                                buildRecyclerView();
+                                buildRecyclerView(false);
                             } else {
                                 Log.d(TAG, "Error getting documents: ", task.getException());
                             }
@@ -113,9 +124,9 @@ public class ListProductsActivity extends AppCompatActivity {
                                 for (QueryDocumentSnapshot document : task.getResult()) {
                                     Log.d(TAG, document.getId() + " => " + document.getData());
                                     ProductSale p = document.toObject(ProductSale.class);
-                                    products.add(p.product);
+                                    productsSale.add(p);
                                 }
-                                buildRecyclerView();
+                                buildRecyclerView(true);
                             } else {
                                 Log.d(TAG, "Error getting documents: ", task.getException());
                             }
