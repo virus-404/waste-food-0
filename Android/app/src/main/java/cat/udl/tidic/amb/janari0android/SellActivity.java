@@ -129,7 +129,6 @@ public class SellActivity extends AppCompatActivity {
         searchProducts.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
                 searchProducts.setIconified(false);
                 recyclerView.setAdapter(searchStockAdapter);
                 recyclerView.setVisibility(View.VISIBLE);
@@ -139,13 +138,11 @@ public class SellActivity extends AppCompatActivity {
             @Override
             public void onFocusChange(View v, boolean queryTextFocused) {
                 if(!queryTextFocused) {
-                    hideKeyboard(v);
-                    getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
                     recyclerView.setVisibility(View.GONE);
                     searchProducts.setQuery("", false);
                     searchProducts.clearFocus();
                     searchProducts.setIconified(true);
-
+                    hideKeyboard(v);
                 }
                 else{
                     recyclerView.setVisibility(View.VISIBLE);
@@ -155,8 +152,6 @@ public class SellActivity extends AppCompatActivity {
         searchProducts.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                hideKeyboard(searchProducts);
-                getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
                 searchProducts.clearFocus();
                 return false;
             }
@@ -301,6 +296,5 @@ public class SellActivity extends AppCompatActivity {
     public void hideKeyboard(View view) {
         InputMethodManager inputMethodManager =(InputMethodManager)getSystemService(Activity.INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
     }
 }

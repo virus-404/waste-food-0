@@ -114,7 +114,6 @@ public class DonateActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 searchProducts.setIconified(false);
-                getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
                 recyclerView.setAdapter(searchStockAdapter);
                 recyclerView.setVisibility(View.VISIBLE);
             }
@@ -129,7 +128,6 @@ public class DonateActivity extends AppCompatActivity {
                     searchProducts.clearFocus();
                     searchProducts.setIconified(true);
                     hideKeyboard(v);
-                    getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
                 }
                 else{
                     recyclerView.setVisibility(View.VISIBLE);

@@ -36,9 +36,9 @@
         <activity android:name=".AddStockActivity" android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".AddStockProductNameActivity" android:windowSoftInputMode="adjustResize"/>
         <activity android:name=".ListProductsActivity" android:windowSoftInputMode="adjustPan"/>
-        <activity android:name=".DonateActivity" android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".DonateActivity" android:windowSoftInputMode="adjustPan" />
         <activity android:name=".UserProfileActivity" android:windowSoftInputMode="adjustPan"/>
-        <activity android:name=".SellActivity" android:windowSoftInputMode="adjustResize"/>
+        <activity android:name=".SellActivity" android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".ChangePasswordActivity" android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".EditProfileActivity" android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".ScannActivity" android:windowSoftInputMode="adjustPan"/>
