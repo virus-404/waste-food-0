@@ -8,19 +8,30 @@
     android:background="@color/colorOffWhite">
 
     <TextView
-        android:id="@+id/List_products_title"
-        android:layout_width="361dp"
-        android:layout_height="31dp"
-        android:layout_marginStart="10dp"
+        android:id="@+id/title"
+        android:layout_width="330dp"
+        android:layout_height="30dp"
         android:layout_marginTop="8dp"
         android:text="@string/productList"
         android:textColor="@color/colorBlack"
-        android:textSize="20sp"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:gravity="center_vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/titleProducts"
+        android:layout_width="330dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="16dp"
+        android:gravity="center_vertical"
+        android:text="@string/allProducts"
+        android:textColor="@color/colorBlack"
+        android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.058"
-        app:layout_constraintStart_toEndOf="@+id/goBackButton"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/title" />
 
     <ImageButton
         android:id="@+id/goBackButton"
@@ -37,11 +48,11 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list_productRecycler"
         android:layout_width="match_parent"
-        android:layout_height="602dp"
-        android:layout_marginTop="20dp"
+        android:layout_height="match_parent"
+        android:layout_marginTop="100dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/List_products_title" />
+        app:layout_constraintTop_toBottomOf="@+id/title" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

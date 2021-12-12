@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -35,6 +36,7 @@ public class ListProductsActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     ListProductAdapter listProductAdapter;
     ListProductSellAdapter listProductSellAdapter;
+    TextView title, titleProducts;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     //
@@ -45,17 +47,28 @@ public class ListProductsActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_products);
+        title = findViewById(R.id.title);
+        titleProducts = findViewById(R.id.titleProducts);
         Intent myIntent = getIntent(); // gets the previously created intent
         int page = 0;
         page = myIntent.getIntExtra("Page", 0);
         getData(page);
         goBack = findViewById(R.id.goBackButton);
+        if(page==1)
+            titleProducts.setText(getResources().getString(R.string.aboutToExpire));
+        if(page==2)
+            titleProducts.setText(getResources().getString(R.string.productsDidntExpire));
+        if(page==3)
+            titleProducts.setText(getResources().getString(R.string.expiredProducts));
+        if(page==4) {
+            title.setText(getResources().getString(R.string.articles));
+            titleProducts.setText(getResources().getString(R.string.allArticles));
+        }
         goBack.setOnClickListener(new View.OnClickListener(){
 
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ListProductsActivity.this, MainActivity.class);
-                startActivity(intent);
+                finish();
             }
         });
 
@@ -93,7 +106,9 @@ public class ListProductsActivity extends AppCompatActivity {
                                     Product p = document.toObject(Product.class);
                                     Calendar cprod = Calendar.getInstance();
                                     cprod.setTime(p.expirationDate);
-                                    if (page == 1) {//to expire
+                                    if(page == 0)
+                                        products.add(p);
+                                    else if (page == 1) {//to expire
                                         if (cprod.compareTo(c) <= 0 && cprod.compareTo(Calendar.getInstance()) > 0) {
                                             products.add(p);
                                         }

@@ -10,7 +10,7 @@
 
     <string name="addProductToStock">Add a product</string>
 
-    <string name="allProducts">ALL</string>
+    <string name="allProducts">All products</string>
 
     <string name="appName">Janari0</string>
 
@@ -159,5 +159,9 @@
     <string name="layoutEditProfile">Edit profile</string>
     <string name="ExpDateListProd">Expiration date: </string>
     <string name="PriceListProd">Price: </string>
-
+    <string name="products">Products</string>
+    <string name="articles">Articles</string>
+    <string name="productsDidntExpire">Products that didn\'t expire</string>
+    <string name="expiredProducts">Expired products</string>
+    <string name="allArticles">All articles</string>
 </resources>

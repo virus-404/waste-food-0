@@ -45,20 +45,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.565" />
-
-    <TextView
-        android:id="@+id/profilePictureText"
-        android:layout_width="96dp"
-        android:layout_height="27dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="8dp"
-        android:clickable="true"
-        android:focusable="true"
-        android:text="@string/changeProfilePhoto"
-        android:textColor="@color/colorBlack"
-        android:textSize="14sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profilePicture" />
     <TextView
         android:id="@+id/profileName"
         android:layout_width="240dp"
@@ -126,22 +112,58 @@
         app:layout_constraintTop_toBottomOf="@+id/divider"
         app:layout_constraintVertical_bias="0.966" />
 
-    <TextView
-        android:id="@+id/textView11"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:text="@string/accountDetails"
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/yourProducts"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="436dp"
+        android:background="@drawable/rounded_corners"
+        android:backgroundTint="@color/white"
+        android:drawableStart="@drawable/ic_baseline_add_shopping_cart_18"
+        android:drawablePadding="10dp"
+        android:elevation="5dp"
+        android:fontFamily="@font/roboto_regular"
+        android:gravity="center_vertical"
+        android:letterSpacing="0.02"
+        android:paddingStart="15dp"
+        android:text="@string/products"
+        android:textAllCaps="false"
         android:textColor="@color/colorBlack"
-        android:textStyle="bold
-"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.08"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/divider" />
+        app:layout_constraintTop_toBottomOf="@+id/divider"
+        app:layout_constraintVertical_bias="0.909" />
 
-
-
-
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/yourProductsSale"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="380dp"
+        android:background="@drawable/rounded_corners"
+        android:backgroundTint="@color/white"
+        android:drawableStart="@drawable/ic_baseline_article_24"
+        android:drawablePadding="10dp"
+        android:elevation="5dp"
+        android:fontFamily="@font/roboto_regular"
+        android:gravity="center_vertical"
+        android:letterSpacing="0.02"
+        android:paddingStart="15dp"
+        android:text="@string/articles"
+        android:textAllCaps="false"
+        android:textColor="@color/colorBlack"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/yourProducts"
+        app:layout_constraintVertical_bias="0.692" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

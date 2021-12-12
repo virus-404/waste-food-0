@@ -39,22 +39,6 @@
         app:layout_constraintVertical_bias="0.619" />
 
 
-    <SearchView
-        android:id="@+id/searchView"
-        android:layout_width="216dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="63dp"
-        android:iconifiedByDefault="false"
-        android:queryBackground="@android:color/transparent"
-        android:queryHint="@string/searchProduct"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toStartOf="@+id/toolbarHelpbottom"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/toolbarMenuButton"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <Button
         android:id="@+id/toolbarUserMenuButton"
         android:layout_width="38dp"
@@ -70,15 +54,15 @@
 
     <Button
         android:id="@+id/toolbarHelpbottom"
-        android:layout_width="38dp"
-        android:layout_height="42dp"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
         android:layout_gravity="start"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="32dp"
         android:layout_marginEnd="64dp"
         android:background="@drawable/ic_baseline_help_24"
         app:layout_constraintEnd_toEndOf="parent"
 
-        app:layout_constraintHorizontal_bias="0.953"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/toolbarMenuButton"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -118,7 +102,7 @@
         android:textColor="@color/colorAccent"
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.161"
+        app:layout_constraintHorizontal_bias="0.092"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/divider1" />
 
@@ -193,22 +177,6 @@
         app:layout_constraintHorizontal_bias="0.04"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView4" />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/numberItems4"
-        android:layout_width="278dp"
-        android:layout_height="49dp"
-        android:layout_gravity="start"
-        android:layout_marginTop="132dp"
-        android:background="@drawable/button_rectangle_rounded"
-        android:text="@string/prodOnSale"
-        android:textColor="@color/colorAccent"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4" />
-
     <View
         android:id="@+id/divider2"
         android:layout_width="match_parent"
@@ -287,7 +255,7 @@
         android:paddingEnd="80dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent" />
 
 

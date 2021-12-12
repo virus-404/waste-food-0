@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -28,11 +29,17 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -46,12 +53,11 @@ public class UserProfileActivity extends AppCompatActivity {
     private static final String TAG = "bakedbeans";
     private static final int MY_CAMERA_REQUEST_CODE = 100;
     int TAKE_IMAGE_CODE = 10001;
-    private Button signOut, editProfile;
-    private TextView textEmail,textName, textPhoto;
+    private Button signOut, editProfile, products, productsSale;
+    private TextView textEmail,textName;
     private ImageView profilePicture;
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-    FirebaseStorage storage = FirebaseStorage.getInstance();
-    Uri profilePictureUri;
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,8 +65,9 @@ public class UserProfileActivity extends AppCompatActivity {
         editProfile = findViewById(R.id.editProfile);
         textEmail = findViewById(R.id.profileEmail);
         textName = findViewById(R.id.profileName);
-        textPhoto = findViewById(R.id.profilePictureText);
         profilePicture = findViewById(R.id.profilePicture);
+        products = findViewById(R.id.yourProducts);
+        productsSale = findViewById(R.id.yourProductsSale);
         try {
             Glide.with(this)
                     .load(user.getPhotoUrl())
@@ -90,13 +97,22 @@ public class UserProfileActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        profilePicture.setOnClickListener(new View.OnClickListener() {
+        products.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                changeProfilePicture();
+                Intent intent = new Intent(UserProfileActivity.this, ListProductsActivity.class);
+                startActivity(intent);
             }
         });
-        textPhoto.setOnClickListener(new View.OnClickListener() {
+        productsSale.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(UserProfileActivity.this, ListProductsActivity.class);
+                intent.putExtra("Page", 4);
+                startActivity(intent);
+            }
+        });
+        profilePicture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 changeProfilePicture();
@@ -236,5 +252,32 @@ public class UserProfileActivity extends AppCompatActivity {
                         Toast.makeText(UserProfileActivity.this, "Profile image failed...", Toast.LENGTH_SHORT).show();
                     }
                 });
+    }
+    private void getUserProductsOnSale() {
+        db.collection("users").document(user.getUid()).collection("productsSale").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+
+                int num_products_sell = 0;
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        Log.d(TAG,document.getId() + " => " + document.getData());
+                        //ProductSale p = document.toObject(ProductSale.class);
+                        //Calendar cprod = Calendar.getInstance();
+                        num_products_sell++;
+                    }
+                    //QuerySnapshot t = ;
+                    //int number_products = task.getResult().getDocumentChanges().size();
+                    /*String text = (String) list4.getText();
+                    String[] parts = text.split(":");
+                    parts[1] = ": " + num_products_sell;
+
+                    list4.setText(TextUtils.join("", parts));*/
+
+                } else {
+                    Log.d(TAG, "Error getting documents: ", task.getException());
+                }
+            }
+        });
     }
 }

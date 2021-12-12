@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
 
     private FloatingActionButton open, give, add, sell;
 
-    private Button list, profile, list2, list3, list4, help;
+    private Button list, profile, list2, list3, help;
 
     private boolean visibleFloatingButton = false;
     private ViewPager2 viewPager2;
@@ -124,11 +124,9 @@ public class MainActivity extends AppCompatActivity {
         list = findViewById(R.id.numberItems);
         list2 = findViewById(R.id.numberItems2);
         list3 = findViewById(R.id.numberItems3);
-        list4 = findViewById(R.id.numberItems4);
         profile = findViewById(R.id.toolbarUserMenuButton);
         viewPager2 = findViewById(R.id.viewpager2_layout2);
         mCaptureBtn = findViewById(R.id.toolbarMenuButton);
-        search = findViewById(R.id.searchView);
         help = findViewById(R.id.toolbarHelpbottom);
 
 
@@ -189,15 +187,6 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this, ListProductsActivity.class);
                 intent.putExtra("Page", 3);
                 startActivity(intent);
-            }
-        });
-        list4.setOnClickListener(new View.OnClickListener() {//onsell
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, ListProductsActivity.class);
-                intent.putExtra("Page", 4);
-                startActivity(intent);
-                //Make code from line 313 into a function and call this function here
             }
         });
         give.setOnClickListener(new View.OnClickListener() {
@@ -305,35 +294,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-        getUserProductsOnSale();
-    }
-
-    private void getUserProductsOnSale() {
-        db.collection("users").document(user.getUid()).collection("productsSale").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-
-                int num_products_sell = 0;
-                if (task.isSuccessful()) {
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        Log.d(TAG,document.getId() + " => " + document.getData());
-                        //ProductSale p = document.toObject(ProductSale.class);
-                        //Calendar cprod = Calendar.getInstance();
-                        num_products_sell++;
-                    }
-                    //QuerySnapshot t = ;
-                    //int number_products = task.getResult().getDocumentChanges().size();
-                    String text = (String) list4.getText();
-                    String[] parts = text.split(":");
-                    parts[1] = ": " + num_products_sell;
-
-                    list4.setText(TextUtils.join("", parts));
-
-                } else {
-                    Log.d(TAG, "Error getting documents: ", task.getException());
-                }
-            }
-        });
     }
 
     private void getSliderData() {
@@ -371,7 +331,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         sliderHandler.postDelayed(sliderRunnable, 3000);
-        getUserProductsOnSale();
     }
     public void hideKeyboard(View view) {
         InputMethodManager inputMethodManager =(InputMethodManager)getSystemService(Activity.INPUT_METHOD_SERVICE);
@@ -396,20 +355,6 @@ public class MainActivity extends AppCompatActivity {
                                 .textTypeface(Typeface.SANS_SERIF)
                                 .tintTarget(true)
                                 .transparentTarget(false)
-                                .cancelable(false),
-                        //TapTarget.forView(findViewById(R.id.searchView), "You", "Up"),
-                        TapTarget.forView(findViewById(R.id.searchView), "Search tool", "look for any product we have for you")
-                                .outerCircleColor(R.color.colorPrimary900)
-                                //.dimColor(R.color.colorPrimary700)
-                                .outerCircleAlpha(0.95f)
-                                .titleTextSize(25)                  // Specify the size (in sp) of the title text
-                                .titleTextColor(R.color.white)      // Specify the color of the title text
-                                .descriptionTextSize(15)            // Specify the size (in sp) of the description text
-                                .descriptionTextColor(R.color.colorDarkGrey)  // Specify the color of the description text
-                                .textTypeface(Typeface.SANS_SERIF)
-                                .tintTarget(true)
-                                .transparentTarget(false)
-                                .targetRadius(100)
                                 .cancelable(false),
                         TapTarget.forView(findViewById(R.id.toolbarMenuButton), "QR Scan", "add products to your list just by scanning their barcode or QR")
                                 .outerCircleColor(R.color.colorPrimary900)
