@@ -150,8 +150,12 @@
     <string name="phoneNumber">Phone number</string>
     <string name="layoutChangeName">Change username</string>
     <string name="wrongPassword">Wrong password</string>
+
+    <string name="prodOnSale">PRODUCTS ON SALE: 0</string>
+
     <string name="layoutChangeEmail">Change email</string>
     <string name="layoutChangePhoneNumber">Change phone number</string>
     <string name="spanishCode">+34</string>
     <string name="layoutEditProfile">Edit profile</string>
+
 </resources>

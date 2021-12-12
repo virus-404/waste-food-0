@@ -22,6 +22,7 @@ import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -50,6 +51,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.type.DateTime;
+import com.google.zxing.common.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -73,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
 
     private FloatingActionButton open, give, add, sell;
 
-    private Button list, profile, list2, list3, help;
+    private Button list, profile, list2, list3, list4, help;
 
     private boolean visibleFloatingButton = false;
     private ViewPager2 viewPager2;
@@ -126,6 +128,7 @@ public class MainActivity extends AppCompatActivity {
         list = findViewById(R.id.numberItems);
         list2 = findViewById(R.id.numberItems2);
         list3 = findViewById(R.id.numberItems3);
+        list4 = findViewById(R.id.numberItems4);
         profile = findViewById(R.id.toolbarUserMenuButton);
         viewPager2 = findViewById(R.id.viewpager2_layout2);
         mCaptureBtn = findViewById(R.id.toolbarMenuButton);
@@ -189,6 +192,14 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, ListProductsActivity.class);
                 intent.putExtra("Page", 3);
+                startActivity(intent);
+            }
+        });
+        list4.setOnClickListener(new View.OnClickListener() {//onsell
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, ListProductsActivity.class);
+                intent.putExtra("Page", 4);
                 startActivity(intent);
             }
         });
@@ -291,6 +302,32 @@ public class MainActivity extends AppCompatActivity {
                     list.setText(String.valueOf(num_products_toexpire));
                     list3.setText(String.valueOf(num_products_expired));
                     list2.setText(String.valueOf(num_products_all+num_products_toexpire));
+
+                } else {
+                    Log.d(TAG, "Error getting documents: ", task.getException());
+                }
+            }
+        });
+
+        db.collection("users").document(user.getUid()).collection("productsSale").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+
+                int num_products_sell = 0;
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        Log.d(TAG,document.getId() + " => " + document.getData());
+                        //ProductSale p = document.toObject(ProductSale.class);
+                        //Calendar cprod = Calendar.getInstance();
+                        num_products_sell++;
+                    }
+                    //QuerySnapshot t = ;
+                    //int number_products = task.getResult().getDocumentChanges().size();
+                    String text = (String) list4.getText();
+                    String[] parts = text.split(":");
+                    parts[1] = ": " + num_products_sell;
+
+                    list4.setText(TextUtils.join("", parts));
 
                 } else {
                     Log.d(TAG, "Error getting documents: ", task.getException());
