@@ -165,4 +165,5 @@
     <string name="fresh">FRESH</string>
     <string name="expiredProducts">Expired products</string>
     <string name="allArticles">All articles</string>
+    <string name="price">Price</string>
 </resources>

@@ -41,7 +41,7 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_marginStart="40dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="28dp"
         android:layout_marginEnd="40dp"
         android:gravity="center_horizontal"
         android:text="@string/selectProduct"
@@ -49,6 +49,7 @@
         android:textColor="@color/colorAccent"
         android:textSize="22sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/goBackButton" />
 
@@ -56,7 +57,7 @@
         android:id="@+id/addProductDonate"
         android:layout_width="114dp"
         android:layout_height="35dp"
-        android:layout_marginBottom="24dp"
+        android:layout_marginBottom="16dp"
         android:background="@drawable/button_rectangle_rounded"
         android:text="@string/donate"
         android:textColor="#000000"
@@ -86,17 +87,17 @@
         android:id="@+id/name_text_input1"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
-        android:layout_height="180dp"
+        android:layout_height="120dp"
         android:layout_marginStart="5dp"
         android:layout_marginEnd="5dp"
         android:layout_marginBottom="24dp"
         app:errorEnabled="true"
         app:layout_constraintBottom_toTopOf="@+id/addProductDonate"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/searchProductsDonate"
-        app:layout_constraintVertical_bias="0.985">
+        app:layout_constraintVertical_bias="1.0">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/descriptionDonate"
@@ -123,7 +124,7 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/product_list"
         android:layout_width="match_parent"
-        android:layout_height="109dp"
+        android:layout_height="70dp"
         android:layout_margin="10dp"
         app:cardCornerRadius="20dp"
         app:cardElevation="0dp"
@@ -140,7 +141,7 @@
             <TextView
                 android:id="@+id/name_product"
                 android:layout_width="304dp"
-                android:layout_height="53dp"
+                android:layout_height="30dp"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true"
                 android:layout_marginStart="5dp"

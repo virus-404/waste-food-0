@@ -28,7 +28,7 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_marginStart="40dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="28dp"
         android:layout_marginEnd="40dp"
         android:gravity="center_horizontal"
         android:text="@string/selectProduct"
@@ -36,7 +36,7 @@
         android:textColor="@color/colorAccent"
         android:textSize="22sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf=" @+id/goBackButton" />
 
@@ -46,7 +46,7 @@
         android:layout_height="35dp"
         android:layout_marginStart="30dp"
         android:layout_marginEnd="123dp"
-        android:layout_marginBottom="24dp"
+        android:layout_marginBottom="16dp"
         android:background="@drawable/button_rectangle_rounded"
         android:text="@string/sellIt"
         android:textColor="#000000"
@@ -77,26 +77,24 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/name_text_input"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="175dp"
-        android:layout_height="60dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="36dp"
-
+        android:layout_height="40dp"
+        android:layout_marginBottom="8dp"
         app:errorEnabled="true"
+
         app:layout_constraintBottom_toTopOf="@+id/sellProduct"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.838"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintVertical_bias="0.962">
+        app:layout_constraintHorizontal_bias="0.83"
+        app:hintEnabled="false"
+        app:layout_constraintStart_toStartOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/inputPrice"
+            android:paddingTop="12dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:hint="@string/money"
+            android:hint="@string/price"
             android:inputType="numberDecimal" />
-
     </com.google.android.material.textfield.TextInputLayout>
 
     <ImageButton
@@ -114,8 +112,8 @@
     <TextView
         android:id="@+id/textView6"
         android:layout_width="35dp"
-        android:layout_height="60dp"
-        android:layout_marginTop="36dp"
+        android:layout_height="40dp"
+        android:layout_marginBottom="8dp"
         android:gravity="center"
         android:text="@string/euroSymbol"
         android:textColor="@color/colorAccent"
@@ -123,18 +121,16 @@
         app:layout_constraintBottom_toTopOf="@+id/sellProduct"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.989"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/name_text_input1"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/name_text_input1"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
-        android:layout_height="130dp"
+        android:layout_height="100dp"
         android:layout_marginStart="5dp"
         android:layout_marginEnd="5dp"
-        android:layout_marginBottom="36dp"
+        android:layout_marginBottom="12dp"
         app:errorEnabled="true"
         app:layout_constraintBottom_toTopOf="@+id/name_text_input"
         app:layout_constraintEnd_toEndOf="parent"
@@ -168,7 +164,7 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/product_list"
         android:layout_width="match_parent"
-        android:layout_height="109dp"
+        android:layout_height="70dp"
         android:layout_margin="10dp"
         app:cardCornerRadius="20dp"
         app:cardElevation="0dp"
@@ -185,7 +181,7 @@
             <TextView
                 android:id="@+id/name_product"
                 android:layout_width="304dp"
-                android:layout_height="53dp"
+                android:layout_height="30dp"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true"
                 android:layout_marginStart="5dp"

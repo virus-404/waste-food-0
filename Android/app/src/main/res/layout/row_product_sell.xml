@@ -3,11 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="120dp">
+    android:layout_height="80dp">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="109dp"
+        android:layout_height="70dp"
         android:layout_margin="10dp"
         app:cardCornerRadius="20dp"
         app:cardElevation="0dp"
@@ -25,7 +25,7 @@
             <TextView
                 android:id="@+id/name_product"
                 android:layout_width="304dp"
-                android:layout_height="53dp"
+                android:layout_height="30dp"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true"
                 android:layout_marginStart="5dp"
@@ -39,31 +39,30 @@
 
             <TextView
                 android:id="@+id/expirationDate"
-                android:layout_width="304dp"
-                android:layout_height="45dp"
+                android:layout_width="296dp"
+                android:layout_height="19dp"
                 android:layout_below="@+id/name_product"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentBottom="true"
-                android:layout_marginStart="7dp"
-                android:layout_marginTop="-19dp"
-                android:layout_marginEnd="-2dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginEnd="-3dp"
                 android:layout_marginBottom="19dp"
                 android:layout_toEndOf="@+id/image_product"
-                android:text="@string/productDescription" />
+                android:text="@string/expirationDate" />
 
             <TextView
                 android:id="@+id/PriceProd"
-                android:layout_width="304dp"
-                android:layout_height="45dp"
+                android:layout_width="293dp"
+                android:layout_height="18dp"
                 android:layout_below="@+id/name_product"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentBottom="true"
-                android:layout_marginStart="6dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="-1dp"
-                android:layout_marginBottom="-16dp"
-                android:layout_toEndOf="@+id/image_product"
-                android:text="@string/productDescription" />
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="0dp"
+                android:textColor="@color/colorBlack"
+                android:layout_marginBottom="0dp"
+                android:text="@string/price" />
 
             <ImageView
                 android:id="@+id/image_product"

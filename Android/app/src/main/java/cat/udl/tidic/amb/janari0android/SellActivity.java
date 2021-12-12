@@ -13,6 +13,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -110,7 +111,7 @@ public class SellActivity extends AppCompatActivity {
         description.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
+                if (!hasFocus && !inputPrice.hasFocus()) {
                     hideKeyboard(v);
                 }
             }
@@ -137,6 +138,7 @@ public class SellActivity extends AppCompatActivity {
             @Override
             public void onFocusChange(View v, boolean queryTextFocused) {
                 if(!queryTextFocused) {
+                    getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
                     recyclerView.setVisibility(View.GONE);
                     searchProducts.setQuery("", false);
                     searchProducts.clearFocus();
@@ -144,6 +146,7 @@ public class SellActivity extends AppCompatActivity {
                     hideKeyboard(v);
                 }
                 else{
+                    getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
                     recyclerView.setVisibility(View.VISIBLE);
                 }
             }

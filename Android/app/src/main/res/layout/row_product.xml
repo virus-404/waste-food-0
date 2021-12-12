@@ -3,11 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="120dp">
+    android:layout_height="80dp">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="109dp"
+        android:layout_height="70dp"
         android:layout_margin="10dp"
         app:cardCornerRadius="20dp"
         app:cardElevation="0dp"
@@ -25,7 +25,7 @@
             <TextView
                 android:id="@+id/name_product"
                 android:layout_width="304dp"
-                android:layout_height="53dp"
+                android:layout_height="30dp"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true"
                 android:layout_marginStart="5dp"
@@ -48,18 +48,18 @@
                 android:layout_marginEnd="0dp"
                 android:layout_marginBottom="0dp"
                 android:layout_toEndOf="@+id/image_product"
-                android:text="@string/productDescription" />
+                android:text="@string/expirationDate" />
 
             <ImageView
                 android:id="@+id/image_product"
-                android:layout_width="87dp"
-                android:layout_height="91dp"
+                android:layout_width="89dp"
+                android:layout_height="54dp"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentBottom="true"
-                android:layout_marginStart="7dp"
+                android:layout_marginStart="5dp"
                 android:layout_marginTop="8dp"
-                android:layout_marginBottom="10dp"
+                android:layout_marginBottom="8dp"
                 app:srcCompat="@drawable/__2_burger_free_download_png" />
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
