@@ -147,4 +147,6 @@
     <string name="whatIsYourEmail">¿Cuál es tu e-mail?</string>
 
     <string name="wrongPassword">Wrong password</string>
+
+    <string name="prodOnSale">PRODUCTOS EN VENTA: 0</string>
 </resources>
