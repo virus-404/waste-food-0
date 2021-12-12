@@ -66,40 +66,62 @@ public class ListProductsActivity extends AppCompatActivity {
     }
     private void getData(int page) {
         products = new ArrayList<>();
-        Calendar c = Calendar.getInstance();
-        c.add(Calendar.DATE, 7);
-        db.collection("users").document(user.getUid()).collection("products")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.d(TAG, document.getId() + " => " + document.getData());
-                                //products.add(document.toObject(Product.class));
+        if(page!=4) {
+            Calendar c = Calendar.getInstance();
+            c.add(Calendar.DATE, 7);
+            db.collection("users").document(user.getUid()).collection("products")
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    Log.d(TAG, document.getId() + " => " + document.getData());
+                                    //products.add(document.toObject(Product.class));
 
-                                Product p = document.toObject(Product.class);
-                                Calendar cprod = Calendar.getInstance();
-                                cprod.setTime(p.expirationDate);
-                                if(page==1){//to expire
-                                    if (cprod.compareTo(c) <= 0 && cprod.compareTo(Calendar.getInstance()) > 0) {
-                                        products.add(document.toObject(Product.class));
-                                    }
-                                }else if(page==2){//all
-                                    if(cprod.compareTo(Calendar.getInstance()) > 0){
-                                        products.add(document.toObject(Product.class));
-                                    }
-                                }else if(page==3){//expired
-                                    if(cprod.compareTo(Calendar.getInstance()) <= 0){
-                                        products.add(document.toObject(Product.class));
+                                    Product p = document.toObject(Product.class);
+                                    Calendar cprod = Calendar.getInstance();
+                                    cprod.setTime(p.expirationDate);
+                                    if (page == 1) {//to expire
+                                        if (cprod.compareTo(c) <= 0 && cprod.compareTo(Calendar.getInstance()) > 0) {
+                                            products.add(p);
+                                        }
+                                    } else if (page == 2) {//all
+                                        if (cprod.compareTo(Calendar.getInstance()) > 0) {
+                                            products.add(p);
+                                        }
+                                    } else if (page == 3) {//expired
+                                        if (cprod.compareTo(Calendar.getInstance()) <= 0) {
+                                            products.add(p);
+                                        }
                                     }
                                 }
+                                buildRecyclerView();
+                            } else {
+                                Log.d(TAG, "Error getting documents: ", task.getException());
                             }
-                            buildRecyclerView();
-                        } else {
-                            Log.d(TAG, "Error getting documents: ", task.getException());
                         }
-                    }
-                });
+                    });
+        }else{
+
+            db.collection("users").document(user.getUid()).collection("productsSale")
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    Log.d(TAG, document.getId() + " => " + document.getData());
+                                    ProductSale p = document.toObject(ProductSale.class);
+                                    products.add(p.product);
+                                }
+                                buildRecyclerView();
+                            } else {
+                                Log.d(TAG, "Error getting documents: ", task.getException());
+                            }
+                        }
+                    });
+
+        }
     }
 }
