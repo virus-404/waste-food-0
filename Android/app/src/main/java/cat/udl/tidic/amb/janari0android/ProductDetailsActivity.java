@@ -76,10 +76,10 @@ public class ProductDetailsActivity extends AppCompatActivity {
                         carouselView.setImageListener(imageListener);
                         carouselView.setPageCount(productSale.getProduct().getPhotos().size());
                         nameView.setText(productSale.getProduct().getName());
-                        if(productSale.getPrice() == (int) productSale.getPrice())
-                            priceView.setText(currency + String.valueOf((int) productSale.getPrice()));
+                        if(productSale.getPrice().equals("Free"))
+                            priceView.setText(productSale.getPrice());
                         else
-                            priceView.setText(currency + String.valueOf(productSale.getPrice()));
+                            priceView.setText(currency + productSale.getPrice());
                         descriptionView.setText(productSale.getDescription());
                     } else {
                         Log.d(TAG, "No such document");

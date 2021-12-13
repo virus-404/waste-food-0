@@ -111,11 +111,10 @@ public class SellActivity extends AppCompatActivity {
         buildRecyclerView();
         getSearchData();
 
-
         inputPrice.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
+                if (!hasFocus && !description.hasFocus()) {
                     hideKeyboard(v);
                 }
             }
@@ -162,9 +161,8 @@ public class SellActivity extends AppCompatActivity {
                     searchProducts.setIconified(true);
                     hideKeyboard(v);
                 }
-                else{
+                else
                     recyclerView.setVisibility(View.VISIBLE);
-                }
             }
         });
         searchProducts.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -183,9 +181,10 @@ public class SellActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(inputPrice.getText().toString().isEmpty())
-                    inputPrice.setText("0");
+                    inputPrice.setText(R.string.free);
                 FusedLocationProviderClient fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(SellActivity.this);
-                if (ActivityCompat.checkSelfPermission(SellActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(SellActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                if (ActivityCompat.checkSelfPermission(SellActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                        && ActivityCompat.checkSelfPermission(SellActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                     ActivityCompat.requestPermissions(SellActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 44);
                     return;
                 }
@@ -199,12 +198,11 @@ public class SellActivity extends AppCompatActivity {
                                 List<Address> addresses = geocoder.getFromLocation(location.getLatitude(),location.getLongitude(),1);
                                 Toast.makeText(SellActivity.this, addresses.get(0).getAddressLine(0), Toast.LENGTH_SHORT).show();
                                 Address address = addresses.get(0);
-                                String hash = GeoFireUtils.getGeoHashForLocation(new GeoLocation(address.getLatitude(), address.getLongitude()));
-                                geohash = hash;
+                                geohash = GeoFireUtils.getGeoHashForLocation(new GeoLocation(address.getLatitude(), address.getLongitude()));
                                 lat = address.getLatitude();
                                 lon = address.getLongitude();
 
-                                productSale = new ProductSale(product,String.valueOf(description.getText()),Float.parseFloat(inputPrice.getText().toString()),geohash,lat,lon);
+                                productSale = new ProductSale(product,String.valueOf(description.getText()),inputPrice.getText().toString(),geohash,lat,lon);
                                 // Saving in a place that user can access
                                 db.collection("users").document(user.getUid()).collection("productsSale").document(product.getName())
                                         .set(productSale)
@@ -251,7 +249,6 @@ public class SellActivity extends AppCompatActivity {
                                                 Log.w(TAG, "Error writing document", e);
                                             }
                                         });
-
                                 showProductDetails(productSale);
                                 finish();
                             } catch (IOException e) {
@@ -260,16 +257,9 @@ public class SellActivity extends AppCompatActivity {
                         }
                     }
                 });
-
-
             }
         });
     }
-
-    private void getLocation() {
-
-    }
-
     private void showProductDetails(ProductSale productSale) {
         Intent intent = new Intent(SellActivity.this, ProductDetailsActivity.class);
         intent.putExtra("name", productSale.getProduct().getName());

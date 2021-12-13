@@ -7,10 +7,10 @@ import java.util.List;
 public class ProductSale {
     Product product;
     String description = "Default description";
-    float price = 0;
+    String price;
     String geohash;
     double lat,lon;
-    public ProductSale(Product product, String description, float price, String geohash, double lat, double lon) {
+    public ProductSale(Product product, String description, String price, String geohash, double lat, double lon) {
         this.product = product;
         this.description = description;
         this.price=price;
@@ -18,7 +18,7 @@ public class ProductSale {
         this.lat = lat;
         this.lon = lon;
     }
-    public ProductSale(Product product, String description, float price) {
+    public ProductSale(Product product, String description, String price) {
         this.product = product;
         this.description = description;
         this.price=price;
@@ -36,7 +36,7 @@ public class ProductSale {
     public Product getProduct() {
         return product;
     }
-    public float getPrice() {
+    public String getPrice() {
         return price;
     }
 
