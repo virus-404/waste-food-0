@@ -50,6 +50,15 @@ public class AddStockProductNameActivity extends AppCompatActivity {
         go_back = findViewById(R.id.goBackButton);
         name = findViewById(R.id.addProductName);
         next = findViewById(R.id.next);
+
+
+        //Bundle extras = getIntent().getExtras();
+        //boolean d2 = extras.
+
+
+
+            recibeData();
+
         go_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -103,6 +112,21 @@ public class AddStockProductNameActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void recibeData() {
+        Bundle extras = getIntent().getExtras();
+
+        if (extras!=null){
+            String d1 = extras.getString("data01");
+            name.setText(d1);
+        }
+
+
+
+
+
+    }
+
     public void hideKeyboard(View view) {
         InputMethodManager inputMethodManager =(InputMethodManager)getSystemService(Activity.INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);

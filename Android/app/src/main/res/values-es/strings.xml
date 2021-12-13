@@ -118,6 +118,10 @@
 
     <string name="scan">Tomar foto</string>
 
+    <string name="scan2">escaneo de codigo</string>
+
+    <string name="scanPage">Lector de codigos</string>
+
     <string name="searchHint">Buscar productos</string>
 
     <string name="searchProduct"> buscar un producto</string>
@@ -162,4 +166,11 @@
     <string name="layoutEditProfile">Editar perfil</string>
     <string name="ExpDateListProd">Fecha caducidad: </string>
     <string name="PriceListProd">Precio: </string>
+    <string name="products">Productos</string>
+    <string name="articles">Articulos</string>
+    <string name="freshProducts">Productos frescos</string>
+    <string name="fresh">Fresco</string>
+    <string name="expiredProducts">Productos expirados</string>
+    <string name="allArticles">Todos los articulos</string>
+    <string name="price">Precio</string>
 </resources>

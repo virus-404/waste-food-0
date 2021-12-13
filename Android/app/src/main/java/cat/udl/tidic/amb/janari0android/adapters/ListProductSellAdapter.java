@@ -1,11 +1,15 @@
 package cat.udl.tidic.amb.janari0android.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,7 +21,11 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Locale;
 
+import cat.udl.tidic.amb.janari0android.AddStockProductNameActivity;
+import cat.udl.tidic.amb.janari0android.ListProductsActivity;
+import cat.udl.tidic.amb.janari0android.MainActivity;
 import cat.udl.tidic.amb.janari0android.Product;
+import cat.udl.tidic.amb.janari0android.ProductDetailsActivity;
 import cat.udl.tidic.amb.janari0android.ProductSale;
 import cat.udl.tidic.amb.janari0android.R;
 
@@ -25,6 +33,16 @@ public class ListProductSellAdapter extends RecyclerView.Adapter<ListProductSell
 
     Context context;
     ArrayList<ProductSale> products = new ArrayList<>() ;
+    OnItemClickListener Listener;
+
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        Listener = onItemClickListener;
+    }
+
+    public interface OnItemClickListener {
+        void onClickProduct(int position);
+    }
 
     public ListProductSellAdapter(ArrayList<ProductSale> products, Context context){
         this.products = products;
@@ -36,7 +54,7 @@ public class ListProductSellAdapter extends RecyclerView.Adapter<ListProductSell
     public ListProductSellViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_product_sell,parent,false);
 
-        return new ListProductSellViewHolder(view);
+        return new ListProductSellViewHolder(view, Listener);
     }
 
     @Override
@@ -65,12 +83,26 @@ public class ListProductSellAdapter extends RecyclerView.Adapter<ListProductSell
     public class ListProductSellViewHolder extends RecyclerView.ViewHolder {
         ImageView image;
         TextView name, expDate, price, description;
-        public ListProductSellViewHolder(@NonNull View itemView) {
+        RelativeLayout allbutton;
+        public ListProductSellViewHolder(@NonNull View itemView, final ListProductSellAdapter.OnItemClickListener listener) {
             super(itemView);
             image = itemView.findViewById(R.id.image_product);
             name = itemView.findViewById(R.id.name_product);
             expDate = itemView.findViewById(R.id.expirationDate);
             price = itemView.findViewById(R.id.PriceProd);
+            allbutton = itemView.findViewById(R.id.product_list);
+
+            allbutton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (listener != null) {
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            listener.onClickProduct(position);
+                        }
+                    }
+                }
+            });
         }
 
 
