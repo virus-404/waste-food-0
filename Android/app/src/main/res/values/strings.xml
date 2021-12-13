@@ -118,6 +118,10 @@
 
     <string name="scan">Take Photo</string>
 
+    <string name="scan2">Scan Code</string>
+
+    <string name="scanPage">Scan</string>
+
     <string name="searchHint">Search Products</string>
 
     <string name="searchProduct"> Search a product</string>

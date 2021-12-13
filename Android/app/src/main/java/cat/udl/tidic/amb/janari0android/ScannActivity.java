@@ -35,6 +35,7 @@ import java.util.ArrayList;
 
 public class ScannActivity extends AppCompatActivity {
     private Button buttonScan;
+    private ImageButton backButton;
     private TextView Resultado;
 
 
@@ -44,8 +45,17 @@ public class ScannActivity extends AppCompatActivity {
         setContentView(R.layout.activity_scan);
         buttonScan = findViewById(R.id.ScanBtn);
         Resultado = findViewById(R.id.texScan);
+        backButton = findViewById(R.id.goBackButton);
 
         buttonScan.setOnClickListener(mOnClickListener);
+
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ScannActivity.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
 
     }
 
@@ -66,12 +76,22 @@ public class ScannActivity extends AppCompatActivity {
         public void onClick(View v) {
             switch (v.getId()){
                 case R.id.ScanBtn:
-                    new IntentIntegrator(ScannActivity.this).initiateScan();
+                    IntentIntegrator integrador = new IntentIntegrator(ScannActivity.this);
+                    integrador.setDesiredBarcodeFormats(IntentIntegrator.ALL_CODE_TYPES);
+                    integrador.setPrompt("lector");
+                    integrador.setCameraId(0);
+                    integrador.setBeepEnabled(true);
+                    integrador.setBarcodeImageEnabled(true);
+                    integrador.initiateScan();
+
+
                     break;
             }
 
         }
     };
+
+
 
 }
 
