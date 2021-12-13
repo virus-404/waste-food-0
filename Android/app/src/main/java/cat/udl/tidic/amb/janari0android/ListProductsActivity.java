@@ -24,6 +24,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import cat.udl.tidic.amb.janari0android.adapters.AddStockAdapter;
 import cat.udl.tidic.amb.janari0android.adapters.ListProductAdapter;
 import cat.udl.tidic.amb.janari0android.adapters.ListProductSellAdapter;
 import cat.udl.tidic.amb.janari0android.adapters.SearchStockAdapter;
@@ -80,6 +81,14 @@ public class ListProductsActivity extends AppCompatActivity {
             listProductSellAdapter = new ListProductSellAdapter(productsSale, this);
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
             recyclerView.setAdapter(listProductSellAdapter);
+            listProductSellAdapter.setOnItemClickListener(new ListProductSellAdapter.OnItemClickListener() {
+                @Override
+                public void onClickProduct(int position) {
+                    Intent intent = new Intent(ListProductsActivity.this, ProductDetailsActivity.class);
+                    intent.putExtra("name", productsSale.get(position).getProduct().getName());
+                    startActivity(intent);
+                }
+            });
         }
         else {
             recyclerView = findViewById(R.id.list_productRecycler);
