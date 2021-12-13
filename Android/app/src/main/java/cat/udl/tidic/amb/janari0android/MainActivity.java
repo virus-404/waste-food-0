@@ -4,12 +4,14 @@ package cat.udl.tidic.amb.janari0android;
 import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.CompositePageTransformer;
 import androidx.viewpager2.widget.MarginPageTransformer;
 import androidx.viewpager2.widget.ViewPager2;
 
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
@@ -19,6 +21,9 @@ import android.content.pm.PackageManager;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -39,23 +44,37 @@ import androidx.viewpager2.widget.ViewPager2;
 import android.widget.SearchView;
 import android.widget.Toast;
 
+import com.firebase.geofire.GeoFireUtils;
+import com.firebase.geofire.GeoLocation;
+import com.firebase.geofire.GeoQueryBounds;
 import com.getkeepsafe.taptargetview.TapTarget;
 import com.getkeepsafe.taptargetview.TapTargetSequence;
 import com.getkeepsafe.taptargetview.TapTargetView;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Tasks;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.SetOptions;
 import com.google.type.DateTime;
 import com.google.zxing.common.StringUtils;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 import cat.udl.tidic.amb.janari0android.adapters.SliderAdapter;
 import io.grpc.Context;
@@ -63,29 +82,25 @@ import io.grpc.Context;
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "bakedbeans";
-    private FirebaseAuth auth = FirebaseAuth.getInstance();;
-
+    private FirebaseAuth auth = FirebaseAuth.getInstance();
+    ;
     private static final int PERMISSION_CODE = 1000;
     private static final int IMAGE_CAPTURE_CODE = 1001;
-
     private Button mCaptureBtn;
-
-    private ImageView mImageView;
-    SearchView search;
-
+    private ImageView mImageView, gps;
+    private SearchView search;
     private FloatingActionButton open, give, add, sell;
-
     private Button list, profile, list2, list3, help;
-
     private boolean visibleFloatingButton = false;
     private ViewPager2 viewPager2;
     private Handler sliderHandler = new Handler();
     private ArrayList<ProductSale> products = new ArrayList<>();
     private List<ProductSale> sliderItems = new ArrayList<>();
     private SliderAdapter sliderAdapter;
-    Uri image_uri;
+    private ProductSale productSale;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    FusedLocationProviderClient fusedLocationProviderClient;
 
     @SuppressLint("WrongViewCast")
     @Override
@@ -93,9 +108,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setTheme(R.style.AppTheme);
         // Check if user is signed in (non-null) and update UI accordingly.
-
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         auth = FirebaseAuth.getInstance();
- 
+
         if (auth.getCurrentUser() == null) {
             Intent i = new Intent(this, LoginActivity.class);
             startActivity(i);
@@ -128,10 +143,7 @@ public class MainActivity extends AppCompatActivity {
         viewPager2 = findViewById(R.id.viewpager2_layout2);
         mCaptureBtn = findViewById(R.id.toolbarMenuButton);
         help = findViewById(R.id.toolbarHelpbottom);
-
-
-
-
+        gps = findViewById(R.id.gps);
 
 
         open.setOnClickListener(new View.OnClickListener() {
@@ -216,17 +228,25 @@ public class MainActivity extends AppCompatActivity {
                 tarjetaPrueba2();
             }
         });
+        gps.setOnClickListener(new View.OnClickListener() {//expired
+            @Override
+            public void onClick(View v) {
+                if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)
+                    getLocation();
+                else
+                    ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 44);
+            }
 
+        });
+        getLocation();
         // for the firs time , do the tutorial
-        SharedPreferences prefs = getSharedPreferences("prefs",MODE_PRIVATE);
-        boolean firstTime = prefs.getBoolean("firstTime",true);
-        if (firstTime){
-           //onPause();
+        SharedPreferences prefs = getSharedPreferences("prefs", MODE_PRIVATE);
+        boolean firstTime = prefs.getBoolean("firstTime", true);
+        if (firstTime) {
+            //onPause();
             tarjetaPrueba2();
         }
 
-
-        getSliderData();
         List<ProductSale> sliderItems = products;
         sliderAdapter = new SliderAdapter(sliderItems, viewPager2, this);
         viewPager2.setAdapter(sliderAdapter);
@@ -271,15 +291,15 @@ public class MainActivity extends AppCompatActivity {
                 int num_products_all = 0;
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot document : task.getResult()) {
-                        Log.d(TAG,document.getId() + " => " + document.getData());
+                        Log.d(TAG, document.getId() + " => " + document.getData());
                         Product p = document.toObject(Product.class);
                         Calendar cprod = Calendar.getInstance();
                         cprod.setTime(p.expirationDate);
-                        if (cprod.compareTo(c) <= 0 && cprod.compareTo(Calendar.getInstance()) > 0){
-                            num_products_toexpire ++;
-                        }else if(cprod.compareTo(Calendar.getInstance()) <= 0){
-                            num_products_expired ++;
-                        }else {
+                        if (cprod.compareTo(c) <= 0 && cprod.compareTo(Calendar.getInstance()) > 0) {
+                            num_products_toexpire++;
+                        } else if (cprod.compareTo(Calendar.getInstance()) <= 0) {
+                            num_products_expired++;
+                        } else {
                             num_products_all++;
                         }
                     }
@@ -287,7 +307,7 @@ public class MainActivity extends AppCompatActivity {
                     //int number_products = task.getResult().getDocumentChanges().size();
                     list.setText(String.valueOf(num_products_toexpire));
                     list3.setText(String.valueOf(num_products_expired));
-                    list2.setText(String.valueOf(num_products_all+num_products_toexpire));
+                    list2.setText(String.valueOf(num_products_all + num_products_toexpire));
 
                 } else {
                     Log.d(TAG, "Error getting documents: ", task.getException());
@@ -296,8 +316,105 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    private void getLocation() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 44);
+            return;
+        }
+        fusedLocationProviderClient.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
+            @Override
+            public void onComplete(@NonNull Task<Location> task) {
+                Location location = task.getResult();
+                if(location!=null) {
+                    Geocoder geocoder = new Geocoder(MainActivity.this, Locale.getDefault());
+                    try {
+                        List<Address> addresses = geocoder.getFromLocation(location.getLatitude(),location.getLongitude(),1);
+                        Toast.makeText(MainActivity.this, addresses.get(0).getAddressLine(0), Toast.LENGTH_SHORT).show();
+                        Address address = addresses.get(0);
+                        String hash = GeoFireUtils.getGeoHashForLocation(new GeoLocation(address.getLatitude(), address.getLongitude()));
+                        Map<String, Object> updates = new HashMap<>();
+                        updates.put("geohash", hash);
+                        updates.put("lat", address.getLatitude());
+                        updates.put("lon", address.getLongitude());
+                        db.collection("users").document(user.getUid()).update(updates)
+                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        Log.d(TAG,"Address successfully updated");
+                                        getSliderData();
+                                    }
+                                });
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+    }
+
     private void getSliderData() {
-        db.collection("productsSale")
+        products.clear();
+        db.collection("users").document(user.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if(task.isSuccessful()){
+                    DocumentSnapshot document = task.getResult();
+                    String geohash = (String) document.get("geohash");
+                    double lat = (double) document.get("lat",double.class);
+                    double lon = (double) document.get("lon", double.class);
+                    final GeoLocation center = new GeoLocation(lat, lon);
+                    final double radiusInM = 30 * 1000;
+                    // Each item in 'bounds' represents a startAt/endAt pair. We have to issue
+                    // a separate query for each pair. There can be up to 9 pairs of bounds
+                    // depending on overlap, but in most cases there are 4.
+                    List<GeoQueryBounds> bounds = GeoFireUtils.getGeoHashQueryBounds(center, radiusInM);
+                    final List<Task<QuerySnapshot>> tasks = new ArrayList<>();
+                    for (GeoQueryBounds b : bounds) {
+                        Query q = db.collection("productsSale")
+                                .orderBy("geohash")
+                                .startAt(b.startHash)
+                                .endAt(b.endHash);
+
+                        tasks.add(q.get());
+                    }
+
+                    // Collect all the query results together into a single list
+                    Tasks.whenAllComplete(tasks)
+                            .addOnCompleteListener(new OnCompleteListener<List<Task<?>>>() {
+                                @Override
+                                public void onComplete(@NonNull Task<List<Task<?>>> t) {
+                                    List<DocumentSnapshot> matchingDocs = new ArrayList<>();
+
+                                    for (Task<QuerySnapshot> task : tasks) {
+                                        QuerySnapshot snap = task.getResult();
+                                        for (DocumentSnapshot doc : snap.getDocuments()) {
+                                            double lat = doc.getDouble("lat");
+                                            double lon = doc.getDouble("lon");
+
+                                            // We have to filter out a few false positives due to GeoHash
+                                            // accuracy, but most will match
+                                            GeoLocation docLocation = new GeoLocation(lat, lon);
+                                            double distanceInM = GeoFireUtils.getDistanceBetween(docLocation, center);
+                                            if (distanceInM <= radiusInM) {
+                                                matchingDocs.add(doc);
+                                            }
+                                        }
+                                    }
+
+                                    // matchingDocs contains the results
+                                    // ...
+                                    for(DocumentSnapshot doc : matchingDocs){
+                                        products.add(doc.toObject(ProductSale.class));
+                                    }
+                                    Log.d(TAG, String.valueOf(products.size()));
+                                    sliderItems = products;
+                                    viewPager2.setAdapter(sliderAdapter);
+                                }
+                            });
+                }
+            }
+        });
+        /*db.collection("productsSale")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -305,15 +422,16 @@ public class MainActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Log.d(TAG, document.getId() + " => " + document.getData());
+                                productSale = document.toObject(ProductSale.class);
+                                final GeoLocation center = new GeoLocation(51.5074, 0.1278);
+                                final double radiusInM = 3 * 1000;
                                 products.add(document.toObject(ProductSale.class));
                             }
-                            sliderItems = products;
-                            viewPager2.setAdapter(sliderAdapter);
                         } else {
                             Log.d(TAG, "Error getting documents: ", task.getException());
                         }
                     }
-                });
+                });*/
     }
 
     private Runnable sliderRunnable = new Runnable() {
@@ -331,6 +449,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         sliderHandler.postDelayed(sliderRunnable, 3000);
+        getSliderData();
     }
     public void hideKeyboard(View view) {
         InputMethodManager inputMethodManager =(InputMethodManager)getSystemService(Activity.INPUT_METHOD_SERVICE);
