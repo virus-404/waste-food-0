@@ -337,6 +337,7 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         sliderHandler.postDelayed(sliderRunnable, 3000);
         getLocation();
+        showProductsInfo();
     }
     private void tarjetaPrueba2() {
         give.setVisibility(View.VISIBLE);
@@ -501,7 +502,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                     list.setText(String.valueOf(num_products_toexpire));
                     list3.setText(String.valueOf(num_products_expired));
-                    list2.setText(String.valueOf(num_products_all + num_products_toexpire));
+                    list2.setText(String.valueOf(num_products_all));
                 } else
                     Log.d(TAG, "Error getting documents: ", task.getException());
             }

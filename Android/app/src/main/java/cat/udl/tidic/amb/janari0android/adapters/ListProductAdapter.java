@@ -24,18 +24,24 @@ public class ListProductAdapter extends RecyclerView.Adapter<ListProductAdapter.
 
     Context context;
     ArrayList<Product> products = new ArrayList<>() ;
+    OnItemClickListener Listener;
 
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        Listener = onItemClickListener;
+    }
+    public interface OnItemClickListener {
+        void onDeleteClick(int position);
+    }
     public ListProductAdapter(ArrayList<Product> products, Context context){
         this.products = products;
         this.context = context;
-
     }
     @NonNull
     @Override
     public ListProductViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_product,parent,false);
 
-        return new ListProductViewHolder(view);
+        return new ListProductViewHolder(view, Listener);
     }
 
     @Override
@@ -50,7 +56,7 @@ public class ListProductAdapter extends RecyclerView.Adapter<ListProductAdapter.
         }
         holder.name.setText(product.getName());
         DateFormat fmt = new SimpleDateFormat("dd MMM yyyy", Locale.US);
-        holder.expDate.setText("Expiration date: " + fmt.format(product.getExpirationDate()));
+        holder.expDate.setText(R.string.ExpDateListProd + fmt.format(product.getExpirationDate()));
     }
 
     @Override
@@ -59,13 +65,26 @@ public class ListProductAdapter extends RecyclerView.Adapter<ListProductAdapter.
     }
 
     public class ListProductViewHolder extends RecyclerView.ViewHolder {
-        ImageView image;
+        ImageView image, delete;
         TextView name, expDate;
-        public ListProductViewHolder(@NonNull View itemView) {
+        public ListProductViewHolder(@NonNull View itemView, final ListProductAdapter.OnItemClickListener listener) {
             super(itemView);
             image = itemView.findViewById(R.id.image_product);
             name = itemView.findViewById(R.id.name_product);
             expDate = itemView.findViewById(R.id.expirationDate);
+            delete = itemView.findViewById(R.id.productInfoDelete);
+
+            delete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (listener != null) {
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            listener.onDeleteClick(position);
+                        }
+                    }
+                }
+            });
         }
 
 

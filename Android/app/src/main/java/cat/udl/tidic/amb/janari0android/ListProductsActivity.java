@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,10 +15,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -40,7 +45,6 @@ public class ListProductsActivity extends AppCompatActivity {
     TextView title, titleProducts;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-    //
     ImageButton goBack;
 
     @Override
@@ -95,7 +99,74 @@ public class ListProductsActivity extends AppCompatActivity {
             listProductAdapter = new ListProductAdapter(products, this);
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
             recyclerView.setAdapter(listProductAdapter);
+            listProductAdapter.setOnItemClickListener(new ListProductAdapter.OnItemClickListener() {
+                @Override
+                public void onDeleteClick(int position) {
+                    removeItem(position);
+                }
+            });
         }
+    }
+    public void removeItem(int position) {
+        Query qProducts = db.collection("products").whereEqualTo("name", products.get(position).getName());
+        Query qProductsUser = db.collection("users").document(user.getUid()).collection("products").whereEqualTo("name",products.get(position).getName());
+        qProducts.limit(1).get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            boolean isEmpty = task.getResult().isEmpty();
+                            if (isEmpty) {
+                                Toast.makeText(ListProductsActivity.this, "Error", Toast.LENGTH_SHORT).show();
+                            }
+                            else {
+                                DocumentSnapshot doc = task.getResult().getDocuments().get(0);
+                                doc.getReference().delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Log.d(TAG, "DocumentSnapshot successfully deleted!");
+                                    }
+                                })
+                                        .addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                Log.w(TAG, "Error deleting document", e);
+                                            }
+                                        });
+                            }
+                        }
+                    }
+                });
+        qProductsUser.limit(1).get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            boolean isEmpty = task.getResult().isEmpty();
+                            if (isEmpty) {
+                                Toast.makeText(ListProductsActivity.this, "Error", Toast.LENGTH_SHORT).show();
+                            }
+                            else {
+                                DocumentSnapshot doc = task.getResult().getDocuments().get(0);
+                                doc.getReference().delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Log.d(TAG, "DocumentSnapshot successfully deleted!");
+                                        products.remove(position);
+                                        listProductAdapter.notifyItemRemoved(position);
+                                        Toast.makeText(ListProductsActivity.this,R.string.productDeleted,Toast.LENGTH_SHORT).show();
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                Log.w(TAG, "Error deleting document", e);
+                                            }
+                                        });
+                            }
+                        }
+                    }
+                });
+
     }
     private void getData(int page) {
         products = new ArrayList<>();
