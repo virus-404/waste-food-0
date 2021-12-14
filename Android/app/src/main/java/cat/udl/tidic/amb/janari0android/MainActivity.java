@@ -33,6 +33,7 @@ import android.widget.ImageView;
 
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.firebase.geofire.GeoFireUtils;
 import com.firebase.geofire.GeoLocation;
 import com.firebase.geofire.GeoQueryBounds;
@@ -54,6 +55,8 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.type.DateTime;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -61,6 +64,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import cat.udl.tidic.amb.janari0android.adapters.SearchStockAdapter;
 import cat.udl.tidic.amb.janari0android.adapters.SliderAdapter;
 
 public class MainActivity extends AppCompatActivity {
@@ -75,7 +79,6 @@ public class MainActivity extends AppCompatActivity {
     private ViewPager2 saleSection;
     private final Handler sliderHandler = new Handler();
     private final ArrayList<ProductSale> products = new ArrayList<>();
-    private List<ProductSale> sliderItems = new ArrayList<>();
     private SliderAdapter sliderAdapter;
     FirebaseAuth auth = FirebaseAuth.getInstance();
     FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -143,6 +146,14 @@ public class MainActivity extends AppCompatActivity {
                 super.onPageSelected(position);
                 sliderHandler.removeCallbacks(sliderRunnable);
                 sliderHandler.postDelayed(sliderRunnable, 3000); //Slide duration
+            }
+        });
+        sliderAdapter.setOnItemClickListener(new SliderAdapter.OnItemClickListener() {
+            @Override
+            public void onClickProduct(int position) {
+                Intent intent = new Intent(MainActivity.this, ProductDetailsActivity.class);
+                intent.putExtra("name", products.get(position).getProduct().getName());
+                startActivity(intent);
             }
         });
     }

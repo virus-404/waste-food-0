@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.bumptech.glide.Glide;
+import com.google.android.material.slider.Slider;
 
 import java.util.List;
 
@@ -24,12 +25,20 @@ public class SliderAdapter extends RecyclerView.Adapter <SliderAdapter.SliderVie
     private List<ProductSale> sliderItems;
     private ViewPager2 viewPager2;
     private Context context;
+    SliderAdapter.OnItemClickListener listener;
+
+
+    public void setOnItemClickListener(SliderAdapter.OnItemClickListener onItemClickListener) {
+        listener = onItemClickListener;
+    }
+    public interface OnItemClickListener {
+        void onClickProduct(int position);
+    }
     public SliderAdapter(List<ProductSale> sliderItems, ViewPager2 viewPager2, Context context) {
         this.sliderItems = sliderItems;
         this.viewPager2 = viewPager2;
         this.context = context;
     }
-
     @NonNull
     @Override
     public SliderViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -80,6 +89,17 @@ public class SliderAdapter extends RecyclerView.Adapter <SliderAdapter.SliderVie
             product_name = itemView.findViewById(R.id.name_product);
             product_price = itemView.findViewById(R.id.price_product);
             product_description = itemView.findViewById(R.id.description_product);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (listener != null) {
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            listener.onClickProduct(position);
+                        }
+                    }
+                }
+            });
         }
         void setName(ProductSale setDataSliderProducts){
             product_name.setText(setDataSliderProducts.getProduct().getName());
