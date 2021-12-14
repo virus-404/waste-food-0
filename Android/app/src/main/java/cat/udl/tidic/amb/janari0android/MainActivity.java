@@ -39,6 +39,12 @@ import com.firebase.geofire.GeoLocation;
 import com.firebase.geofire.GeoQueryBounds;
 import com.getkeepsafe.taptargetview.TapTarget;
 import com.getkeepsafe.taptargetview.TapTargetSequence;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -80,6 +86,8 @@ public class MainActivity extends AppCompatActivity {
     private final Handler sliderHandler = new Handler();
     private final ArrayList<ProductSale> products = new ArrayList<>();
     private SliderAdapter sliderAdapter;
+    private AdView mAdView;
+
     FirebaseAuth auth = FirebaseAuth.getInstance();
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -111,6 +119,16 @@ public class MainActivity extends AppCompatActivity {
 
         setOnClickListeners();
 
+        MobileAds.initialize(this, new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(InitializationStatus initializationStatus) {
+            }
+        });
+
+        mAdView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+
         // Get location of the user and show him the products nearby
         getLocation();
         showProductsInfo();
@@ -126,7 +144,7 @@ public class MainActivity extends AppCompatActivity {
         saleSection.setAdapter(sliderAdapter);
         saleSection.setClipToPadding(false);
         saleSection.setClipChildren(false);
-        saleSection.setOffscreenPageLimit(3);
+        saleSection.setOffscreenPageLimit(4);
         saleSection.getChildAt(0).setOverScrollMode(RecyclerView.OVER_SCROLL_NEVER);
         CompositePageTransformer compositePageTransformer = new CompositePageTransformer();
         compositePageTransformer.addTransformer(new MarginPageTransformer(40));

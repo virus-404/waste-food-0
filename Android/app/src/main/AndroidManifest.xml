@@ -33,8 +33,11 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths"></meta-data>
+                android:resource="@xml/file_paths" />
         </provider>
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-6927179423834926~5629011915"/>
         <activity android:name=".MainActivity"
             android:exported="true"
             android:windowSoftInputMode="adjustPan">

@@ -175,5 +175,6 @@
     <string name="settings">Settings</string>
     <string name="language">Language</string>
     <string name="yourGroceries">Your groceries</string>
+    <string name="recommended">Recommended</string>
     <string name="productDeleted">Product deleted</string>
 </resources>

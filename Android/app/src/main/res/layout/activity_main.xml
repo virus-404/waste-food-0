@@ -19,7 +19,7 @@
         app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.57"
+        app:layout_constraintVertical_bias="0.566"
         app:srcCompat="@drawable/background" />
 
     <ImageView
@@ -209,17 +209,6 @@
         app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
 
-    <View
-        android:id="@+id/divider2"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="72dp"
-        android:background="?android:attr/listDivider"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/numberItems" />
-
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/floatingButtonSell"
         android:layout_width="45dp"
@@ -270,19 +259,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginRight="25dp"
-        android:layout_marginBottom="25dp"
-        android:layout_marginEnd="25dp"
-        app:maxImageSize="36dp"
-        app:srcCompat="@drawable/ic_baseline_add_36"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="92dp"
         app:backgroundTint="@color/colorPrimaryDark"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:maxImageSize="36dp"
+        app:srcCompat="@drawable/ic_baseline_add_36" />
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewpager2_layout2"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="250dp"
+        android:layout_marginBottom="200dp"
         android:paddingStart="80dp"
         android:paddingEnd="80dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -291,7 +280,32 @@
         app:layout_constraintStart_toStartOf="parent" >
     </androidx.viewpager2.widget.ViewPager2>
 
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/adView"
+        android:layout_width="wrap_content"
+        android:layout_height="70dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        app:adSize="SMART_BANNER"
+        app:adUnitId="ca-app-pub-3940256099942544/6300978111"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
 
+    <TextView
+        android:id="@+id/textView12"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="64dp"
+        android:text="@string/recommended"
+        android:fontFamily="@font/roboto_medium"
+        android:textColor="@color/colorBlack"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.055"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/numberItems2" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
