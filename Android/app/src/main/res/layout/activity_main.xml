@@ -8,19 +8,74 @@
     android:layout_height="match_parent"
     android:background="@color/colorOffWhite">
 
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="772dp"
+        android:layout_height="1051dp"
+        android:alpha="0.04"
+        android:elevation="-100dp"
+        app:layout_constraintBottom_toBottomOf="@+id/viewpager2_layout2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.57"
+        app:srcCompat="@drawable/background" />
+
+    <ImageView
+        android:id="@+id/imageView6"
+        android:layout_width="690dp"
+        android:layout_height="78dp"
+        android:elevation="-99dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/rectangle_top_main_page" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/numberItems3"
-        android:layout_width="120dp"
+        android:layout_width="90dp"
         android:layout_height="90dp"
         android:layout_gravity="start"
         android:layout_marginTop="28dp"
-        android:background="@drawable/r_number_products"
+        android:background="@drawable/circle_button_main_red"
         android:text="0"
         android:textColor="@color/Redmain"
         android:textSize="40sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.93"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/numberItems"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:layout_gravity="start"
+        android:layout_marginTop="28dp"
+        android:background="@drawable/circle_button_main_yellow"
+        android:text="0"
+        android:textColor="@color/Yellowmain"
+        android:textSize="40sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/numberItems2"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:layout_gravity="start"
+        android:layout_marginTop="28dp"
+        android:background="@drawable/circle_button_main_green"
+        android:text="0"
+        android:textColor="@color/colorPrimary"
+        android:textSize="40sp"
+        app:layout_constraintEnd_toStartOf="@+id/numberItems"
+        app:layout_constraintHorizontal_bias="0.277"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
@@ -147,41 +202,13 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:text="@string/oneWeek"
-        android:textColor="@color/Yellowmain"
+        android:textColor="@color/colorAccent"
         android:textSize="9sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/numberItems"
-        android:layout_width="120dp"
-        android:layout_height="90dp"
-        android:layout_gravity="start"
-        android:layout_marginTop="28dp"
-        android:background="@drawable/y_number_products"
-        android:text="0"
-        android:textColor="@color/Yellowmain"
-        android:textSize="40sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
-    <Button
-        android:id="@+id/numberItems2"
-        android:layout_width="120dp"
-        android:layout_height="90dp"
-        android:layout_gravity="start"
-        android:layout_marginTop="28dp"
-        android:background="@drawable/number_products"
-        android:text="0"
-        android:textColor="@color/colorPrimary"
-        android:textSize="40sp"
-        app:layout_constraintEnd_toStartOf="@+id/numberItems"
-        app:layout_constraintHorizontal_bias="0.04"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4" />
     <View
         android:id="@+id/divider2"
         android:layout_width="match_parent"
@@ -263,6 +290,8 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent" >
     </androidx.viewpager2.widget.ViewPager2>
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
