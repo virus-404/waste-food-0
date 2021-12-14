@@ -2,14 +2,9 @@ package cat.udl.tidic.amb.janari0android;
 
 import static androidx.core.view.MenuItemCompat.collapseActionView;
 
-import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Typeface;
-import android.location.Address;
-import android.location.Geocoder;
-import android.location.Location;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.Log;
@@ -33,18 +28,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
-import androidx.core.app.ActivityCompat;
 import androidx.core.view.MenuItemCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.firebase.geofire.GeoFireUtils;
-import com.firebase.geofire.GeoLocation;
 import com.getkeepsafe.taptargetview.TapTarget;
 import com.getkeepsafe.taptargetview.TapTargetView;
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -59,15 +49,11 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.io.IOException;
-import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 import java.util.Objects;
 
 import cat.udl.tidic.amb.janari0android.adapters.AddStockAdapter;
@@ -89,11 +75,7 @@ public class SellActivity extends AppCompatActivity {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     Product product = null;
-    ProductSale productSale;
     String expirationDateString = "Expiration date: ";
-    String geohash = "";
-    double lat = 0;
-    double lon = 0;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -111,10 +93,11 @@ public class SellActivity extends AppCompatActivity {
         buildRecyclerView();
         getSearchData();
 
+
         inputPrice.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus && !description.hasFocus()) {
+                if (!hasFocus) {
                     hideKeyboard(v);
                 }
             }
@@ -161,8 +144,9 @@ public class SellActivity extends AppCompatActivity {
                     searchProducts.setIconified(true);
                     hideKeyboard(v);
                 }
-                else
+                else{
                     recyclerView.setVisibility(View.VISIBLE);
+                }
             }
         });
         searchProducts.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -181,85 +165,62 @@ public class SellActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(inputPrice.getText().toString().isEmpty())
-                    inputPrice.setText(R.string.free);
-                FusedLocationProviderClient fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(SellActivity.this);
-                if (ActivityCompat.checkSelfPermission(SellActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                        && ActivityCompat.checkSelfPermission(SellActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                    ActivityCompat.requestPermissions(SellActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 44);
-                    return;
-                }
-                fusedLocationProviderClient.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Location> task) {
-                        Location location = task.getResult();
-                        if(location!=null) {
-                            Geocoder geocoder = new Geocoder(SellActivity.this, Locale.getDefault());
-                            try {
-                                List<Address> addresses = geocoder.getFromLocation(location.getLatitude(),location.getLongitude(),1);
-                                Toast.makeText(SellActivity.this, addresses.get(0).getAddressLine(0), Toast.LENGTH_SHORT).show();
-                                Address address = addresses.get(0);
-                                geohash = GeoFireUtils.getGeoHashForLocation(new GeoLocation(address.getLatitude(), address.getLongitude()));
-                                lat = address.getLatitude();
-                                lon = address.getLongitude();
-
-                                productSale = new ProductSale(product,String.valueOf(description.getText()),inputPrice.getText().toString(),geohash,lat,lon);
-                                // Saving in a place that user can access
-                                db.collection("users").document(user.getUid()).collection("productsSale").document(product.getName())
-                                        .set(productSale)
-                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                            @Override
-                                            public void onSuccess(Void aVoid) {
-                                                Log.d(TAG, "DocumentSnapshot successfully written!");
-                                                Toast.makeText(SellActivity.this, "Product successfully added", Toast.LENGTH_SHORT).show();
-                                            }
-                                        })
-                                        .addOnFailureListener(new OnFailureListener() {
-                                            @Override
-                                            public void onFailure(@NonNull Exception e) {
-                                                Log.w(TAG, "Error writing document", e);
-                                            }
-                                        });
-                                // Saving in a place where products on sale can be randomly selected from any user
-                                db.collection("productsSale")
-                                        .add(productSale)
-                                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                                            @Override
-                                            public void onSuccess(DocumentReference documentReference) {
-                                                Log.d(TAG, "DocumentSnapshot written with ID: " + documentReference.getId());
-                                            }
-                                        })
-                                        .addOnFailureListener(new OnFailureListener() {
-                                            @Override
-                                            public void onFailure(@NonNull Exception e) {
-                                                Log.w(TAG, "Error writing document", e);
-                                            }
-                                        });
-                                // Distinguishing a donated product from the one with a price
-                                db.collection("productsSell")
-                                        .add(productSale)
-                                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                                            @Override
-                                            public void onSuccess(DocumentReference documentReference) {
-                                                Log.d(TAG, "DocumentSnapshot written with ID: " + documentReference.getId());
-                                            }
-                                        })
-                                        .addOnFailureListener(new OnFailureListener() {
-                                            @Override
-                                            public void onFailure(@NonNull Exception e) {
-                                                Log.w(TAG, "Error writing document", e);
-                                            }
-                                        });
-                                showProductDetails(productSale);
-                                finish();
-                            } catch (IOException e) {
-                                e.printStackTrace();
+                    inputPrice.setText("0");
+                ProductSale productSale = new ProductSale(product,String.valueOf(description.getText()),Float.parseFloat(inputPrice.getText().toString()));
+                // Saving in a place that user can access
+                db.collection("users").document(user.getUid()).collection("productsSale").document(product.getName())
+                        .set(productSale)
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Log.d(TAG, "DocumentSnapshot successfully written!");
+                                Toast.makeText(SellActivity.this, "Product successfully added", Toast.LENGTH_SHORT).show();
                             }
-                        }
-                    }
-                });
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.w(TAG, "Error writing document", e);
+                            }
+                        });
+                // Saving in a place where products on sale can be randomly selected from any user
+                db.collection("productsSale")
+                        .add(productSale)
+                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                            @Override
+                            public void onSuccess(DocumentReference documentReference) {
+                                Log.d(TAG, "DocumentSnapshot written with ID: " + documentReference.getId());
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.w(TAG, "Error writing document", e);
+                            }
+                        });
+                // Distinguishing a donated product from the one with a price
+                db.collection("productsSell")
+                        .add(productSale)
+                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                            @Override
+                            public void onSuccess(DocumentReference documentReference) {
+                                Log.d(TAG, "DocumentSnapshot written with ID: " + documentReference.getId());
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.w(TAG, "Error writing document", e);
+                            }
+                        });
+                showProductDetails(productSale);
+                finish();
             }
         });
     }
+
+
+
     private void showProductDetails(ProductSale productSale) {
         Intent intent = new Intent(SellActivity.this, ProductDetailsActivity.class);
         intent.putExtra("name", productSale.getProduct().getName());

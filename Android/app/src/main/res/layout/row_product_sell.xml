@@ -25,7 +25,7 @@
             <TextView
                 android:id="@+id/name_product"
                 android:layout_width="304dp"
-                android:layout_height="25dp"
+                android:layout_height="30dp"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true"
                 android:layout_marginStart="5dp"
@@ -40,7 +40,7 @@
             <TextView
                 android:id="@+id/expirationDate"
                 android:layout_width="296dp"
-                android:layout_height="15dp"
+                android:layout_height="19dp"
                 android:layout_below="@+id/name_product"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentBottom="true"
@@ -58,13 +58,11 @@
                 android:layout_below="@+id/name_product"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentBottom="true"
-                android:layout_marginStart="5dp"
-                android:layout_marginTop="18dp"
+                android:layout_marginTop="20dp"
                 android:layout_marginEnd="0dp"
-                android:layout_marginBottom="2dp"
-                android:layout_toEndOf="@+id/image_product"
-                android:text="@string/price"
-                android:textColor="@color/colorBlack" />
+                android:textColor="@color/colorBlack"
+                android:layout_marginBottom="0dp"
+                android:text="@string/price" />
 
             <ImageView
                 android:id="@+id/image_product"

@@ -262,7 +262,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-<<<<<<< HEAD
         app:layout_constraintStart_toStartOf="parent" />
     
         <ImageView
@@ -290,10 +289,6 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0"
             app:srcCompat="@drawable/rectangle_top_main_page" />
-=======
-        app:layout_constraintStart_toStartOf="parent" >
-    </androidx.viewpager2.widget.ViewPager2>
->>>>>>> 7ed43db9acac0ee039d50e7ea2813e1a6ec7f49d
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

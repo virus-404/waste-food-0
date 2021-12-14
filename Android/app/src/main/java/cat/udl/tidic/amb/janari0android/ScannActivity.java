@@ -35,11 +35,8 @@ import java.util.ArrayList;
 
 public class ScannActivity extends AppCompatActivity {
     private Button buttonScan;
-    private Button buttonAddProduct;
-    private TextView textError;
     private ImageButton backButton;
     private TextView Resultado;
-    public boolean flag1;
 
 
     @Override
@@ -49,26 +46,13 @@ public class ScannActivity extends AppCompatActivity {
         buttonScan = findViewById(R.id.ScanBtn);
         Resultado = findViewById(R.id.texScan);
         backButton = findViewById(R.id.goBackButton);
-        buttonAddProduct = findViewById(R.id.Addbutton);
-        textError = findViewById(R.id.Errortext);
 
         buttonScan.setOnClickListener(mOnClickListener);
-
 
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ScannActivity.this, MainActivity.class);
-                startActivity(intent);
-            }
-        });
-        buttonAddProduct.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(ScannActivity.this, AddStockProductNameActivity.class);
-                flag1 =true;
-                intent.putExtra("data01",Resultado.getText());
-                intent.putExtra("data02",flag1);
                 startActivity(intent);
             }
         });
@@ -79,14 +63,11 @@ public class ScannActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode,resultCode,data);
-
         if (result != null)
             if(result.getContents() != null){
                 Resultado.setText(result.getContents());
-                textError.setText(" ");
-
             }else{
-                textError.setText("ERROR");
+                Resultado.setText("error");
             }
     }
 

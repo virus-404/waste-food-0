@@ -80,6 +80,10 @@ public class SliderAdapter extends RecyclerView.Adapter <SliderAdapter.SliderVie
             product_description = itemView.findViewById(R.id.description_product);
         }
 
+        void setImage(ProductSale setDataSliderProducts){
+            imageView.setImageURI(Uri.parse(setDataSliderProducts.getProduct().getPhotos().get(0)));
+        }
+
         void setName(ProductSale setDataSliderProducts){
             product_name.setText(setDataSliderProducts.getProduct().getName());
         }
