@@ -86,12 +86,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTheme(R.style.AppTheme);
-        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         // Check if user is signed in (non-null) and update UI accordingly.
         if (user == null) {
             startActivity(new Intent(this,LoginActivity.class));
             finish();
         }
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         setContentView(R.layout.activity_main);
 
         open = findViewById(R.id.floatingButtonOpen);
