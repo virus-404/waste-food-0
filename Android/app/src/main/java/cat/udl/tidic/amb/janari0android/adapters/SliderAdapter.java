@@ -55,6 +55,7 @@ public class SliderAdapter extends RecyclerView.Adapter <SliderAdapter.SliderVie
                     .into(holder.imageView);
         }
         holder.setName(sliderItems.get(position));
+        holder.setPrice(sliderItems.get(position));
         holder.setDescription(sliderItems.get(position));
         if (position == sliderItems.size() - 2){
             viewPager2.post(runnable);
@@ -71,22 +72,27 @@ public class SliderAdapter extends RecyclerView.Adapter <SliderAdapter.SliderVie
 
         private ImageView imageView;
         private TextView product_name;
-        private TextView product_description;
+        private TextView product_price, product_description;
 
         SliderViewHolder(@NonNull View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.image_product);
             product_name = itemView.findViewById(R.id.name_product);
+            product_price = itemView.findViewById(R.id.price_product);
             product_description = itemView.findViewById(R.id.description_product);
         }
-
         void setName(ProductSale setDataSliderProducts){
             product_name.setText(setDataSliderProducts.getProduct().getName());
+        }
+        void setPrice(ProductSale setDataSliderProducts){
+            if(!setDataSliderProducts.getPrice().equals("Free"))
+                product_price.setText(setDataSliderProducts.getPrice() + "€");
+            else
+                product_price.setText(setDataSliderProducts.getPrice());
         }
         void setDescription(ProductSale setDataSliderProducts){
             product_description.setText(setDataSliderProducts.getDescription());
         }
-
     }
 
     private Runnable runnable = new Runnable() {
