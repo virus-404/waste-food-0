@@ -6,20 +6,17 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/donate"
-        android:layout_width="335dp"
-        android:layout_height="36dp"
+        android:id="@+id/changePassword"
+        android:layout_width="330dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="8dp"
         android:gravity="center_vertical"
         android:text="@string/scanPage"
         android:textColor="@color/colorBlack"
         android:textSize="20sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/goBackButton"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.014" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
         android:id="@+id/goBackButton"
@@ -28,9 +25,8 @@
         android:layout_marginTop="8dp"
         android:background="@drawable/ic_baseline_arrow_back_24"
         android:backgroundTint="@color/colorBlack"
-        app:layout_constraintBottom_toBottomOf="@+id/donate"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.041"
+        app:layout_constraintHorizontal_bias="0.028"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -52,6 +48,7 @@
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.489"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ScanBtn"
         app:layout_constraintVertical_bias="0.0" />
@@ -68,15 +65,27 @@
         app:srcCompat="@android:drawable/ic_menu_camera" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/Addbutton"
         android:layout_width="251dp"
         android:layout_height="71dp"
         android:layout_marginBottom="40dp"
-        android:text="Button"
+        android:text="@string/addProductToStock"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/texScan"
         app:layout_constraintVertical_bias="0.347" />
+
+    <TextView
+        android:id="@+id/Errortext"
+        android:layout_width="227dp"
+        android:layout_height="37dp"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/texScan"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.489"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ScanBtn"
+        app:layout_constraintVertical_bias="0.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

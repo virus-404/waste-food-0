@@ -7,6 +7,8 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <uses-feature android:name="android.hardware.camera"
         android:required="true" />
     <uses-feature
@@ -24,6 +26,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:hardwareAccelerated="true">
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.example.android.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths"></meta-data>
+        </provider>
         <activity android:name=".MainActivity"
             android:exported="true"
             android:windowSoftInputMode="adjustPan">
@@ -49,6 +60,13 @@
         <activity android:name=".ChangeEmailActivity" android:windowSoftInputMode="stateVisible"/>
         <activity android:name=".ChangePhoneNumberActivity" android:windowSoftInputMode="stateVisible"/>
         <activity android:name="com.journeyapps.barcodescanner.CaptureActivity" android:screenOrientation="portrait" tools:replace="screenOrientation" />
+        <service
+            android:name=".NotificationFirebaseMsg"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>

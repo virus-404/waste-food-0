@@ -35,16 +35,16 @@
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/profilePicture"
-        android:layout_width="96dp"
-        android:layout_height="96dp"
+        android:layout_width="110dp"
+        android:layout_height="110dp"
+        android:layout_marginStart="20dp"
         android:src="@drawable/login_icon"
         app:civ_border_color="#FFFFFF"
         app:layout_constraintBottom_toTopOf="@+id/divider"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.079"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.565" />
+        app:layout_constraintVertical_bias="0.643" />
+
     <TextView
         android:id="@+id/profileName"
         android:layout_width="240dp"
@@ -118,7 +118,7 @@
         android:layout_height="45dp"
         android:layout_marginStart="15dp"
         android:layout_marginEnd="15dp"
-        android:layout_marginBottom="436dp"
+        android:layout_marginBottom="406dp"
         android:background="@drawable/rounded_corners"
         android:backgroundTint="@color/white"
         android:drawableStart="@drawable/ic_baseline_add_shopping_cart_18"
@@ -134,10 +134,10 @@
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/divider"
-        app:layout_constraintVertical_bias="0.909" />
+        app:layout_constraintVertical_bias="0.851" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/yourProductsSale"
@@ -145,7 +145,7 @@
         android:layout_height="45dp"
         android:layout_marginStart="15dp"
         android:layout_marginEnd="15dp"
-        android:layout_marginBottom="380dp"
+        android:layout_marginBottom="350dp"
         android:background="@drawable/rounded_corners"
         android:backgroundTint="@color/white"
         android:drawableStart="@drawable/ic_baseline_article_24"
@@ -164,6 +164,20 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/yourProducts"
-        app:layout_constraintVertical_bias="0.692" />
+        app:layout_constraintVertical_bias="0.684" />
+
+    <TextView
+        android:id="@+id/textView11"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:fontFamily="@font/roboto_medium"
+        android:text="@string/yourGroceries"
+        android:textColor="@color/colorBlack"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.054"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/divider" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
