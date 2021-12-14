@@ -263,11 +263,11 @@ public class AddStockActivity extends AppCompatActivity {
     }
     private void handleUpload(Bitmap bitmap) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 50, baos);
 
         String uid = user.getUid();
         final StorageReference reference = FirebaseStorage.getInstance().getReference()
-                .child("images/" + user.getUid() + ".jpeg");
+                .child("images/" + user.getUid() + "/" + currentPhotoPath);
 
         reference.putBytes(baos.toByteArray())
                 .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
