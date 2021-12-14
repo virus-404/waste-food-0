@@ -202,7 +202,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:text="@string/oneWeek"
-        android:textColor="@color/Yellowmain"
+        android:textColor="@color/colorAccent"
         android:textSize="9sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
