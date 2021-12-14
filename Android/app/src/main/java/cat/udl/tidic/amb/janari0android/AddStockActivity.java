@@ -13,6 +13,7 @@ import android.graphics.BitmapFactory;
 import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -34,6 +35,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -61,6 +63,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -106,14 +109,14 @@ public class AddStockActivity extends AppCompatActivity {
         go_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                returnToMain();
+                finish();
             }
         });
         addPhoto.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if (checkSelfPermission(Manifest.permission.CAMERA)
-                        != PackageManager.PERMISSION_GRANTED) {
-                    requestPermissions(new String[]{Manifest.permission.CAMERA},
+                if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED
+                && checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                    requestPermissions(new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE},
                             TAKE_IMAGE_CODE);
                 }
                 String[] options = {"  Camera", "  Gallery"};
@@ -124,7 +127,7 @@ public class AddStockActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if(which == 0) {
-                            handleImageClick();
+                            dispatchTakePictureIntent();
                         }
                         else {
                             Intent intent = new Intent(Intent.ACTION_PICK);
@@ -247,19 +250,20 @@ public class AddStockActivity extends AppCompatActivity {
         startActivityForResult(intent, TAKE_IMAGE_CODE);
     }
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == TAKE_IMAGE_CODE) {
-            if (resultCode == RESULT_OK) {
-                assert data != null;
-                Bitmap bitmap = (Bitmap) data.getExtras().get("data");
+        if (requestCode == TAKE_IMAGE_CODE && resultCode == RESULT_OK) {
+            try {
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), Uri.fromFile(new File(currentPhotoPath)));
                 handleUpload(bitmap);
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
     }
     private void handleUpload(Bitmap bitmap) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 25, baos);
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
 
         String uid = user.getUid();
         final StorageReference reference = FirebaseStorage.getInstance().getReference()
@@ -332,6 +336,44 @@ public class AddStockActivity extends AppCompatActivity {
         }
         return null;
     }
+    String currentPhotoPath;
+
+    private File createImageFile() throws IOException {
+        // Create an image file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + "_";
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(
+                imageFileName,  /* prefix */
+                ".jpg",         /* suffix */
+                storageDir      /* directory */
+        );
+
+        // Save a file: path for use with ACTION_VIEW intents
+        currentPhotoPath = image.getAbsolutePath();
+        return image;
+    }
+    private void dispatchTakePictureIntent() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        // Ensure that there's a camera activity to handle the intent
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            // Create the File where the photo should go
+            File photoFile = null;
+            try {
+                photoFile = createImageFile();
+            } catch (IOException ex) {
+                // Error occurred while creating the File
+            }
+            // Continue only if the File was successfully created
+            if (photoFile != null) {
+                Uri photoURI = FileProvider.getUriForFile(this,
+                        "com.example.android.fileprovider",
+                        photoFile);
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                startActivityForResult(takePictureIntent, TAKE_IMAGE_CODE);
+            }
+        }
+    }
     private final ActivityResultLauncher<Intent> galleryActivityResultLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             new ActivityResultCallback<ActivityResult>() {
@@ -351,7 +393,7 @@ public class AddStockActivity extends AppCompatActivity {
                         Bitmap bitmap = uriToBitmap(imageUri);
                         ByteArrayOutputStream baos = new ByteArrayOutputStream();
                         assert bitmap != null;
-                        bitmap.compress(Bitmap.CompressFormat.JPEG, 25, baos);
+                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
                         byte[] imageData = baos.toByteArray();
 
                         UploadTask uploadTask = imageRef.putBytes(imageData);

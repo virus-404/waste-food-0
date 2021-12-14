@@ -71,7 +71,10 @@ public class ListProductSellAdapter extends RecyclerView.Adapter<ListProductSell
         DateFormat fmt = new SimpleDateFormat("dd MMM yyyy", Locale.US);
         //context.getString(R.string.ExpDateListProd);
         holder.expDate.setText(context.getString(R.string.ExpDateListProd) +" "+fmt.format(product.getProduct().getExpirationDate()));
-        holder.price.setText(context.getString(R.string.PriceListProd) +" "+product.getPrice() + "€");
+        if(!product.getPrice().equals("Free"))
+            holder.price.setText(context.getString(R.string.PriceListProd) +" "+product.getPrice() + "€");
+        else
+            holder.price.setText(context.getString(R.string.PriceListProd) +" "+product.getPrice());
 
     }
 
@@ -82,7 +85,7 @@ public class ListProductSellAdapter extends RecyclerView.Adapter<ListProductSell
 
     public class ListProductSellViewHolder extends RecyclerView.ViewHolder {
         ImageView image;
-        TextView name, expDate, price, description;
+        TextView name, expDate, price;
         RelativeLayout allbutton;
         public ListProductSellViewHolder(@NonNull View itemView, final ListProductSellAdapter.OnItemClickListener listener) {
             super(itemView);

@@ -105,7 +105,6 @@ public class MainActivity extends AppCompatActivity {
         saleSection = findViewById(R.id.viewpager2_layout2);
         mCaptureBtn = findViewById(R.id.toolbarMenuButton);
         help = findViewById(R.id.toolbarHelpbottom);
-        gps = findViewById(R.id.gps);
 
         setOnClickListeners();
 
@@ -213,12 +212,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 tarjetaPrueba2();
-            }
-        });
-        gps.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getLocation();
             }
         });
     }
