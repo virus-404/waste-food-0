@@ -69,6 +69,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
+import java.util.UUID;
 
 import cat.udl.tidic.amb.janari0android.adapters.AddStockAdapter;
 import cat.udl.tidic.amb.janari0android.adapters.SearchStockAdapter;
@@ -202,7 +203,7 @@ public class SellActivity extends AppCompatActivity {
                                 lat = address.getLatitude();
                                 lon = address.getLongitude();
 
-                                productSale = new ProductSale(product,String.valueOf(description.getText()),inputPrice.getText().toString(),geohash,lat,lon);
+                                productSale = new ProductSale(UUID.randomUUID().toString(), product,String.valueOf(description.getText()),inputPrice.getText().toString(),geohash,lat,lon);
                                 // Saving in a place that user can access
                                 db.collection("users").document(user.getUid()).collection("productsSale").document(product.getName())
                                         .set(productSale)
@@ -262,7 +263,7 @@ public class SellActivity extends AppCompatActivity {
     }
     private void showProductDetails(ProductSale productSale) {
         Intent intent = new Intent(SellActivity.this, ProductDetailsActivity.class);
-        intent.putExtra("name", productSale.getProduct().getName());
+        intent.putExtra("id", productSale.getProduct().getId());
         startActivity(intent);
     }
     private void getSearchData() {

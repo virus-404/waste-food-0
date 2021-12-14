@@ -61,6 +61,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.UUID;
 
 import cat.udl.tidic.amb.janari0android.adapters.AddStockAdapter;
 import cat.udl.tidic.amb.janari0android.adapters.SearchStockAdapter;
@@ -181,9 +182,9 @@ public class DonateActivity extends AppCompatActivity {
                                 double lat = address.getLatitude();
                                 double lon = address.getLongitude();
 
-                                ProductSale productSale = new ProductSale(product, String.valueOf(description.getText()), "Free", geohash, lat, lon);
+                                ProductSale productSale = new ProductSale(UUID.randomUUID().toString(), product, String.valueOf(description.getText()), "Free", geohash, lat, lon);
                                 // Saving in a place that user can access
-                                db.collection("users").document(user.getUid()).collection("productsSale").document(product.getName())
+                                db.collection("users").document(user.getUid()).collection("productsSale").document(String.valueOf(product.getId()))
                                         .set(productSale)
                                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                                             @Override
@@ -199,35 +200,9 @@ public class DonateActivity extends AppCompatActivity {
                                             }
                                         });
                                 // Saving in a place where products on sale can be randomly selected from any user
-                                db.collection("productsSale")
-                                        .add(productSale)
-                                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                                            @Override
-                                            public void onSuccess(DocumentReference documentReference) {
-                                                Log.d(TAG, "DocumentSnapshot written with ID: " + documentReference.getId());
-                                            }
-                                        })
-                                        .addOnFailureListener(new OnFailureListener() {
-                                            @Override
-                                            public void onFailure(@NonNull Exception e) {
-                                                Log.w(TAG, "Error writing document", e);
-                                            }
-                                        });
+                                db.collection("productsSale").document(String.valueOf(product.getId())).set(productSale);
                                 // Distinguishing a donated product from the one with a price
-                                db.collection("productsDonate")
-                                        .add(productSale)
-                                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                                            @Override
-                                            public void onSuccess(DocumentReference documentReference) {
-                                                Log.d(TAG, "DocumentSnapshot written with ID: " + documentReference.getId());
-                                            }
-                                        })
-                                        .addOnFailureListener(new OnFailureListener() {
-                                            @Override
-                                            public void onFailure(@NonNull Exception e) {
-                                                Log.w(TAG, "Error writing document", e);
-                                            }
-                                        });
+                                db.collection("productsDonate").document(String.valueOf(product.getId())).set(productSale);
                                 showProductDetails(productSale);
                                 finish();
                             } catch (IOException e) {
@@ -241,7 +216,7 @@ public class DonateActivity extends AppCompatActivity {
     }
     private void showProductDetails(ProductSale productSale) {
         Intent intent = new Intent(DonateActivity.this, ProductDetailsActivity.class);
-        intent.putExtra("name", productSale.getProduct().getName());
+        intent.putExtra("id", productSale.getProduct().getId());
         startActivity(intent);
     }
     private void getSearchData() {

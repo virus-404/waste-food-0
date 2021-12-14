@@ -152,7 +152,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClickProduct(int position) {
                 Intent intent = new Intent(MainActivity.this, ProductDetailsActivity.class);
-                intent.putExtra("name", products.get(position).getProduct().getName());
+                intent.putExtra("id", products.get(position).getProduct().getId());
                 startActivity(intent);
             }
         });
@@ -244,7 +244,6 @@ public class MainActivity extends AppCompatActivity {
                         Geocoder geocoder = new Geocoder(MainActivity.this, Locale.getDefault());
                         try {
                             List<Address> addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
-                            Toast.makeText(MainActivity.this, addresses.get(0).getAddressLine(0), Toast.LENGTH_SHORT).show();
                             Address address = addresses.get(0);
                             String hash = GeoFireUtils.getGeoHashForLocation(new GeoLocation(address.getLatitude(), address.getLongitude()));
                             Map<String, Object> updates = new HashMap<>();

@@ -89,7 +89,7 @@ public class ListProductsActivity extends AppCompatActivity {
                 @Override
                 public void onClickProduct(int position) {
                     Intent intent = new Intent(ListProductsActivity.this, ProductDetailsActivity.class);
-                    intent.putExtra("name", productsSale.get(position).getProduct().getName());
+                    intent.putExtra("id", productsSale.get(position).getProduct().getId());
                     startActivity(intent);
                 }
             });
@@ -108,65 +108,105 @@ public class ListProductsActivity extends AppCompatActivity {
         }
     }
     public void removeItem(int position) {
-        Query qProducts = db.collection("products").whereEqualTo("name", products.get(position).getName());
-        Query qProductsUser = db.collection("users").document(user.getUid()).collection("products").whereEqualTo("name",products.get(position).getName());
-        qProducts.limit(1).get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            boolean isEmpty = task.getResult().isEmpty();
-                            if (isEmpty) {
-                                Toast.makeText(ListProductsActivity.this, "Error", Toast.LENGTH_SHORT).show();
-                            }
-                            else {
-                                DocumentSnapshot doc = task.getResult().getDocuments().get(0);
-                                doc.getReference().delete().addOnSuccessListener(new OnSuccessListener<Void>() {
-                                    @Override
-                                    public void onSuccess(Void aVoid) {
-                                        Log.d(TAG, "DocumentSnapshot successfully deleted!");
-                                    }
-                                })
-                                        .addOnFailureListener(new OnFailureListener() {
-                                            @Override
-                                            public void onFailure(@NonNull Exception e) {
-                                                Log.w(TAG, "Error deleting document", e);
-                                            }
-                                        });
-                            }
-                        }
+        db.collection("products").document(String.valueOf(products.get(position).getId())).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                        document.getReference().delete();
+                    } else {
+                        Log.d(TAG, "No such document");
                     }
-                });
-        qProductsUser.limit(1).get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            boolean isEmpty = task.getResult().isEmpty();
-                            if (isEmpty) {
-                                Toast.makeText(ListProductsActivity.this, "Error", Toast.LENGTH_SHORT).show();
-                            }
-                            else {
-                                DocumentSnapshot doc = task.getResult().getDocuments().get(0);
-                                doc.getReference().delete().addOnSuccessListener(new OnSuccessListener<Void>() {
-                                    @Override
-                                    public void onSuccess(Void aVoid) {
-                                        Log.d(TAG, "DocumentSnapshot successfully deleted!");
-                                        products.remove(position);
-                                        listProductAdapter.notifyItemRemoved(position);
-                                        Toast.makeText(ListProductsActivity.this,R.string.productDeleted,Toast.LENGTH_SHORT).show();
-                                    }
-                                }).addOnFailureListener(new OnFailureListener() {
-                                            @Override
-                                            public void onFailure(@NonNull Exception e) {
-                                                Log.w(TAG, "Error deleting document", e);
-                                            }
-                                        });
-                            }
-                        }
+                } else {
+                    Log.d(TAG, "get failed with ", task.getException());
+                }
+            }
+        });
+        db.collection("productsSale").document(String.valueOf(products.get(position).getId())).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                        document.getReference().delete();
+                    } else {
+                        Log.d(TAG, "No such document");
                     }
-                });
-
+                } else {
+                    Log.d(TAG, "get failed with ", task.getException());
+                }
+            }
+        });
+        db.collection("users").document(user.getUid()).collection("products").document(String.valueOf(products.get(position).getId())).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                        document.getReference().delete();
+                    } else {
+                        Log.d(TAG, "No such document");
+                    }
+                } else {
+                    Log.d(TAG, "get failed with ", task.getException());
+                }
+            }
+        });
+        db.collection("users").document(user.getUid()).collection("productsSale").document(String.valueOf(products.get(position).getId())).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                        document.getReference().delete();
+                    } else {
+                        Log.d(TAG, "No such document");
+                    }
+                } else {
+                    Log.d(TAG, "get failed with ", task.getException());
+                }
+            }
+        });
+        db.collection("productsSell").document(String.valueOf(products.get(position).getId())).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                        document.getReference().delete();
+                    } else {
+                        Log.d(TAG, "No such document");
+                    }
+                } else {
+                    Log.d(TAG, "get failed with ", task.getException());
+                }
+            }
+        });
+        db.collection("productsDonate").document(String.valueOf(products.get(position).getId())).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                        document.getReference().delete();
+                        products.remove(position);
+                        listProductAdapter.notifyItemRemoved(position);
+                        Toast.makeText(ListProductsActivity.this,R.string.productDeleted,Toast.LENGTH_SHORT).show();
+                    } else {
+                        Log.d(TAG, "No such document");
+                    }
+                } else {
+                    Log.d(TAG, "get failed with ", task.getException());
+                }
+            }
+        });
     }
     private void getData(int page) {
         products = new ArrayList<>();

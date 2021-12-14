@@ -38,15 +38,15 @@ public class ProductDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_details);
         Bundle extras = getIntent().getExtras();
-        String name = "";
+        String id = "";
         if(extras!=null) {
-            name = extras.getString("name");
+            id = extras.getString("id");
         }
         goBack = findViewById(R.id.goBackButton);
         nameView = findViewById(R.id.nameView);
         priceView = findViewById(R.id.priceView);
         descriptionView = findViewById(R.id.descriptionView);
-        getProduct(name);
+        getProduct(id);
         goBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -63,8 +63,8 @@ public class ProductDetailsActivity extends AppCompatActivity {
                     .into(imageView);
         }
     };
-    private void getProduct(String name) {
-        db.collection("users").document(user.getUid()).collection("productsSale").document(name).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+    private void getProduct(String id) {
+        db.collection("users").document(user.getUid()).collection("productsSale").document(id).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {

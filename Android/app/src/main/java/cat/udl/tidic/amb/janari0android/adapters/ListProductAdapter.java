@@ -56,7 +56,7 @@ public class ListProductAdapter extends RecyclerView.Adapter<ListProductAdapter.
         }
         holder.name.setText(product.getName());
         DateFormat fmt = new SimpleDateFormat("dd MMM yyyy", Locale.US);
-        holder.expDate.setText(R.string.ExpDateListProd + fmt.format(product.getExpirationDate()));
+        holder.expDate.setText(context.getString(R.string.ExpDateListProd) + " " + fmt.format(product.getExpirationDate()));
     }
 
     @Override
