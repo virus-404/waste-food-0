@@ -94,7 +94,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
         }
     };
     private void getProduct(String id) {
-        db.collection("users").document(user.getUid()).collection("productsSale").document(id).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        db.collection("productsSale").document(id).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
