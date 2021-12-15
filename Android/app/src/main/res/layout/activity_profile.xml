@@ -161,10 +161,33 @@
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/yourProducts"
-        app:layout_constraintVertical_bias="0.684" />
+        app:layout_constraintVertical_bias="1.0" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/adFreeVersionButton"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="68dp"
+        android:background="@drawable/rounded_corners"
+        android:backgroundTint="@color/white"
+        android:elevation="5dp"
+        android:fontFamily="@font/roboto_regular"
+        android:gravity="center_vertical"
+        android:letterSpacing="0.02"
+        android:paddingStart="20dp"
+        android:text="@string/adFreeVersion"
+        android:textAllCaps="false"
+        android:textColor="@color/colorBlack"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/textView11"
