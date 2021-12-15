@@ -10,8 +10,8 @@
 
     <ImageView
         android:id="@+id/imageView5"
-        android:layout_width="772dp"
-        android:layout_height="1051dp"
+        android:layout_width="955dp"
+        android:layout_height="1467dp"
         android:alpha="0.04"
         android:elevation="-100dp"
         app:layout_constraintBottom_toBottomOf="@+id/viewpager2_layout2"
