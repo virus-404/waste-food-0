@@ -105,7 +105,6 @@ public class MainActivity extends AppCompatActivity {
             finish();
             user.reload();
         }
-        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         setContentView(R.layout.activity_main);
 
         open = findViewById(R.id.floatingButtonOpen);
@@ -248,6 +247,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
     private void getLocation() {
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         // Checking permissions, requesting if not given
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
