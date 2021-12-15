@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -13,6 +14,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -23,11 +26,13 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.synnapps.carouselview.CarouselView;
 import com.synnapps.carouselview.ImageListener;
 
+import java.util.UUID;
+
 public class ProductDetailsActivity extends AppCompatActivity {
     private static final String TAG = "bakedbeans";
     ImageButton goBack;
     ImageView productImage;
-    TextView nameView, priceView, descriptionView;
+    TextView nameView, priceView, descriptionView, contactSeller;
     ProductSale productSale = new ProductSale();
     CarouselView carouselView;
     String currency = "€";
@@ -46,6 +51,8 @@ public class ProductDetailsActivity extends AppCompatActivity {
         nameView = findViewById(R.id.nameView);
         priceView = findViewById(R.id.priceView);
         descriptionView = findViewById(R.id.descriptionView);
+        contactSeller = findViewById(R.id.contactSeller);
+        getPhoneNumber(id);
         getProduct(id);
         goBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,6 +62,29 @@ public class ProductDetailsActivity extends AppCompatActivity {
         });
 
     }
+
+    private void getPhoneNumber(String id) {
+        db.collection("productsSale").document(id).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                        if(document.get("phoneNumber") != null) {
+                            String seller = getResources().getString(R.string.sellerPhoneNumber);
+                            contactSeller.setText(seller + " " + document.get("phoneNumber", String.class));
+                        }
+                    } else {
+                        Log.d(TAG, "No such document");
+                    }
+                } else {
+                    Log.d(TAG, "get failed with ", task.getException());
+                }
+            }
+        });
+    }
+
     ImageListener imageListener = new ImageListener() {
         @Override
         public void setImageForPosition(int position, ImageView imageView) {

@@ -63,6 +63,11 @@ public class UserProfileActivity extends AppCompatActivity {
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     @Override
+    protected void onResume() {
+        super.onResume();
+        loadProfilepic();
+    }
+    @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
@@ -116,12 +121,6 @@ public class UserProfileActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        profilePicture.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                changeProfilePicture();
-            }
-        });
         editProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -129,6 +128,17 @@ public class UserProfileActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+    private void loadProfilepic() {
+        try {
+            Glide.with(this)
+                    .load(user.getPhotoUrl())
+                    .into(profilePicture);
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
     }
     public void setLocale(String lang) {
         Locale myLocale = new Locale(lang);

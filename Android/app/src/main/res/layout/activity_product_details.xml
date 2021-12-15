@@ -48,18 +48,6 @@
 
     </com.synnapps.carouselview.CarouselView>
 
-    <Button
-        android:id="@+id/button4"
-        android:layout_width="174dp"
-        android:layout_height="39dp"
-        android:layout_marginBottom="28dp"
-        android:background="@drawable/button_rectangle_rounded"
-        android:text="@string/contactSeller"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent" />
-
     <TextView
         android:id="@+id/textView"
         android:layout_width="163dp"
@@ -75,17 +63,18 @@
     <TextView
         android:id="@+id/descriptionView"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="180dp"
         android:layout_marginStart="10dp"
+        android:layout_marginTop="12dp"
         android:layout_marginEnd="10dp"
         android:text="@string/description"
         android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/button4"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView"
-        app:layout_constraintVertical_bias="0.25" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/priceView"
@@ -113,5 +102,18 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/carouselView" />
+
+    <TextView
+        android:id="@+id/contactSeller"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:fontFamily="@font/roboto_medium"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.03"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/descriptionView"
+        app:layout_constraintVertical_bias="0.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
