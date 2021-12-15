@@ -177,4 +177,5 @@
     <string name="yourGroceries">Your groceries</string>
     <string name="recommended">Recommended</string>
     <string name="productDeleted">Product deleted</string>
+    <string name="sellerPhoneNumber">Seller\'s phone number: </string>
 </resources>

@@ -38,7 +38,7 @@
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="ca-app-pub-6927179423834926~5629011915"/>
-        <activity android:name=".MainActivity"
+        <activity android:name=".MainActivity" android:screenOrientation="portrait"
             android:exported="true"
             android:windowSoftInputMode="adjustPan">
             <intent-filter>
@@ -46,22 +46,22 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LoginActivity" android:windowSoftInputMode="adjustResize" android:theme="@style/LoginTheme"/>
-        <activity android:name=".RegisterActivity" android:windowSoftInputMode="adjustResize" android:theme="@style/RegisterTheme"/>
-        <activity android:name=".AddStockActivity" android:windowSoftInputMode="adjustPan"/>
-        <activity android:name=".AddStockProductNameActivity" android:windowSoftInputMode="adjustResize"/>
-        <activity android:name=".ListProductsActivity" android:windowSoftInputMode="adjustPan"/>
-        <activity android:name=".DonateActivity" android:windowSoftInputMode="adjustPan" />
-        <activity android:name=".UserProfileActivity" android:windowSoftInputMode="adjustPan"/>
-        <activity android:name=".SellActivity" android:windowSoftInputMode="adjustPan"/>
-        <activity android:name=".ChangePasswordActivity" android:windowSoftInputMode="adjustPan"/>
-        <activity android:name=".EditProfileActivity" android:windowSoftInputMode="adjustPan"/>
-        <activity android:name=".ScannActivity" android:windowSoftInputMode="adjustPan"/>
-        <activity android:name=".ProductDetailsActivity" android:windowSoftInputMode="adjustPan"/>
-        <activity android:name=".ForgotPasswordActivity" android:windowSoftInputMode="adjustPan"/>
-        <activity android:name=".ChangeNameActivity" android:windowSoftInputMode="stateVisible"/>
-        <activity android:name=".ChangeEmailActivity" android:windowSoftInputMode="stateVisible"/>
-        <activity android:name=".ChangePhoneNumberActivity" android:windowSoftInputMode="stateVisible"/>
+        <activity android:name=".LoginActivity" android:windowSoftInputMode="adjustResize" android:theme="@style/LoginTheme" android:screenOrientation="portrait"/>
+        <activity android:name=".RegisterActivity" android:windowSoftInputMode="adjustResize" android:theme="@style/RegisterTheme" android:screenOrientation="portrait"/>
+        <activity android:name=".AddStockActivity" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait"/>
+        <activity android:name=".AddStockProductNameActivity" android:windowSoftInputMode="adjustResize" android:screenOrientation="portrait"/>
+        <activity android:name=".ListProductsActivity" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait"/>
+        <activity android:name=".DonateActivity" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait"/>
+        <activity android:name=".UserProfileActivity" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait"/>
+        <activity android:name=".SellActivity" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait"/>
+        <activity android:name=".ChangePasswordActivity" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait"/>
+        <activity android:name=".EditProfileActivity" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait"/>
+        <activity android:name=".ScannActivity" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait"/>
+        <activity android:name=".ProductDetailsActivity" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait"/>
+        <activity android:name=".ForgotPasswordActivity" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait"/>
+        <activity android:name=".ChangeNameActivity" android:windowSoftInputMode="stateVisible" android:screenOrientation="portrait"/>
+        <activity android:name=".ChangeEmailActivity" android:windowSoftInputMode="stateVisible" android:screenOrientation="portrait"/>
+        <activity android:name=".ChangePhoneNumberActivity" android:windowSoftInputMode="stateVisible" android:screenOrientation="portrait"/>
         <activity android:name="com.journeyapps.barcodescanner.CaptureActivity" android:screenOrientation="portrait" tools:replace="screenOrientation" />
         <service
             android:name=".NotificationFirebaseMsg"

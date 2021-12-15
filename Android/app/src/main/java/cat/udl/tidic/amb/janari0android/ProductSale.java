@@ -11,7 +11,18 @@ public class ProductSale {
     String description = "Default description";
     String price;
     String geohash;
+    String phoneNumber;
     double lat,lon;
+    public ProductSale(String id, Product product, String description, String price, String geohash, double lat, double lon, String phoneNumber) {
+        this.id = id;
+        this.product = product;
+        this.description = description;
+        this.price=price;
+        this.geohash = geohash;
+        this.lat = lat;
+        this.lon = lon;
+        this.phoneNumber=phoneNumber;
+    }
     public ProductSale(String id, Product product, String description, String price, String geohash, double lat, double lon) {
         this.id = id;
         this.product = product;
@@ -34,6 +45,7 @@ public class ProductSale {
     public String getGeohash() {return geohash;}
     public double getLat() { return lat; }
     public double getLon() { return lon; }
+    public String getPhoneNumber(){return phoneNumber;}
     public String getDescription() {
         return description;
     }
