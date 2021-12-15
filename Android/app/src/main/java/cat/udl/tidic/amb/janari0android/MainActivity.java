@@ -88,9 +88,9 @@ public class MainActivity extends AppCompatActivity {
     private SliderAdapter sliderAdapter;
     private AdView mAdView;
 
-    FirebaseAuth auth = FirebaseAuth.getInstance();
+    FirebaseAuth auth;
+    FirebaseUser user;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
-    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     FusedLocationProviderClient fusedLocationProviderClient;
     @SuppressLint("WrongViewCast")
     @Override
@@ -98,9 +98,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setTheme(R.style.AppTheme);
         // Check if user is signed in (non-null) and update UI accordingly.
+        auth = FirebaseAuth.getInstance();
+        user = auth.getCurrentUser();
         if (user == null) {
             startActivity(new Intent(this,LoginActivity.class));
             finish();
+            user.reload();
         }
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         setContentView(R.layout.activity_main);
@@ -519,7 +522,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                     list.setText(String.valueOf(num_products_toexpire));
                     list3.setText(String.valueOf(num_products_expired));
-                    list2.setText(String.valueOf(num_products_all));
+                    list2.setText(String.valueOf(num_products_all + num_products_toexpire));
                 } else
                     Log.d(TAG, "Error getting documents: ", task.getException());
             }

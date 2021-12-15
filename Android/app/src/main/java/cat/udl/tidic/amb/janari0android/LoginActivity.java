@@ -30,7 +30,7 @@ public class LoginActivity extends AppCompatActivity {
     protected TextView email, password, forgotPassword;
     private Button loginButton, registerButton;
     private static final String TAG = "EmailPassword";
-    private FirebaseAuth auth = FirebaseAuth.getInstance();;
+    private FirebaseAuth auth;
 
 
     @Override

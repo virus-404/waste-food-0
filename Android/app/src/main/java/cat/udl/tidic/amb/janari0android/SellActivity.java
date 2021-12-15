@@ -205,7 +205,7 @@ public class SellActivity extends AppCompatActivity {
 
                                 productSale = new ProductSale(UUID.randomUUID().toString(), product,String.valueOf(description.getText()),inputPrice.getText().toString(),geohash,lat,lon);
                                 // Saving in a place that user can access
-                                db.collection("users").document(user.getUid()).collection("productsSale").document(product.getName())
+                                db.collection("users").document(user.getUid()).collection("productsSale").document(product.getId())
                                         .set(productSale)
                                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                                             @Override
@@ -221,35 +221,9 @@ public class SellActivity extends AppCompatActivity {
                                             }
                                         });
                                 // Saving in a place where products on sale can be randomly selected from any user
-                                db.collection("productsSale")
-                                        .add(productSale)
-                                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                                            @Override
-                                            public void onSuccess(DocumentReference documentReference) {
-                                                Log.d(TAG, "DocumentSnapshot written with ID: " + documentReference.getId());
-                                            }
-                                        })
-                                        .addOnFailureListener(new OnFailureListener() {
-                                            @Override
-                                            public void onFailure(@NonNull Exception e) {
-                                                Log.w(TAG, "Error writing document", e);
-                                            }
-                                        });
+                                db.collection("productsSale").document(product.getId()).set(productSale);
                                 // Distinguishing a donated product from the one with a price
-                                db.collection("productsSell")
-                                        .add(productSale)
-                                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                                            @Override
-                                            public void onSuccess(DocumentReference documentReference) {
-                                                Log.d(TAG, "DocumentSnapshot written with ID: " + documentReference.getId());
-                                            }
-                                        })
-                                        .addOnFailureListener(new OnFailureListener() {
-                                            @Override
-                                            public void onFailure(@NonNull Exception e) {
-                                                Log.w(TAG, "Error writing document", e);
-                                            }
-                                        });
+                                db.collection("productsSell").document(product.getId()).set(productSale);
                                 showProductDetails(productSale);
                                 finish();
                             } catch (IOException e) {

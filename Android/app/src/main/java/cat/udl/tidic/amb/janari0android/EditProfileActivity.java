@@ -83,9 +83,7 @@ public class EditProfileActivity extends AppCompatActivity {
         textEmail.setText(user.getEmail());
         getPhoneNumber();
         if(user.getPhotoUrl() != null) {
-            Glide.with(this)
-                    .load(user.getPhotoUrl())
-                    .into(profilePicture);
+            loadProfilepic();
         }
         else
             profilePicture.setImageResource(R.drawable.login_icon);
@@ -161,7 +159,7 @@ public class EditProfileActivity extends AppCompatActivity {
 
     private void loadProfilepic() {
         Glide.with(this)
-                .load(user.getPhotoUrl())
+                .load(user.getPhotoUrl()).dontTransform()
                 .into(profilePicture);
     }
 
