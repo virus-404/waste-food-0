@@ -4,6 +4,7 @@
     <string name="PriceListProd">Precio: </string>
     <string name="aboutToExpire">PROXIMOS A EXPIRAR</string>
     <string name="accountDetails">Detalles cuenta</string>
+    <string name="adFreeVersion">Versión sin anuncios</string>
     <string name="add">Añadir</string>
     <string name="addPhoto"> Añadir imagen</string>
     <string name="addPhotoDescription">Añade fotos de tu galería o haz una foto con tu cámara</string>
@@ -16,6 +17,7 @@
     <string name="changeProfilePhoto">Cambiar foto</string>
     <string name="confirm">confirmar</string>
     <string name="contactSeller">Contactar con el vendedor</string>
+    <string name="contactSellerSell">Si no tienes tu telefono añadido, los compradores no podran buscarte</string>
     <string name="createAccount">Crear cuenta</string>
     <string name="currentPassword">Contraseña actual</string>
     <string name="defaultDescription"> Sin descripción </string>
@@ -36,6 +38,7 @@
     <string name="expirationDate">Fecha de caducidad</string>
     <string name="expiredProducts">Productos expirados</string>
     <string name="forgetPassword">¿Ha olvidado su contraseña?</string>
+    <string name="free">Gratis</string>
     <string name="fresh">Fresco</string>
     <string name="freshProducts">Productos frescos</string>
     <string name="fromGallery">De la galería</string>
@@ -43,6 +46,7 @@
     <string name="incorrectPassword">Nombre de usuario o contraseña incorrectos</string>
     <string name="invalidEmail">Invalid email</string>
     <string name="invalidUsername">Invalid username</string>
+    <string name="language">Idioma</string>
     <string name="layoutChangeEmail">Cambiar e-mail</string>
     <string name="layoutChangeName">Cambiar nombre usuario</string>
     <string name="layoutChangePassword">Cambiar la contraseña</string>
@@ -68,11 +72,14 @@
     <string name="prod">PRODUCTOS</string>
     <string name="prodExpired">CADUCADOS</string>
     <string name="prodOnSale">PRODUCTOS EN VENTA: 0</string>
+    <string name="productDeleted">Producto eliminado</string>
     <string name="productDescription"> Descripcion del porducto</string>
     <string name="productList"> Lista de Productos</string>
     <string name="productName"> Nombre del producto</string>
     <string name="products">Productos</string>
     <string name="putPrice"> añadir precio </string>
+    <string name="recommended">Recomendados</string>
+    <string name="refresh">Recargar</string>
     <string name="register">Registrar</string>
     <string name="repeatPassword">Repetir contraseña</string>
     <string name="saveChanges">Guardar cambios</string>
@@ -84,7 +91,9 @@
     <string name="selectProduct"> Seleccionar producto</string>
     <string name="sellIt">Vender!</string>
     <string name="sellProduct">Producto en venta</string>
+    <string name="sellerPhoneNumber">Teléfono del vendedor</string>
     <string name="sendPasswordResetLink">Enviar enlace para restablecer contraseña</string>
+    <string name="settings">Ajustes</string>
     <string name="signOut">Desconectar</string>
     <string name="signUp">Registrarse</string>
     <string name="spanishCode">+34</string>
@@ -95,14 +104,5 @@
     <string name="welcome">Bienvenido</string>
     <string name="whatIsYourEmail">¿Cuál es tu e-mail?</string>
     <string name="wrongPassword">Contraseña incorrecta</string>
-    <string name="settings">Ajustes</string>
-    <string name="sellerPhoneNumber">Teléfono del vendedor</string>
-    <string name="recommended">Recomendados</string>
-    <string name="refresh">Recargar</string>
-    <string name="productDeleted">Producto eliminado</string>
-    <string name="language">Idioma</string>
-    <string name="free">Gratis</string>
-    <string name="contactSellerSell">Si no tienes tu telefono añadido, los compradores no podran buscarte</string>
-    <string name="adFreeVersion">Versión sin anuncios</string>
     <string name="yourGroceries">Inventario</string>
 </resources>
