@@ -375,7 +375,7 @@ public class MainActivity extends AppCompatActivity {
                                 .descriptionTextSize(15)            // Specify the size (in sp) of the description text
                                 .descriptionTextColor(R.color.colorDarkGrey)  // Specify the color of the description text
                                 .textTypeface(Typeface.SANS_SERIF)
-                                .tintTarget(true)
+                                .tintTarget(false)
                                 .transparentTarget(false)
                                 .cancelable(false),
                         TapTarget.forView(findViewById(R.id.toolbarMenuButton), "QR Scan", "add products to your list just by scanning their barcode or QR")
@@ -387,7 +387,7 @@ public class MainActivity extends AppCompatActivity {
                                 .descriptionTextSize(15)            // Specify the size (in sp) of the description text
                                 .descriptionTextColor(R.color.colorDarkGrey)  // Specify the color of the description text
                                 .textTypeface(Typeface.SANS_SERIF)
-                                .tintTarget(true)
+                                .tintTarget(false)
                                 .transparentTarget(false)
                                 .targetRadius(50)
                                 .cancelable(false),
@@ -400,7 +400,7 @@ public class MainActivity extends AppCompatActivity {
                                 .descriptionTextSize(15)            // Specify the size (in sp) of the description text
                                 .descriptionTextColor(R.color.colorDarkGrey)  // Specify the color of the description text
                                 .textTypeface(Typeface.SANS_SERIF)
-                                .tintTarget(true)
+                                .tintTarget(false)
                                 .transparentTarget(false)
                                 .targetRadius(80)
                                 .cancelable(false),
