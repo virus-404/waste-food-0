@@ -95,4 +95,14 @@
     <string name="welcome">Bienvenido</string>
     <string name="whatIsYourEmail">¿Cuál es tu e-mail?</string>
     <string name="wrongPassword">Contraseña incorrecta</string>
+    <string name="settings">Ajustes</string>
+    <string name="sellerPhoneNumber">Teléfono del vendedor</string>
+    <string name="recommended">Recomendados</string>
+    <string name="refresh">Recargar</string>
+    <string name="productDeleted">Producto eliminado</string>
+    <string name="language">Idioma</string>
+    <string name="free">Gratis</string>
+    <string name="contactSellerSell">Si no tienes tu telefono añadido, los compradores no podran buscarte</string>
+    <string name="adFreeVersion">Versión sin anuncios</string>
+    <string name="yourGroceries">Inventario</string>
 </resources>
