@@ -4,6 +4,7 @@ package cat.udl.tidic.amb.janari0android;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.CompositePageTransformer;
 import androidx.viewpager2.widget.MarginPageTransformer;
@@ -25,6 +26,7 @@ import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.transition.Slide;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -82,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
     private FloatingActionButton open, give, add, sell;
     private Button list, profile, list2, list3, help;
     private boolean visibleFloatingButton = false;
-    private ViewPager2 saleSection;
+    private RecyclerView nearbyProducts;
     private final Handler sliderHandler = new Handler();
     private final ArrayList<ProductSale> products = new ArrayList<>();
     private SliderAdapter sliderAdapter;
@@ -115,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
         list2 = findViewById(R.id.numberItems2);
         list3 = findViewById(R.id.numberItems3);
         profile = findViewById(R.id.toolbarUserMenuButton);
-        saleSection = findViewById(R.id.viewpager2_layout2);
+        nearbyProducts = findViewById(R.id.nearbyProductsView);
         mCaptureBtn = findViewById(R.id.toolbarMenuButton);
         help = findViewById(R.id.toolbarHelpbottom);
 
@@ -142,32 +144,8 @@ public class MainActivity extends AppCompatActivity {
             tarjetaPrueba2();
         }
 
-        sliderAdapter = new SliderAdapter(products, saleSection, this);
-        saleSection.setAdapter(sliderAdapter);
-        saleSection.setClipToPadding(false);
-        saleSection.setClipChildren(false);
-        saleSection.setOffscreenPageLimit(4);
-        saleSection.getChildAt(0).setOverScrollMode(RecyclerView.OVER_SCROLL_NEVER);
-        CompositePageTransformer compositePageTransformer = new CompositePageTransformer();
-        compositePageTransformer.addTransformer(new MarginPageTransformer(40));
-        compositePageTransformer.addTransformer(new ViewPager2.PageTransformer() {
-            @Override
-            public void transformPage(@NonNull View page, float position) {
-                float r = 1 - Math.abs(position);
-                page.setScaleY(0.85f + r * 0.15f);
-            }
-        });
-        saleSection.setPageTransformer(compositePageTransformer);
-        //Images slide every 3 seconds
-        //The user still can slide images on his own
-        saleSection.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
-            @Override
-            public void onPageSelected(int position) {
-                super.onPageSelected(position);
-                sliderHandler.removeCallbacks(sliderRunnable);
-                sliderHandler.postDelayed(sliderRunnable, 3000); //Slide duration
-            }
-        });
+        sliderAdapter = new SliderAdapter(products, this);
+        nearbyProducts.setAdapter(sliderAdapter);
         sliderAdapter.setOnItemClickListener(new SliderAdapter.OnItemClickListener() {
             @Override
             public void onClickProduct(int position) {
@@ -334,28 +312,30 @@ public class MainActivity extends AppCompatActivity {
                                         products.add(doc.toObject(ProductSale.class));
                                     }
                                     Log.d(TAG, String.valueOf(products.size()));
-                                    saleSection.setAdapter(sliderAdapter);
+                                    sliderAdapter = new SliderAdapter(products, MainActivity.this);
+                                    nearbyProducts.setLayoutManager(new LinearLayoutManager(MainActivity.this,LinearLayoutManager.HORIZONTAL,false));
+                                    nearbyProducts.setAdapter(sliderAdapter);
+                                    sliderAdapter.setOnItemClickListener(new SliderAdapter.OnItemClickListener() {
+                                        @Override
+                                        public void onClickProduct(int position) {
+                                            Intent intent = new Intent(MainActivity.this, ProductDetailsActivity.class);
+                                            intent.putExtra("id", products.get(position).getProduct().getId());
+                                            startActivity(intent);
+                                        }
+                                    });
                                 }
                             });
                 }
             }
         });
     }
-    private Runnable sliderRunnable = new Runnable() {
-        @Override
-        public void run() {
-            saleSection.setCurrentItem(saleSection.getCurrentItem() + 1);
-        }
-    };
     @Override
     protected void onPause() {
         super.onPause();
-        sliderHandler.removeCallbacks(sliderRunnable);
     }
     @Override
     protected void onResume() {
         super.onResume();
-        sliderHandler.postDelayed(sliderRunnable, 3000);
         getLocation();
         showProductsInfo();
     }

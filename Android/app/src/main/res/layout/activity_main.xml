@@ -14,12 +14,10 @@
         android:layout_height="1467dp"
         android:alpha="0.04"
         android:elevation="-100dp"
-        app:layout_constraintBottom_toBottomOf="@+id/viewpager2_layout2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.566"
         app:srcCompat="@drawable/background" />
 
     <ImageView
@@ -267,19 +265,6 @@
         app:maxImageSize="36dp"
         app:srcCompat="@drawable/ic_baseline_add_36" />
 
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/viewpager2_layout2"
-        android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:layout_marginBottom="200dp"
-        android:paddingStart="80dp"
-        android:paddingEnd="80dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent" >
-    </androidx.viewpager2.widget.ViewPager2>
-
     <com.google.android.gms.ads.AdView
         android:id="@+id/adView"
         android:layout_width="wrap_content"
@@ -297,15 +282,25 @@
         android:id="@+id/textView12"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="64dp"
-        android:text="@string/recommended"
+        android:layout_marginTop="20dp"
         android:fontFamily="@font/roboto_medium"
+        android:text="@string/nearby"
         android:textColor="@color/colorBlack"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.055"
+        app:layout_constraintHorizontal_bias="0.053"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/numberItems2" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/nearbyProductsView"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:layout_marginTop="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView12" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
