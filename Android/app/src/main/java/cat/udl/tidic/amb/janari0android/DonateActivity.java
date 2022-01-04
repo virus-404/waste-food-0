@@ -50,6 +50,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -61,6 +62,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.UUID;
 
 import cat.udl.tidic.amb.janari0android.adapters.AddStockAdapter;
 import cat.udl.tidic.amb.janari0android.adapters.SearchStockAdapter;
@@ -180,56 +182,50 @@ public class DonateActivity extends AppCompatActivity {
                                 String geohash = GeoFireUtils.getGeoHashForLocation(new GeoLocation(address.getLatitude(), address.getLongitude()));
                                 double lat = address.getLatitude();
                                 double lon = address.getLongitude();
+                                db.collection("users").document(user.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                        if (task.isSuccessful()) {
+                                            DocumentSnapshot document = task.getResult();
+                                            ProductSale productSale = null;
+                                            if (document.exists()) {
+                                                Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                                                if(document.get("phoneNumber") != null)
+                                                    productSale = new ProductSale(UUID.randomUUID().toString(), product, String.valueOf(description.getText()), "Free", geohash, lat, lon, document.get("phoneNumber",String.class));
+                                                else
+                                                    productSale = new ProductSale(UUID.randomUUID().toString(), product, String.valueOf(description.getText()), "Free", geohash, lat, lon);
+                                            } else {
+                                                Log.d(TAG, "No such document");
+                                            }
+                                            // Saving in a place that user can access
+                                            assert productSale != null;
+                                            db.collection("users").document(user.getUid()).collection("productsSale").document(String.valueOf(product.getId()))
+                                                    .set(productSale)
+                                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                        @Override
+                                                        public void onSuccess(Void aVoid) {
+                                                            Log.d(TAG, "DocumentSnapshot successfully written!");
+                                                            Toast.makeText(DonateActivity.this, "Product successfully added", Toast.LENGTH_SHORT).show();
+                                                        }
+                                                    })
+                                                    .addOnFailureListener(new OnFailureListener() {
+                                                        @Override
+                                                        public void onFailure(@NonNull Exception e) {
+                                                            Log.w(TAG, "Error writing document", e);
+                                                        }
+                                                    });
+                                            // Saving in a place where products on sale can be randomly selected from any user
+                                            db.collection("productsSale").document(String.valueOf(product.getId())).set(productSale);
+                                            // Distinguishing a donated product from the one with a price
+                                            db.collection("productsDonate").document(String.valueOf(product.getId())).set(productSale);
+                                            showProductDetails(productSale);
+                                            finish();
+                                        } else {
+                                            Log.d(TAG, "get failed with ", task.getException());
+                                        }
+                                    }
+                                });
 
-                                ProductSale productSale = new ProductSale(product, String.valueOf(description.getText()), "Free", geohash, lat, lon);
-                                // Saving in a place that user can access
-                                db.collection("users").document(user.getUid()).collection("productsSale").document(product.getName())
-                                        .set(productSale)
-                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                            @Override
-                                            public void onSuccess(Void aVoid) {
-                                                Log.d(TAG, "DocumentSnapshot successfully written!");
-                                                Toast.makeText(DonateActivity.this, "Product successfully added", Toast.LENGTH_SHORT).show();
-                                            }
-                                        })
-                                        .addOnFailureListener(new OnFailureListener() {
-                                            @Override
-                                            public void onFailure(@NonNull Exception e) {
-                                                Log.w(TAG, "Error writing document", e);
-                                            }
-                                        });
-                                // Saving in a place where products on sale can be randomly selected from any user
-                                db.collection("productsSale")
-                                        .add(productSale)
-                                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                                            @Override
-                                            public void onSuccess(DocumentReference documentReference) {
-                                                Log.d(TAG, "DocumentSnapshot written with ID: " + documentReference.getId());
-                                            }
-                                        })
-                                        .addOnFailureListener(new OnFailureListener() {
-                                            @Override
-                                            public void onFailure(@NonNull Exception e) {
-                                                Log.w(TAG, "Error writing document", e);
-                                            }
-                                        });
-                                // Distinguishing a donated product from the one with a price
-                                db.collection("productsDonate")
-                                        .add(productSale)
-                                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                                            @Override
-                                            public void onSuccess(DocumentReference documentReference) {
-                                                Log.d(TAG, "DocumentSnapshot written with ID: " + documentReference.getId());
-                                            }
-                                        })
-                                        .addOnFailureListener(new OnFailureListener() {
-                                            @Override
-                                            public void onFailure(@NonNull Exception e) {
-                                                Log.w(TAG, "Error writing document", e);
-                                            }
-                                        });
-                                showProductDetails(productSale);
-                                finish();
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
@@ -241,7 +237,7 @@ public class DonateActivity extends AppCompatActivity {
     }
     private void showProductDetails(ProductSale productSale) {
         Intent intent = new Intent(DonateActivity.this, ProductDetailsActivity.class);
-        intent.putExtra("name", productSale.getProduct().getName());
+        intent.putExtra("id", productSale.getProduct().getId());
         startActivity(intent);
     }
     private void getSearchData() {

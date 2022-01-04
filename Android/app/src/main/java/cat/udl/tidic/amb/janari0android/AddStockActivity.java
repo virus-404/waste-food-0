@@ -39,6 +39,7 @@ import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -68,6 +69,8 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
+import java.util.UUID;
+import java.util.concurrent.ExecutionException;
 
 import cat.udl.tidic.amb.janari0android.adapters.AddStockAdapter;
 
@@ -137,10 +140,6 @@ public class AddStockActivity extends AppCompatActivity {
                     }
                 });
                 builder.show();
-                /*Intent intent = new Intent(Intent.ACTION_PICK);
-                //set type
-                intent.setType("image/*");
-                galleryActivityResultLauncher.launch(intent);*/
             }
         });
         gallery.setOnClickListener(new View.OnClickListener() {
@@ -180,14 +179,14 @@ public class AddStockActivity extends AppCompatActivity {
                             "Please enter expiration date", Toast.LENGTH_LONG).show();
                 else {
                     try {
-                        product = new Product(finalName, images, new SimpleDateFormat("dd MMM yyyy").parse(String.valueOf(expirationDate.getText())));
+                        product = new Product(UUID.randomUUID().toString(), finalName, images, new SimpleDateFormat("dd MMM yyyy", Locale.US).parse(String.valueOf(expirationDate.getText())));
                     } catch (ParseException e) {
                         e.printStackTrace();
                         Toast.makeText(AddStockActivity.this, "Error adding product", Toast.LENGTH_SHORT).show();
                         returnToProductName();
                         return;
                     }
-                    db.collection("users").document(user.getUid()).collection("products").document(finalName)
+                    db.collection("users").document(user.getUid()).collection("products").document(String.valueOf(product.getId()))
                             .set(product)
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
@@ -203,19 +202,7 @@ public class AddStockActivity extends AppCompatActivity {
                                     returnToProductName();
                                 }
                             });
-                    db.collection("products").add(product)
-                            .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                                @Override
-                                public void onSuccess(DocumentReference documentReference) {
-                                    Log.d(TAG, "DocumentSnapshot written with ID: " + documentReference.getId());
-                                }
-                            })
-                            .addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Log.w(TAG, "Error writing document", e);
-                                }
-                            });
+                    db.collection("products").document(String.valueOf(product.getId())).set(product);
                     returnToMain();
                 }
             }
@@ -253,12 +240,23 @@ public class AddStockActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == TAKE_IMAGE_CODE && resultCode == RESULT_OK) {
-            try {
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), Uri.fromFile(new File(currentPhotoPath)));
-                handleUpload(bitmap);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            final Bitmap[] bitmap = {null};
+            Thread t = new Thread(new Runnable() {
+                public void run() {
+                    try {
+                        bitmap[0] = Glide
+                                .with(AddStockActivity.this)
+                                .asBitmap()
+                                .load(Uri.fromFile(new File(currentPhotoPath)))
+                                .submit()
+                                .get();
+                        handleUpload(bitmap[0]);
+                    } catch (ExecutionException | InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+            t.start();
         }
     }
     private void handleUpload(Bitmap bitmap) {
@@ -390,41 +388,23 @@ public class AddStockActivity extends AppCompatActivity {
 
                         assert user != null;
                         imageRef = storageRef.child("images/" + user.getUid() + "/" +  imageUri.getLastPathSegment());
-                        Bitmap bitmap = uriToBitmap(imageUri);
-                        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                        assert bitmap != null;
-                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-                        byte[] imageData = baos.toByteArray();
-
-                        UploadTask uploadTask = imageRef.putBytes(imageData);
-                        uploadTask.addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception exception) {
-                                Toast.makeText(AddStockActivity.this, "Unsuccessful upload", Toast.LENGTH_SHORT).show();
-                            }
-                        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                            @Override
-                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                                Task<Uri> urlTask = imageRef.getDownloadUrl();
-                                urlTask.addOnCompleteListener(new OnCompleteListener<Uri>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<Uri> task) {
-                                        if (task.isSuccessful()) {
-                                            Uri downloadUri = task.getResult();
-                                            images.add(String.valueOf(downloadUri));
-                                            File f = new File(String.valueOf(imageUri));
-                                            imageInfo.add(f.getName());
-                                            products.setAdapter(addStockAdapter);
-                                            Toast.makeText(AddStockActivity.this, "Image uploaded", Toast.LENGTH_SHORT).show();
-                                        } else {
-                                            Toast.makeText(AddStockActivity.this, "Something's wrong", Toast.LENGTH_SHORT).show();
-                                        }
-                                    }
-                                });
-
+                        final Bitmap[] bitmap = {null};
+                        Thread t = new Thread(new Runnable() {
+                            public void run() {
+                                try {
+                                    bitmap[0] = Glide
+                                            .with(AddStockActivity.this)
+                                            .asBitmap()
+                                            .load(data.getData())
+                                            .submit()
+                                            .get();
+                                    handleUpload(bitmap[0]);
+                                } catch (ExecutionException | InterruptedException e) {
+                                    e.printStackTrace();
+                                }
                             }
                         });
-
+                        t.start();
                     }
                     else {
                         Log.d(TAG, "Cancelled");

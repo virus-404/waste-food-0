@@ -30,7 +30,7 @@ public class LoginActivity extends AppCompatActivity {
     protected TextView email, password, forgotPassword;
     private Button loginButton, registerButton;
     private static final String TAG = "EmailPassword";
-    private FirebaseAuth auth = FirebaseAuth.getInstance();;
+    private FirebaseAuth auth;
 
 
     @Override
@@ -139,7 +139,6 @@ public class LoginActivity extends AppCompatActivity {
         if (user != null){
             Intent intent = new Intent(this , MainActivity.class);
             startActivity(intent);
-            finish();
         }
 
     }

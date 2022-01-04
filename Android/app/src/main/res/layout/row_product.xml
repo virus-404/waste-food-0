@@ -38,15 +38,15 @@
 
             <TextView
                 android:id="@+id/expirationDate"
-                android:layout_width="304dp"
-                android:layout_height="45dp"
+                android:layout_width="253dp"
+                android:layout_height="37dp"
                 android:layout_below="@+id/name_product"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentBottom="true"
                 android:layout_marginStart="5dp"
                 android:layout_marginTop="0dp"
-                android:layout_marginEnd="0dp"
-                android:layout_marginBottom="0dp"
+                android:layout_marginEnd="40dp"
+                android:layout_marginBottom="1dp"
                 android:layout_toEndOf="@+id/image_product"
                 android:text="@string/expirationDate" />
 
@@ -61,6 +61,20 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
                 app:srcCompat="@drawable/__2_burger_free_download_png" />
+
+            <ImageView
+                android:id="@+id/productInfoDelete"
+                android:layout_width="40dp"
+                android:layout_height="25dp"
+                android:layout_below="@+id/name_product"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="259dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="2dp"
+                android:layout_toEndOf="@+id/image_product"
+                android:clickable="true"
+                android:focusable="true"
+                app:srcCompat="@drawable/ic_baseline_delete_24" />
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
 

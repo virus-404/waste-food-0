@@ -1,26 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+<androidx.constraintlayout.widget.ConstraintLayout
     android:clickable="true"
     android:focusableInTouchMode="true"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/colorOffWhite">
+    android:layout_height="wrap_content"
+    android:background="@color/colorOffWhite"
+    android:focusable="true">
 
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="955dp"
+        android:layout_height="1567dp"
+        android:alpha="0.04"
+        android:elevation="-100dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.541"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/background" />
+
+    <ImageView
+        android:id="@+id/imageView6"
+        android:layout_width="690dp"
+        android:layout_height="78dp"
+        android:elevation="-99dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/rectangle_top_main_page" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/numberItems3"
-        android:layout_width="120dp"
+        android:layout_width="90dp"
         android:layout_height="90dp"
         android:layout_gravity="start"
         android:layout_marginTop="28dp"
-        android:background="@drawable/r_number_products"
+        android:background="@drawable/circle_button_main_red"
         android:text="0"
         android:textColor="@color/Redmain"
         android:textSize="40sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.93"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/numberItems"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:layout_gravity="start"
+        android:layout_marginTop="28dp"
+        android:background="@drawable/circle_button_main_yellow"
+        android:text="0"
+        android:textColor="@color/Yellowmain"
+        android:textSize="40sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/numberItems2"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:layout_gravity="start"
+        android:layout_marginTop="28dp"
+        android:background="@drawable/circle_button_main_green"
+        android:text="0"
+        android:textColor="@color/colorPrimary"
+        android:textSize="40sp"
+        app:layout_constraintEnd_toStartOf="@+id/numberItems"
+        app:layout_constraintHorizontal_bias="0.277"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
@@ -147,51 +205,12 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:text="@string/oneWeek"
-        android:textColor="@color/Yellowmain"
+        android:textColor="@color/colorAccent"
         android:textSize="9sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/numberItems"
-        android:layout_width="120dp"
-        android:layout_height="90dp"
-        android:layout_gravity="start"
-        android:layout_marginTop="28dp"
-        android:background="@drawable/y_number_products"
-        android:text="0"
-        android:textColor="@color/Yellowmain"
-        android:textSize="40sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4" />
-
-    <Button
-        android:id="@+id/numberItems2"
-        android:layout_width="120dp"
-        android:layout_height="90dp"
-        android:layout_gravity="start"
-        android:layout_marginTop="28dp"
-        android:background="@drawable/number_products"
-        android:text="0"
-        android:textColor="@color/colorPrimary"
-        android:textSize="40sp"
-        app:layout_constraintEnd_toStartOf="@+id/numberItems"
-        app:layout_constraintHorizontal_bias="0.04"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4" />
-    <View
-        android:id="@+id/divider2"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="72dp"
-        android:background="?android:attr/listDivider"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/numberItems" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/floatingButtonSell"
@@ -243,26 +262,86 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginRight="25dp"
-        android:layout_marginBottom="25dp"
-        android:layout_marginEnd="25dp"
-        app:maxImageSize="36dp"
-        app:srcCompat="@drawable/ic_baseline_add_36"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="28dp"
         app:backgroundTint="@color/colorPrimaryDark"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/nearbyProductsView"
+        app:maxImageSize="36dp"
+        app:srcCompat="@drawable/ic_baseline_add_36" />
 
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/viewpager2_layout2"
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/adView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="4dp"
+        app:adSize="MEDIUM_RECTANGLE"
+        app:adUnitId="ca-app-pub-3940256099942544/6300978111"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.514"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/floatingButtonOpen" />
+
+    <TextView
+        android:id="@+id/textView12"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/roboto_medium"
+        android:text="@string/nearby"
+        android:textColor="@color/colorBlack"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.053"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/numberItems2" />
+
+    <TextView
+        android:id="@+id/textView14"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/roboto_medium"
+        android:text="@string/Free"
+        android:textColor="@color/colorBlack"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.07"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/adView" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/nearbyProductsView"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:paddingStart="80dp"
-        android:paddingEnd="80dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_height="220dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent" >
-    </androidx.viewpager2.widget.ViewPager2>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView12" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/freeProductsView"
+        android:layout_width="match_parent"
+        android:layout_height="220dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView14" />
+
+    <SearchView
+        android:layout_width="251dp"
+        android:layout_height="43dp"
+        android:queryHint="@string/searchProduct"
+        app:layout_constraintBottom_toTopOf="@+id/divider1"
+        app:layout_constraintEnd_toStartOf="@+id/toolbarHelpbottom"
+        app:layout_constraintStart_toEndOf="@+id/toolbarMenuButton"
+        app:layout_constraintTop_toTopOf="@+id/imageView5"
+        app:layout_constraintVertical_bias="0.457" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

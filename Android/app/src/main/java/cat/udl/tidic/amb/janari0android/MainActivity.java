@@ -4,15 +4,12 @@ package cat.udl.tidic.amb.janari0android;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager2.widget.CompositePageTransformer;
-import androidx.viewpager2.widget.MarginPageTransformer;
-import androidx.viewpager2.widget.ViewPager2;
 
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Intent;
 
 import android.content.SharedPreferences;
@@ -24,22 +21,23 @@ import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.ImageView;
-
-import android.widget.Toast;
 
 import com.firebase.geofire.GeoFireUtils;
 import com.firebase.geofire.GeoLocation;
 import com.firebase.geofire.GeoQueryBounds;
 import com.getkeepsafe.taptargetview.TapTarget;
 import com.getkeepsafe.taptargetview.TapTargetSequence;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -53,7 +51,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.type.DateTime;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -74,25 +71,30 @@ public class MainActivity extends AppCompatActivity {
     private FloatingActionButton open, give, add, sell;
     private Button list, profile, list2, list3, help;
     private boolean visibleFloatingButton = false;
-    private ViewPager2 saleSection;
+    private RecyclerView nearbyProducts, freeProducts;
     private final Handler sliderHandler = new Handler();
-    private final ArrayList<ProductSale> products = new ArrayList<>();
-    private List<ProductSale> sliderItems = new ArrayList<>();
-    private SliderAdapter sliderAdapter;
-    FirebaseAuth auth = FirebaseAuth.getInstance();
+    private final ArrayList<ProductSale> productsNearby = new ArrayList<>();
+    private final ArrayList<ProductSale> productsFree = new ArrayList<>();
+    private SliderAdapter sliderAdapterNearby;
+    private SliderAdapter sliderAdapterFree;
+    private AdView mAdView;
+
+    FirebaseAuth auth;
+    FirebaseUser user;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
-    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     FusedLocationProviderClient fusedLocationProviderClient;
     @SuppressLint("WrongViewCast")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTheme(R.style.AppTheme);
-        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         // Check if user is signed in (non-null) and update UI accordingly.
+        auth = FirebaseAuth.getInstance();
+        user = auth.getCurrentUser();
         if (user == null) {
             startActivity(new Intent(this,LoginActivity.class));
             finish();
+            user.reload();
         }
         setContentView(R.layout.activity_main);
 
@@ -104,11 +106,22 @@ public class MainActivity extends AppCompatActivity {
         list2 = findViewById(R.id.numberItems2);
         list3 = findViewById(R.id.numberItems3);
         profile = findViewById(R.id.toolbarUserMenuButton);
-        saleSection = findViewById(R.id.viewpager2_layout2);
+        nearbyProducts = findViewById(R.id.nearbyProductsView);
+        freeProducts = findViewById(R.id.freeProductsView);
         mCaptureBtn = findViewById(R.id.toolbarMenuButton);
         help = findViewById(R.id.toolbarHelpbottom);
 
         setOnClickListeners();
+
+        MobileAds.initialize(this, new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(InitializationStatus initializationStatus) {
+            }
+        });
+
+        mAdView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
 
         // Get location of the user and show him the products nearby
         getLocation();
@@ -121,30 +134,13 @@ public class MainActivity extends AppCompatActivity {
             tarjetaPrueba2();
         }
 
-        sliderAdapter = new SliderAdapter(products, saleSection, this);
-        saleSection.setAdapter(sliderAdapter);
-        saleSection.setClipToPadding(false);
-        saleSection.setClipChildren(false);
-        saleSection.setOffscreenPageLimit(3);
-        saleSection.getChildAt(0).setOverScrollMode(RecyclerView.OVER_SCROLL_NEVER);
-        CompositePageTransformer compositePageTransformer = new CompositePageTransformer();
-        compositePageTransformer.addTransformer(new MarginPageTransformer(40));
-        compositePageTransformer.addTransformer(new ViewPager2.PageTransformer() {
+        sliderAdapterNearby = new SliderAdapter(productsNearby, this);
+        sliderAdapterNearby.setOnItemClickListener(new SliderAdapter.OnItemClickListener() {
             @Override
-            public void transformPage(@NonNull View page, float position) {
-                float r = 1 - Math.abs(position);
-                page.setScaleY(0.85f + r * 0.15f);
-            }
-        });
-        saleSection.setPageTransformer(compositePageTransformer);
-        //Images slide every 3 seconds
-        //The user still can slide images on his own
-        saleSection.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
-            @Override
-            public void onPageSelected(int position) {
-                super.onPageSelected(position);
-                sliderHandler.removeCallbacks(sliderRunnable);
-                sliderHandler.postDelayed(sliderRunnable, 3000); //Slide duration
+            public void onClickProduct(int position) {
+                Intent intent = new Intent(MainActivity.this, ProductDetailsActivity.class);
+                intent.putExtra("id", productsNearby.get(position).getProduct().getId());
+                startActivity(intent);
             }
         });
     }
@@ -218,49 +214,51 @@ public class MainActivity extends AppCompatActivity {
         });
     }
     private void getLocation() {
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         // Checking permissions, requesting if not given
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 44);
             return;
         }
-        // Find location of the user
-        fusedLocationProviderClient.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
-            @Override
-            public void onComplete(@NonNull Task<Location> task) {
-                Location location = task.getResult();
-                if(location!=null) {
-                    Geocoder geocoder = new Geocoder(MainActivity.this, Locale.getDefault());
-                    try {
-                        List<Address> addresses = geocoder.getFromLocation(location.getLatitude(),location.getLongitude(),1);
-                        Toast.makeText(MainActivity.this, addresses.get(0).getAddressLine(0), Toast.LENGTH_SHORT).show();
-                        Address address = addresses.get(0);
-                        String hash = GeoFireUtils.getGeoHashForLocation(new GeoLocation(address.getLatitude(), address.getLongitude()));
-                        Map<String, Object> updates = new HashMap<>();
-                        updates.put("geohash", hash);
-                        updates.put("lat", address.getLatitude());
-                        updates.put("lon", address.getLongitude());
-                        // Update location and load slide data
-                        db.collection("users").document(user.getUid()).update(updates)
-                                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<Void> task) {
-                                        Log.d(TAG,"Address successfully updated");
-                                        getSliderData();
-                                    }
-                                });
-                    } catch (IOException e) {
-                        e.printStackTrace();
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            // Find location of the user
+            fusedLocationProviderClient.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
+                @Override
+                public void onComplete(@NonNull Task<Location> task) {
+                    Location location = task.getResult();
+                    if (location != null) {
+                        Geocoder geocoder = new Geocoder(MainActivity.this, Locale.getDefault());
+                        try {
+                            List<Address> addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+                            Address address = addresses.get(0);
+                            String hash = GeoFireUtils.getGeoHashForLocation(new GeoLocation(address.getLatitude(), address.getLongitude()));
+                            Map<String, Object> updates = new HashMap<>();
+                            updates.put("geohash", hash);
+                            updates.put("lat", address.getLatitude());
+                            updates.put("lon", address.getLongitude());
+                            // Update location and load slide data
+                            db.collection("users").document(user.getUid()).update(updates)
+                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            Log.d(TAG, "Address successfully updated");
+                                            getSliderData(1);
+                                            getSliderDataFree(10);
+                                        }
+                                    });
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
-            }
-        });
-
-
+            });
+        }
     }
-    private void getSliderData() {
-        products.clear();
-        // Get products nearby
+
+    private void getSliderDataFree(int kilometers) {
+        // Get products that are free
         db.collection("users").document(user.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -270,11 +268,11 @@ public class MainActivity extends AppCompatActivity {
                     double lat = (double) document.get("lat",double.class);
                     double lon = (double) document.get("lon", double.class);
                     final GeoLocation center = new GeoLocation(lat, lon);
-                    final double radiusInM = 30 * 1000;
+                    final double radiusInM = kilometers * 1000;
                     List<GeoQueryBounds> bounds = GeoFireUtils.getGeoHashQueryBounds(center, radiusInM);
                     final List<Task<QuerySnapshot>> tasks = new ArrayList<>();
                     for (GeoQueryBounds b : bounds) {
-                        Query q = db.collection("productsSale")
+                        Query q = db.collection("productsDonate")
                                 .orderBy("geohash")
                                 .startAt(b.startHash)
                                 .endAt(b.endHash);
@@ -285,6 +283,7 @@ public class MainActivity extends AppCompatActivity {
                             .addOnCompleteListener(new OnCompleteListener<List<Task<?>>>() {
                                 @Override
                                 public void onComplete(@NonNull Task<List<Task<?>>> t) {
+                                    productsFree.clear();
                                     List<DocumentSnapshot> matchingDocs = new ArrayList<>();
                                     for (Task<QuerySnapshot> task : tasks) {
                                         QuerySnapshot snap = task.getResult();
@@ -301,32 +300,102 @@ public class MainActivity extends AppCompatActivity {
                                         }
                                     }
                                     for(DocumentSnapshot doc : matchingDocs){
-                                        products.add(doc.toObject(ProductSale.class));
+                                        productsFree.add(doc.toObject(ProductSale.class));
                                     }
-                                    Log.d(TAG, String.valueOf(products.size()));
-                                    saleSection.setAdapter(sliderAdapter);
+                                    Log.d(TAG, productsFree.size() + "Free");
+                                    sliderAdapterFree = new SliderAdapter(productsFree, MainActivity.this);
+                                    freeProducts.setLayoutManager(new LinearLayoutManager(MainActivity.this,LinearLayoutManager.HORIZONTAL,false));
+                                    freeProducts.setAdapter(sliderAdapterFree);
+                                    sliderAdapterFree.setOnItemClickListener(new SliderAdapter.OnItemClickListener() {
+                                        @Override
+                                        public void onClickProduct(int position) {
+                                            Intent intent = new Intent(MainActivity.this, ProductDetailsActivity.class);
+                                            intent.putExtra("id", productsFree.get(position).getProduct().getId());
+                                            startActivity(intent);
+                                        }
+                                    });
+                                }
+                            });
+                }
+            }
+        });
+
+
+    }
+
+    private void getSliderData(int kilometers) {
+        productsNearby.clear();
+        // Get products nearby
+        db.collection("users").document(user.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if(task.isSuccessful()){
+                    DocumentSnapshot document = task.getResult();
+                    String geohash = (String) document.get("geohash");
+                    double lat = (double) document.get("lat",double.class);
+                    double lon = (double) document.get("lon", double.class);
+                    final GeoLocation center = new GeoLocation(lat, lon);
+                    final double radiusInM = kilometers * 1000;
+                    List<GeoQueryBounds> bounds = GeoFireUtils.getGeoHashQueryBounds(center, radiusInM);
+                    final List<Task<QuerySnapshot>> tasks = new ArrayList<>();
+                    for (GeoQueryBounds b : bounds) {
+                        Query q = db.collection("productsSale")
+                                .orderBy("geohash")
+                                .startAt(b.startHash)
+                                .endAt(b.endHash);
+                        tasks.add(q.get());
+                    }
+                    // Collect all the query results together into a single list
+                    Tasks.whenAllComplete(tasks)
+                            .addOnCompleteListener(new OnCompleteListener<List<Task<?>>>() {
+                                @Override
+                                public void onComplete(@NonNull Task<List<Task<?>>> t) {
+                                    productsNearby.clear();
+                                    List<DocumentSnapshot> matchingDocs = new ArrayList<>();
+                                    for (Task<QuerySnapshot> task : tasks) {
+                                        QuerySnapshot snap = task.getResult();
+                                        for (DocumentSnapshot doc : snap.getDocuments()) {
+                                            double lat = doc.getDouble("lat");
+                                            double lon = doc.getDouble("lon");
+                                            // We have to filter out a few false positives due to GeoHash
+                                            // accuracy, but most will match
+                                            GeoLocation docLocation = new GeoLocation(lat, lon);
+                                            double distanceInM = GeoFireUtils.getDistanceBetween(docLocation, center);
+                                            if (distanceInM <= radiusInM) {
+                                                matchingDocs.add(doc);
+                                            }
+                                        }
+                                    }
+                                    for(DocumentSnapshot doc : matchingDocs){
+                                        productsNearby.add(doc.toObject(ProductSale.class));
+                                    }
+                                    Log.d(TAG, String.valueOf(productsNearby.size()));
+                                    sliderAdapterNearby = new SliderAdapter(productsNearby, MainActivity.this);
+                                    nearbyProducts.setLayoutManager(new LinearLayoutManager(MainActivity.this,LinearLayoutManager.HORIZONTAL,false));
+                                    nearbyProducts.setAdapter(sliderAdapterNearby);
+                                    sliderAdapterNearby.setOnItemClickListener(new SliderAdapter.OnItemClickListener() {
+                                        @Override
+                                        public void onClickProduct(int position) {
+                                            Intent intent = new Intent(MainActivity.this, ProductDetailsActivity.class);
+                                            intent.putExtra("id", productsNearby.get(position).getProduct().getId());
+                                            startActivity(intent);
+                                        }
+                                    });
                                 }
                             });
                 }
             }
         });
     }
-    private Runnable sliderRunnable = new Runnable() {
-        @Override
-        public void run() {
-            saleSection.setCurrentItem(saleSection.getCurrentItem() + 1);
-        }
-    };
     @Override
     protected void onPause() {
         super.onPause();
-        sliderHandler.removeCallbacks(sliderRunnable);
     }
     @Override
     protected void onResume() {
         super.onResume();
-        sliderHandler.postDelayed(sliderRunnable, 3000);
-        getSliderData();
+        getLocation();
+        showProductsInfo();
     }
     private void tarjetaPrueba2() {
         give.setVisibility(View.VISIBLE);
@@ -344,7 +413,7 @@ public class MainActivity extends AppCompatActivity {
                                 .descriptionTextSize(15)            // Specify the size (in sp) of the description text
                                 .descriptionTextColor(R.color.colorDarkGrey)  // Specify the color of the description text
                                 .textTypeface(Typeface.SANS_SERIF)
-                                .tintTarget(true)
+                                .tintTarget(false)
                                 .transparentTarget(false)
                                 .cancelable(false),
                         TapTarget.forView(findViewById(R.id.toolbarMenuButton), "QR Scan", "add products to your list just by scanning their barcode or QR")
@@ -356,7 +425,7 @@ public class MainActivity extends AppCompatActivity {
                                 .descriptionTextSize(15)            // Specify the size (in sp) of the description text
                                 .descriptionTextColor(R.color.colorDarkGrey)  // Specify the color of the description text
                                 .textTypeface(Typeface.SANS_SERIF)
-                                .tintTarget(true)
+                                .tintTarget(false)
                                 .transparentTarget(false)
                                 .targetRadius(50)
                                 .cancelable(false),
@@ -369,7 +438,7 @@ public class MainActivity extends AppCompatActivity {
                                 .descriptionTextSize(15)            // Specify the size (in sp) of the description text
                                 .descriptionTextColor(R.color.colorDarkGrey)  // Specify the color of the description text
                                 .textTypeface(Typeface.SANS_SERIF)
-                                .tintTarget(true)
+                                .tintTarget(false)
                                 .transparentTarget(false)
                                 .targetRadius(80)
                                 .cancelable(false),

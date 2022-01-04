@@ -8,10 +8,13 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
+import android.transition.Transition;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -26,8 +29,11 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.CustomTarget;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -42,8 +48,12 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileDescriptor;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.concurrent.ExecutionException;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -78,9 +88,7 @@ public class EditProfileActivity extends AppCompatActivity {
         textEmail.setText(user.getEmail());
         getPhoneNumber();
         if(user.getPhotoUrl() != null) {
-            Glide.with(this)
-                    .load(user.getPhotoUrl())
-                    .into(profilePicture);
+            loadProfilepic();
         }
         else
             profilePicture.setImageResource(R.drawable.login_icon);
@@ -140,17 +148,26 @@ public class EditProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 if(which == 0) {
-                    handleImageClick(profilePicture);
+                    dispatchTakePictureIntent();
+                    loadProfilepic();
                 }
                 else {
                     Intent intent = new Intent(Intent.ACTION_PICK);
                     intent.setType("image/*");
                     galleryActivityResultLauncher.launch(intent);
+                    loadProfilepic();
                 }
             }
         });
         builder.show();
     }
+
+    private void loadProfilepic() {
+        Glide.with(this).asBitmap()
+                .load(user.getPhotoUrl())
+                .into(profilePicture);
+    }
+
     private void getPhoneNumber() {
         db.collection("users").document(user.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -178,14 +195,65 @@ public class EditProfileActivity extends AppCompatActivity {
                     if (result.getResultCode() == Activity.RESULT_OK){
                         Intent data = result.getData();
                         assert data != null;
-                        Bitmap bitmap = uriToBitmap(data.getData());
-                        profilePicture.setImageBitmap(bitmap);
-                        assert bitmap != null;
-                        handleUpload(bitmap);
+                        final Bitmap[] bitmap = {null};
+                        Thread t = new Thread(new Runnable() {
+                            public void run() {
+                                try {
+                                    bitmap[0] = Glide
+                                            .with(EditProfileActivity.this)
+                                            .asBitmap()
+                                            .load(data.getData())
+                                            .submit()
+                                            .get();
+                                    handleUpload(bitmap[0]);
+                                } catch (ExecutionException | InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+                        t.start();
                     }
                 }
             }
     );
+    String currentPhotoPath;
+
+    private File createImageFile() throws IOException {
+        // Create an image file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + "_";
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(
+                imageFileName,  /* prefix */
+                ".jpg",         /* suffix */
+                storageDir      /* directory */
+        );
+
+        // Save a file: path for use with ACTION_VIEW intents
+        currentPhotoPath = image.getAbsolutePath();
+        return image;
+    }
+    private void dispatchTakePictureIntent() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        // Ensure that there's a camera activity to handle the intent
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            // Create the File where the photo should go
+            File photoFile = null;
+            try {
+                photoFile = createImageFile();
+            } catch (IOException ex) {
+                // Error occurred while creating the File
+            }
+            // Continue only if the File was successfully created
+            if (photoFile != null) {
+                Uri photoURI = FileProvider.getUriForFile(this,
+                        "com.example.android.fileprovider",
+                        photoFile);
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                startActivityForResult(takePictureIntent, TAKE_IMAGE_CODE);
+            }
+        }
+    }
     private Bitmap uriToBitmap(Uri selectedFileUri) {
         try {
             ParcelFileDescriptor parcelFileDescriptor =
@@ -205,15 +273,26 @@ public class EditProfileActivity extends AppCompatActivity {
         startActivityForResult(intent, TAKE_IMAGE_CODE);
     }
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == TAKE_IMAGE_CODE) {
-            if (resultCode == RESULT_OK) {
-                assert data != null;
-                Bitmap bitmap = (Bitmap) data.getExtras().get("data");
-                profilePicture.setImageBitmap(bitmap);
-                handleUpload(bitmap);
-            }
+        if (requestCode == TAKE_IMAGE_CODE && resultCode == RESULT_OK) {
+            final Bitmap[] bitmap = {null};
+            Thread t = new Thread(new Runnable() {
+                public void run() {
+                    try {
+                        bitmap[0] = Glide
+                                .with(EditProfileActivity.this)
+                                .asBitmap()
+                                .load(Uri.fromFile(new File(currentPhotoPath)))
+                                .submit()
+                                .get();
+                        handleUpload(bitmap[0]);
+                    } catch (ExecutionException | InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+            t.start();
         }
     }
     private void handleUpload(Bitmap bitmap) {
@@ -222,8 +301,7 @@ public class EditProfileActivity extends AppCompatActivity {
 
         String uid = user.getUid();
         final StorageReference reference = FirebaseStorage.getInstance().getReference()
-                .child("profileImages")
-                .child(uid + ".jpeg");
+                .child("images/" + user.getUid() + "/profile/" + currentPhotoPath);
 
         reference.putBytes(baos.toByteArray())
                 .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -258,6 +336,7 @@ public class EditProfileActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Toast.makeText(getApplicationContext(), "Updated succesfully", Toast.LENGTH_SHORT).show();
+                        loadProfilepic();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -266,5 +345,6 @@ public class EditProfileActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "Profile image failed...", Toast.LENGTH_SHORT).show();
                     }
                 });
+
     }
 }
