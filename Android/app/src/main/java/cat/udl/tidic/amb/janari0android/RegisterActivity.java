@@ -31,7 +31,7 @@ public class RegisterActivity extends AppCompatActivity {
     private static final String TAG = "bakedbeans";
     private FirebaseAuth auth;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    protected EditText username, email, password, passwordRep;
+    protected EditText username, email, password, passwordRep, phone;
     protected Button register;
     protected ImageButton goBack;
 
@@ -47,6 +47,7 @@ public class RegisterActivity extends AppCompatActivity {
         email = findViewById(R.id.emailEditText);
         password = findViewById(R.id.passwordEditText);
         passwordRep = findViewById(R.id.repeatPasswordEditText);
+        phone = findViewById(R.id.phoneNumberEditText);
         register = findViewById(R.id.registerFormButton);
 
         String pleaseFillAllFields = getResources().getString(R.string.pleaseFillAllFields);
@@ -61,8 +62,8 @@ public class RegisterActivity extends AppCompatActivity {
                 String em = email.getText().toString();
                 String pas = password.getText().toString();
                 String pasR = passwordRep.getText().toString();
-
-                if (us.isEmpty() || em.isEmpty() || pas.isEmpty() || pasR.isEmpty()){
+                String ph = phone.getText().toString();
+                if (us.isEmpty() || em.isEmpty() || pas.isEmpty() || pasR.isEmpty() || ph.isEmpty()){
                     Toast.makeText(getApplicationContext(),
                             pleaseFillAllFields, Toast.LENGTH_LONG).show();
                 } else if (!isValidEmail(em))
@@ -172,6 +173,7 @@ public class RegisterActivity extends AppCompatActivity {
     private void setDisplayName()
     {
         String userName = String.valueOf(username.getText());
+        String phoneNumber = String.valueOf(phone.getText());
         FirebaseUser user = auth.getCurrentUser();
         UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                 .setDisplayName(String.valueOf(username.getText()))
@@ -179,7 +181,7 @@ public class RegisterActivity extends AppCompatActivity {
                 .build();
         user.updateProfile(profileUpdates);
 
-        User userDB = new User(userName);
+        User userDB = new User(userName, phoneNumber);
         db.collection("users").document(user.getUid())
                 .set(userDB)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -198,7 +200,7 @@ public class RegisterActivity extends AppCompatActivity {
     }
     private void updateUI(FirebaseUser user) {
         if (user != null){
-            Intent intent = new Intent(this , LoginActivity.class);
+            Intent intent = new Intent(this , MainActivity.class);
             startActivity(intent);
         }
 
