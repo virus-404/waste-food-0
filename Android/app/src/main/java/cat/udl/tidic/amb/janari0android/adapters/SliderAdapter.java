@@ -2,6 +2,7 @@ package cat.udl.tidic.amb.janari0android.adapters;
 
 import android.content.Context;
 import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.bumptech.glide.Glide;
 import com.google.android.material.slider.Slider;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import cat.udl.tidic.amb.janari0android.ProductSale;
@@ -22,10 +24,10 @@ import cat.udl.tidic.amb.janari0android.R;
 
 public class SliderAdapter extends RecyclerView.Adapter <SliderAdapter.SliderViewHolder>{
 
-    private List<ProductSale> sliderItems;
-    private ViewPager2 viewPager2;
-    private Context context;
-    SliderAdapter.OnItemClickListener listener;
+    private static final String TAG = "bakedbeans";
+    private final ArrayList<ProductSale> sliderItems;
+    private final Context context;
+    OnItemClickListener listener;
 
 
     public void setOnItemClickListener(SliderAdapter.OnItemClickListener onItemClickListener) {
@@ -34,9 +36,8 @@ public class SliderAdapter extends RecyclerView.Adapter <SliderAdapter.SliderVie
     public interface OnItemClickListener {
         void onClickProduct(int position);
     }
-    public SliderAdapter(List<ProductSale> sliderItems, ViewPager2 viewPager2, Context context) {
+    public SliderAdapter(ArrayList<ProductSale> sliderItems, Context context) {
         this.sliderItems = sliderItems;
-        this.viewPager2 = viewPager2;
         this.context = context;
     }
     @NonNull
@@ -46,8 +47,8 @@ public class SliderAdapter extends RecyclerView.Adapter <SliderAdapter.SliderVie
                 LayoutInflater.from(parent.getContext()).inflate(
                         R.layout.row_new_slide_product,
                         parent,
-                        false
-                )
+                        false),
+                listener
         );
     }
 
@@ -65,10 +66,6 @@ public class SliderAdapter extends RecyclerView.Adapter <SliderAdapter.SliderVie
         }
         holder.setName(sliderItems.get(position));
         holder.setPrice(sliderItems.get(position));
-        holder.setDescription(sliderItems.get(position));
-        if (position == sliderItems.size() - 2){
-            viewPager2.post(runnable);
-        }
     }
 
     @Override
@@ -79,23 +76,23 @@ public class SliderAdapter extends RecyclerView.Adapter <SliderAdapter.SliderVie
 
     class SliderViewHolder extends RecyclerView.ViewHolder{
 
-        private ImageView imageView;
-        private TextView product_name;
-        private TextView product_price, product_description;
+        private final ImageView imageView;
+        private final TextView product_name, product_price;
 
-        SliderViewHolder(@NonNull View itemView) {
+        SliderViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
             super(itemView);
             imageView = itemView.findViewById(R.id.image_product);
             product_name = itemView.findViewById(R.id.name_product);
             product_price = itemView.findViewById(R.id.price_product);
-            product_description = itemView.findViewById(R.id.description_product);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (listener != null) {
                         int position = getAdapterPosition();
+                        Log.d(TAG, "onClick: yes");
                         if (position != RecyclerView.NO_POSITION) {
                             listener.onClickProduct(position);
+                            Log.d(TAG, "onClick: yes");
                         }
                     }
                 }
@@ -104,22 +101,11 @@ public class SliderAdapter extends RecyclerView.Adapter <SliderAdapter.SliderVie
         void setName(ProductSale setDataSliderProducts){
             product_name.setText(setDataSliderProducts.getProduct().getName());
         }
-        void setPrice(ProductSale setDataSliderProducts){
-            if(!setDataSliderProducts.getPrice().equals("Free"))
-                product_price.setText(setDataSliderProducts.getPrice() + "€");
+        void setPrice(ProductSale productSale){
+            if(!productSale.getPrice().equals("Free"))
+                product_price.setText(productSale.getPrice() + "€");
             else
-                product_price.setText(setDataSliderProducts.getPrice());
-        }
-        void setDescription(ProductSale setDataSliderProducts){
-            product_description.setText(setDataSliderProducts.getDescription());
+                product_price.setText(productSale.getPrice());
         }
     }
-
-    private Runnable runnable = new Runnable() {
-        @Override
-        public void run() {
-            sliderItems.addAll(sliderItems);
-            notifyDataSetChanged();
-        }
-    };
 }
