@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
 
 import android.content.SharedPreferences;
@@ -25,8 +26,10 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.SearchView;
 
 import com.firebase.geofire.GeoFireUtils;
 import com.firebase.geofire.GeoLocation;
@@ -44,6 +47,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.api.Distribution;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -60,6 +64,9 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import cat.udl.tidic.amb.janari0android.adapters.ListProductSellAdapter;
+import cat.udl.tidic.amb.janari0android.adapters.SearchStockAdapter;
+import cat.udl.tidic.amb.janari0android.adapters.SearchStockSaleAdapter;
 import cat.udl.tidic.amb.janari0android.adapters.SliderAdapter;
 
 public class MainActivity extends AppCompatActivity {
@@ -77,8 +84,11 @@ public class MainActivity extends AppCompatActivity {
     private final ArrayList<ProductSale> productsFree = new ArrayList<>();
     private SliderAdapter sliderAdapterNearby;
     private SliderAdapter sliderAdapterFree;
+    private SearchStockSaleAdapter searchStockSaleAdapter;
     private AdView mAdView;
-
+    private SearchView searchProducts;
+    private RecyclerView searchProductsRecycler;
+    private ArrayList<ProductSale> productsSale = new ArrayList<>();
     FirebaseAuth auth;
     FirebaseUser user;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -110,7 +120,8 @@ public class MainActivity extends AppCompatActivity {
         freeProducts = findViewById(R.id.freeProductsView);
         mCaptureBtn = findViewById(R.id.toolbarMenuButton);
         help = findViewById(R.id.toolbarHelpbottom);
-
+        searchProducts = findViewById(R.id.searchProductsViewMain);
+        searchProductsRecycler = findViewById(R.id.searchProductsView);
         setOnClickListeners();
 
         MobileAds.initialize(this, new OnInitializationCompleteListener() {
@@ -124,6 +135,8 @@ public class MainActivity extends AppCompatActivity {
         mAdView.loadAd(adRequest);
 
         // Get location of the user and show him the products nearby
+        setSearchViewParameters();
+        getSearchData();
         getLocation();
         showProductsInfo();
 
@@ -133,13 +146,96 @@ public class MainActivity extends AppCompatActivity {
         if (firstTime) {
             tarjetaPrueba2();
         }
-
+        buildSearchProducts();
         sliderAdapterNearby = new SliderAdapter(productsNearby, this);
         sliderAdapterNearby.setOnItemClickListener(new SliderAdapter.OnItemClickListener() {
             @Override
             public void onClickProduct(int position) {
                 Intent intent = new Intent(MainActivity.this, ProductDetailsActivity.class);
                 intent.putExtra("id", productsNearby.get(position).getProduct().getId());
+                startActivity(intent);
+            }
+        });
+    }
+
+    private void setSearchViewParameters() {
+        searchProducts.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    searchProducts.clearFocus();
+                    searchProducts.setIconified(true);
+                    hideKeyboard(v);
+                }
+            }
+        });
+        searchProducts.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                searchProducts.setIconified(false);
+                searchProductsRecycler.setAdapter(searchStockSaleAdapter);
+                searchProductsRecycler.setVisibility(View.VISIBLE);
+            }
+        });
+
+        searchProducts.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean queryTextFocused) {
+                if(!queryTextFocused) {
+                    searchProductsRecycler.setVisibility(View.GONE);
+                    searchProducts.setQuery("", false);
+                    searchProducts.clearFocus();
+                    searchProducts.setIconified(true);
+                    hideKeyboard(v);
+                }
+                else{
+                    searchProductsRecycler.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
+        searchProducts.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                searchProducts.clearFocus();
+                return false;
+            }
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                filter(newText);
+                return false;
+            }
+        });
+    }
+
+    private void getSearchData() {
+        db.collection("productsSale")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Log.d(TAG, document.getId() + " => " + document.getData());
+                                ProductSale product = document.toObject(ProductSale.class);
+                                productsSale.add(product);
+                            }
+                            buildSearchProducts();
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
+    }
+    private void buildSearchProducts() {
+        searchStockSaleAdapter = new SearchStockSaleAdapter(MainActivity.this, productsSale);
+        searchProductsRecycler.setLayoutManager(new LinearLayoutManager(this));
+        searchProductsRecycler.setAdapter(searchStockSaleAdapter);
+        searchStockSaleAdapter.setOnItemClickListener(new SearchStockSaleAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                Intent intent = new Intent(MainActivity.this, ProductDetailsActivity.class);
+                intent.putExtra("id", productsSale.get(position).getProduct().getId());
                 startActivity(intent);
             }
         });
@@ -397,6 +493,16 @@ public class MainActivity extends AppCompatActivity {
         getLocation();
         showProductsInfo();
     }
+    private void filter(String text) {
+        ArrayList<ProductSale> filteredlist = new ArrayList<>();
+        for (ProductSale item : productsSale) {
+            if (item.getProduct().getName().toLowerCase().contains(text.toLowerCase())) {
+                filteredlist.add(item);
+            }
+        }
+        searchStockSaleAdapter.filterList(filteredlist);
+        searchProductsRecycler.setAdapter(searchStockSaleAdapter);
+    }
     private void tarjetaPrueba2() {
         give.setVisibility(View.VISIBLE);
         add.setVisibility(View.VISIBLE);
@@ -578,5 +684,9 @@ public class MainActivity extends AppCompatActivity {
             sell.setVisibility(View.VISIBLE);
             visibleFloatingButton = true;
         }
+    }
+    public void hideKeyboard(View view) {
+        InputMethodManager inputMethodManager =(InputMethodManager)getSystemService(Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 }

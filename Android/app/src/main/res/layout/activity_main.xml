@@ -333,7 +333,8 @@
         app:layout_constraintTop_toBottomOf="@+id/textView14" />
 
     <SearchView
-        android:layout_width="251dp"
+        android:id="@+id/searchProductsViewMain"
+        android:layout_width="250dp"
         android:layout_height="43dp"
         android:queryHint="@string/searchProduct"
         app:layout_constraintBottom_toTopOf="@+id/divider1"
@@ -341,6 +342,18 @@
         app:layout_constraintStart_toEndOf="@+id/toolbarMenuButton"
         app:layout_constraintTop_toTopOf="@+id/imageView5"
         app:layout_constraintVertical_bias="0.457" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/searchProductsView"
+        android:visibility="invisible"
+        android:layout_width="250dp"
+        android:elevation="15dp"
+        android:background="@color/colorWhite"
+        android:layout_height="304dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.385"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/searchProductsViewMain" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
