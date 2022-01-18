@@ -105,6 +105,8 @@
     <string name="whatIsYourEmail">What is your email?</string>
     <string name="wrongPassword">Wrong password</string>
     <string name="yourGroceries">Your groceries</string>
+    <string name="wpmessage1" >Hello! I want to talk to you about your product: </string>
+    <string name="wpmessage2"> from the JanariO app </string>
     <string name="nearby">Nearby</string>
     <string name="Free">Free</string>
 </resources>
