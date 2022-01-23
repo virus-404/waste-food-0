@@ -105,4 +105,6 @@
     <string name="whatIsYourEmail">¿Cuál es tu e-mail?</string>
     <string name="wrongPassword">Contraseña incorrecta</string>
     <string name="yourGroceries">Inventario</string>
+    <string name="wpmessage1">¡Hola! Quiero hablar con usted acerca de su producto: </string>
+    <string name="wpmessage2">de la app JanariO </string>
 </resources>
