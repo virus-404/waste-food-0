@@ -45,8 +45,6 @@ public class ListProductsActivity extends AppCompatActivity {
     private static final String TAG = "bakedbeans";
     ArrayList<Product> products = new ArrayList<>() ;
     ArrayList<ProductSale> productsSale = new ArrayList<>() ;
-    private final ArrayList<ProductSale> productsNearby = new ArrayList<>();
-    private final ArrayList<ProductSale> productsFree = new ArrayList<>();
     RecyclerView recyclerView;
     ListProductAdapter listProductAdapter;
     ListProductSellAdapter listProductSellAdapter;
@@ -262,7 +260,7 @@ public class ListProductsActivity extends AppCompatActivity {
                         }
                     });
         }else if(page == 5){ //nearby products
-            productsNearby.clear();
+            productsSale.clear();
             // Get products nearby
             db.collection("users").document(user.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                 @Override
@@ -288,7 +286,6 @@ public class ListProductsActivity extends AppCompatActivity {
                                 .addOnCompleteListener(new OnCompleteListener<List<Task<?>>>() {
                                     @Override
                                     public void onComplete(@NonNull Task<List<Task<?>>> t) {
-                                        productsNearby.clear();
                                         List<DocumentSnapshot> matchingDocs = new ArrayList<>();
                                         for (Task<QuerySnapshot> task : tasks) {
                                             QuerySnapshot snap = task.getResult();
@@ -304,15 +301,13 @@ public class ListProductsActivity extends AppCompatActivity {
                                                 }
                                             }
                                         }
-                                        //ProductSale p = document.toObject(ProductSale.class);
                                         for(DocumentSnapshot doc : matchingDocs){
-                                            //productsNearby.add(doc.toObject(ProductSale.class));
-                                            ProductSale p = document.toObject(ProductSale.class);
-                                            productsSale.add(p);
+                                            productsSale.add(doc.toObject(ProductSale.class));
                                         }
+                                        Log.d(TAG, String.valueOf(productsSale.size()));
+                                        buildRecyclerView(true);
                                     }
                                 });
-                        buildRecyclerView(true);
                     }
                 }
             });
