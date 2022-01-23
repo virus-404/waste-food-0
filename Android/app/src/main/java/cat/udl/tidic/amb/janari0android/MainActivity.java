@@ -3,6 +3,7 @@ package cat.udl.tidic.amb.janari0android;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,14 +18,14 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Typeface;
 
-import android.graphics.drawable.Drawable;
-
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -47,7 +48,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.api.Distribution;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -64,8 +64,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import cat.udl.tidic.amb.janari0android.adapters.ListProductSellAdapter;
-import cat.udl.tidic.amb.janari0android.adapters.SearchStockAdapter;
 import cat.udl.tidic.amb.janari0android.adapters.SearchStockSaleAdapter;
 import cat.udl.tidic.amb.janari0android.adapters.SliderAdapter;
 
@@ -86,9 +84,9 @@ public class MainActivity extends AppCompatActivity {
     private SliderAdapter sliderAdapterFree;
     private SearchStockSaleAdapter searchStockSaleAdapter;
     private AdView mAdView;
-    private SearchView searchProducts;
     private RecyclerView searchProductsRecycler;
     private ArrayList<ProductSale> productsSale = new ArrayList<>();
+    private Toolbar mainToolbar;
     FirebaseAuth auth;
     FirebaseUser user;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -97,7 +95,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTheme(R.style.AppTheme);
         // Check if user is signed in (non-null) and update UI accordingly.
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
@@ -107,7 +104,9 @@ public class MainActivity extends AppCompatActivity {
             user.reload();
         }
         setContentView(R.layout.activity_main);
-
+        mainToolbar = findViewById(R.id.mainToolbar);
+        setSupportActionBar(mainToolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
         open = findViewById(R.id.floatingButtonOpen);
         add = findViewById(R.id.floatingButtonAdd);
         give = findViewById(R.id.floatingButtonGift);
@@ -120,7 +119,6 @@ public class MainActivity extends AppCompatActivity {
         freeProducts = findViewById(R.id.freeProductsView);
         mCaptureBtn = findViewById(R.id.toolbarMenuButton);
         help = findViewById(R.id.toolbarHelpbottom);
-        searchProducts = findViewById(R.id.searchProductsViewMain);
         searchProductsRecycler = findViewById(R.id.searchProductsView);
         setOnClickListeners();
 
@@ -157,35 +155,38 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
-    private void setSearchViewParameters() {
-        searchProducts.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        MenuItem menuItem = menu.findItem(R.id.search_icon);
+        androidx.appcompat.widget.SearchView searchView = (androidx.appcompat.widget.SearchView) menuItem.getActionView();
+        searchView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
-                    searchProducts.clearFocus();
-                    searchProducts.setIconified(true);
+                    searchView.clearFocus();
+                    searchView.setIconified(true);
                     hideKeyboard(v);
                 }
             }
         });
-        searchProducts.setOnClickListener(new View.OnClickListener() {
+        searchView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                searchProducts.setIconified(false);
+                searchView.setIconified(false);
                 searchProductsRecycler.setAdapter(searchStockSaleAdapter);
                 searchProductsRecycler.setVisibility(View.VISIBLE);
             }
         });
 
-        searchProducts.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
+        searchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean queryTextFocused) {
                 if(!queryTextFocused) {
                     searchProductsRecycler.setVisibility(View.GONE);
-                    searchProducts.setQuery("", false);
-                    searchProducts.clearFocus();
-                    searchProducts.setIconified(true);
+                    searchView.setQuery("", false);
+                    searchView.clearFocus();
+                    searchView.setIconified(true);
                     hideKeyboard(v);
                 }
                 else{
@@ -194,10 +195,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        searchProducts.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        searchView.setOnQueryTextListener(new androidx.appcompat.widget.SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                searchProducts.clearFocus();
+                searchView.clearFocus();
                 return false;
             }
             @Override
@@ -206,6 +207,10 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
+        return super.onCreateOptionsMenu(menu);
+    }
+    private void setSearchViewParameters() {
+
     }
 
     private void getSearchData() {

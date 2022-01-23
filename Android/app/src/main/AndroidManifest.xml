@@ -38,7 +38,8 @@
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="ca-app-pub-6927179423834926~5629011915"/>
-        <activity android:name=".MainActivity" android:screenOrientation="portrait"
+        <activity android:name=".MainActivity"
+            android:screenOrientation="portrait"
             android:exported="true"
             android:windowSoftInputMode="adjustPan">
             <intent-filter>
