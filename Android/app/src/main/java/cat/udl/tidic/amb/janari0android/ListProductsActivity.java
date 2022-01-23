@@ -311,6 +311,59 @@ public class ListProductsActivity extends AppCompatActivity {
                     }
                 }
             });
+        }else if(page == 6) {//free products
+            productsSale.clear();
+            // Get products free
+            db.collection("users").document(user.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if(task.isSuccessful()){
+                        DocumentSnapshot document = task.getResult();
+                        String geohash = (String) document.get("geohash");
+                        double lat = (double) document.get("lat",double.class);
+                        double lon = (double) document.get("lon", double.class);
+                        final GeoLocation center = new GeoLocation(lat, lon);
+                        final double radiusInM = 1 * 1000;
+                        List<GeoQueryBounds> bounds = GeoFireUtils.getGeoHashQueryBounds(center, radiusInM);
+                        final List<Task<QuerySnapshot>> tasks = new ArrayList<>();
+                        for (GeoQueryBounds b : bounds) {
+                            Query q = db.collection("productsDonate")
+                                    .orderBy("geohash")
+                                    .startAt(b.startHash)
+                                    .endAt(b.endHash);
+                            tasks.add(q.get());
+                        }
+                        // Collect all the query results together into a single list
+                        Tasks.whenAllComplete(tasks)
+                                .addOnCompleteListener(new OnCompleteListener<List<Task<?>>>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<List<Task<?>>> t) {
+                                        List<DocumentSnapshot> matchingDocs = new ArrayList<>();
+                                        for (Task<QuerySnapshot> task : tasks) {
+                                            QuerySnapshot snap = task.getResult();
+                                            for (DocumentSnapshot doc : snap.getDocuments()) {
+                                                double lat = doc.getDouble("lat");
+                                                double lon = doc.getDouble("lon");
+                                                // We have to filter out a few false positives due to GeoHash
+                                                // accuracy, but most will match
+                                                GeoLocation docLocation = new GeoLocation(lat, lon);
+                                                double distanceInM = GeoFireUtils.getDistanceBetween(docLocation, center);
+                                                if (distanceInM <= radiusInM) {
+                                                    matchingDocs.add(doc);
+                                                }
+                                            }
+                                        }
+                                        for (DocumentSnapshot doc : matchingDocs) {
+                                            productsSale.add(doc.toObject(ProductSale.class));
+                                        }
+                                        Log.d(TAG, String.valueOf(productsSale.size()));
+                                        buildRecyclerView(true);
+                                    }
+                                });
+                    }
+                }
+            });
+
         }else{
 
             db.collection("users").document(user.getUid()).collection("productsSale")
