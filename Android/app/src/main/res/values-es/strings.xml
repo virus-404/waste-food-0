@@ -107,4 +107,10 @@
     <string name="yourGroceries">Inventario</string>
     <string name="wpmessage1">¡Hola! Quiero hablar con usted acerca de su producto: </string>
     <string name="wpmessage2">de la app JanariO </string>
+    <string name="nearby">Cerca</string>
+    <string name="Free">Gratis</string>
+    <string name="seeAll">Más</string>
+    <string name="nearbyProducts">Productos cercanos</string>
+    <string name="freeProducts">Productos gratuitos</string>
+
 </resources>
