@@ -147,13 +147,6 @@ public class MainActivity extends AppCompatActivity {
         getSearchData();
         getLocation();
         showProductsInfo();
-
-        // for the first time , do the tutorial
-        SharedPreferences prefs = getSharedPreferences("prefs", MODE_PRIVATE);
-        boolean firstTime = prefs.getBoolean("firstTime", true);
-        if (firstTime) {
-            tarjetaPrueba2();
-        }
         buildSearchProducts();
         sliderAdapterNearby = new SliderAdapter(productsNearby, this);
         sliderAdapterNearby.setOnItemClickListener(new SliderAdapter.OnItemClickListener() {
@@ -164,6 +157,13 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        // for the first time , do the tutorial
+        SharedPreferences prefs = getSharedPreferences("prefs", MODE_PRIVATE);
+        boolean firstTime = prefs.getBoolean("firstTime", true);
+        if (firstTime) {
+            tarjetaPrueba2();
+        }
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
