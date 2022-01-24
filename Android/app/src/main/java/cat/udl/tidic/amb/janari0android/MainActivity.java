@@ -157,13 +157,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-        // for the first time , do the tutorial
-        SharedPreferences prefs = getSharedPreferences("prefs", MODE_PRIVATE);
-        boolean firstTime = prefs.getBoolean("firstTime", true);
-        if (firstTime) {
-            tarjetaPrueba2();
-        }
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
@@ -217,6 +210,13 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
+        // for the first time , do the tutorial
+        SharedPreferences prefs = getSharedPreferences("prefs", MODE_PRIVATE);
+        boolean firstTime = prefs.getBoolean("firstTime", true);
+        if (firstTime) {
+            tarjetaPrueba2();
+        }
+
         return super.onCreateOptionsMenu(menu);
     }
     @Override
