@@ -107,9 +107,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         seeAllFree = findViewById(R.id.seeAllFree);
         seeAll = findViewById(R.id.seeAll);
-        mainToolbar = findViewById(R.id.mainToolbar);
-        setSupportActionBar(mainToolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
         open = findViewById(R.id.floatingButtonOpen);
         add = findViewById(R.id.floatingButtonAdd);
         give = findViewById(R.id.floatingButtonGift);
@@ -117,16 +114,14 @@ public class MainActivity extends AppCompatActivity {
         list = findViewById(R.id.numberItems);
         list2 = findViewById(R.id.numberItems2);
         list3 = findViewById(R.id.numberItems3);
-        View logoView = mainToolbar.getChildAt(0);
-        logoView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, ScannActivity.class));
-            }
-        });
+
+        mainToolbar = findViewById(R.id.mainToolbar);
+        setSupportActionBar(mainToolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        logoView = mainToolbar.getChildAt(0);
         nearbyProducts = findViewById(R.id.nearbyProductsView);
         freeProducts = findViewById(R.id.freeProductsView);
-        //mCaptureBtn = findViewById(R.id.toolbarMenuButton);
         help = findViewById(R.id.toolbarHelpbottom);
         profile = findViewById(R.id.toolbarUserMenuButton);
         searchProductsRecycler = findViewById(R.id.searchProductsView);
@@ -274,6 +269,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setOnClickListeners() {
+        logoView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, ScannActivity.class));
+            }
+        });
         open.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -556,7 +557,7 @@ public class MainActivity extends AppCompatActivity {
         give.setVisibility(View.VISIBLE);
         add.setVisibility(View.VISIBLE);
         sell.setVisibility(View.VISIBLE);
-        View logoView = mainToolbar.getChildAt(0);
+        logoView = mainToolbar.getChildAt(0);
         final TapTargetSequence sequence =new TapTargetSequence(this)
                 .targets(
                         TapTarget.forView(findViewById(R.id.toolbarUserMenuButton), "Your Profile",
