@@ -87,6 +87,7 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView searchProductsRecycler;
     private ArrayList<ProductSale> productsSale = new ArrayList<>();
     private Toolbar mainToolbar;
+    private View logoView;
     FirebaseAuth auth;
     FirebaseUser user;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -114,11 +115,18 @@ public class MainActivity extends AppCompatActivity {
         list = findViewById(R.id.numberItems);
         list2 = findViewById(R.id.numberItems2);
         list3 = findViewById(R.id.numberItems3);
-        profile = findViewById(R.id.toolbarUserMenuButton);
+        View logoView = mainToolbar.getChildAt(0);
+        logoView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, ScannActivity.class));
+            }
+        });
         nearbyProducts = findViewById(R.id.nearbyProductsView);
         freeProducts = findViewById(R.id.freeProductsView);
-        mCaptureBtn = findViewById(R.id.toolbarMenuButton);
+        //mCaptureBtn = findViewById(R.id.toolbarMenuButton);
         help = findViewById(R.id.toolbarHelpbottom);
+        profile = findViewById(R.id.toolbarUserMenuButton);
         searchProductsRecycler = findViewById(R.id.searchProductsView);
         setOnClickListeners();
 
@@ -157,7 +165,9 @@ public class MainActivity extends AppCompatActivity {
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
-        androidx.appcompat.widget.SearchView searchView = findViewById(R.id.searchProductsViewMain);
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        MenuItem menuItem = menu.findItem(R.id.searchProductsViewMain);
+        androidx.appcompat.widget.SearchView searchView = (androidx.appcompat.widget.SearchView) menuItem.getActionView();
         searchView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -207,6 +217,23 @@ public class MainActivity extends AppCompatActivity {
         });
         return super.onCreateOptionsMenu(menu);
     }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.toolbarHelpbottom:
+                tarjetaPrueba2();
+                return true;
+
+            case R.id.toolbarUserMenuButton:
+                startActivity(new Intent(MainActivity.this, UserProfileActivity.class));
+                return true;
+            default:
+                // If we got here, the user's action was not recognized.
+                // Invoke the superclass to handle it.
+                return super.onOptionsItemSelected(item);
+
+        }
+    }
     private void setSearchViewParameters() {
 
     }
@@ -251,12 +278,12 @@ public class MainActivity extends AppCompatActivity {
                 toggleFloatingButton();
             }
         });
-        mCaptureBtn.setOnClickListener(new View.OnClickListener() {
+        /*mCaptureBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MainActivity.this, ScannActivity.class));
             }
-        });
+        });*/
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -299,18 +326,18 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this, SellActivity.class));
             }
         });
-        profile.setOnClickListener(new View.OnClickListener() {
+       /* profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MainActivity.this, UserProfileActivity.class));
             }
-        });
-        help.setOnClickListener(new View.OnClickListener() {
+        });*/
+        /*help.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 tarjetaPrueba2();
             }
-        });
+        });*/
     }
     private void getLocation() {
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
@@ -510,6 +537,7 @@ public class MainActivity extends AppCompatActivity {
         give.setVisibility(View.VISIBLE);
         add.setVisibility(View.VISIBLE);
         sell.setVisibility(View.VISIBLE);
+        View logoView = mainToolbar.getChildAt(0);
         final TapTargetSequence sequence =new TapTargetSequence(this)
                 .targets(
                         TapTarget.forView(findViewById(R.id.toolbarUserMenuButton), "Your Profile",
@@ -525,7 +553,7 @@ public class MainActivity extends AppCompatActivity {
                                 .tintTarget(false)
                                 .transparentTarget(false)
                                 .cancelable(false),
-                        TapTarget.forView(findViewById(R.id.toolbarMenuButton), "QR Scan", "add products to your list just by scanning their barcode or QR")
+                        TapTarget.forView(logoView, "QR Scan", "add products to your list just by scanning their barcode or QR")
                                 .outerCircleColor(R.color.colorPrimary900)
                                 //.dimColor(R.color.colorPrimary700)
                                 .outerCircleAlpha(0.95f)
@@ -604,7 +632,7 @@ public class MainActivity extends AppCompatActivity {
                                 .transparentTarget(false)
                                 .targetRadius(35)
                                 .cancelable(false),
-                        TapTarget.forView(help, "Help button",
+                        TapTarget.forView(findViewById(R.id.toolbarHelpbottom), "Help button",
                                 "If you want to see this tutorial again, you can always click here and it will appear again")
                                 .outerCircleColor(R.color.colorPrimary900)
                                 //.dimColor(R.color.colorPrimary700)

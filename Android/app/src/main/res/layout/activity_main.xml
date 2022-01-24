@@ -26,7 +26,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <androidx.appcompat.widget.AppCompatButton
+           <!-- <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/toolbarMenuButton"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
@@ -36,9 +36,9 @@
                 android:elevation="15dp"
                 app:layout_constraintBottom_toBottomOf="@+id/mainToolbar"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent" />-->
 
-            <androidx.appcompat.widget.AppCompatButton
+            <!--<androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/toolbarUserMenuButton"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
@@ -62,9 +62,9 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toEndOf="@+id/toolbarMenuButton"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent" />-->
 
-            <androidx.appcompat.widget.SearchView
+<!--            <androidx.appcompat.widget.SearchView
                 android:id="@+id/searchProductsViewMain"
                 android:layout_width="250dp"
                 android:layout_height="43dp"
@@ -74,7 +74,7 @@
                 app:layout_constraintEnd_toStartOf="@+id/toolbarHelpbottom"
                 app:layout_constraintStart_toEndOf="@+id/toolbarMenuButton"
                 app:layout_constraintTop_toTopOf="@+id/mainToolbar"
-                app:layout_constraintVertical_bias="0.457" />
+                app:layout_constraintVertical_bias="0.457" />-->
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/mainToolbar"
@@ -83,6 +83,7 @@
                 android:background="@color/colorPrimary"
                 android:minHeight="?attr/actionBarSize"
                 android:theme="@style/AppTheme"
+                app:logo="@drawable/ic_baseline_qr_code_scanner_24"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -360,10 +361,10 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/searchProductsView"
         android:visibility="invisible"
-        android:layout_width="250dp"
+        android:layout_width="match_parent"
         android:elevation="15dp"
         android:background="@color/colorWhite"
-        android:layout_height="304dp"
+        android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.385"
         app:layout_constraintStart_toStartOf="parent"
