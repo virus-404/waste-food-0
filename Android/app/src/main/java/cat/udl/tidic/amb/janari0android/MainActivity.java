@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "bakedbeans";
     private static final int PERMISSION_CODE = 1000;
     private static final int IMAGE_CAPTURE_CODE = 1001;
-    private Button mCaptureBtn;
+    private Button mCaptureBtn, seeAll, seeAllFree;
     private ImageView gps;
     private FloatingActionButton open, give, add, sell;
     private Button list, profile, list2, list3, help;
@@ -105,6 +105,8 @@ public class MainActivity extends AppCompatActivity {
             user.reload();
         }
         setContentView(R.layout.activity_main);
+        seeAllFree = findViewById(R.id.seeAllFree);
+        seeAll = findViewById(R.id.seeAll);
         mainToolbar = findViewById(R.id.mainToolbar);
         setSupportActionBar(mainToolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -314,6 +316,23 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        seeAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, ListProductsActivity.class);
+                intent.putExtra("Page", 5);
+                startActivity(intent);
+            }
+        });
+        seeAllFree.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, ListProductsActivity.class);
+                intent.putExtra("Page", 6);
+                startActivity(intent);
+            }
+        });
+
         give.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
