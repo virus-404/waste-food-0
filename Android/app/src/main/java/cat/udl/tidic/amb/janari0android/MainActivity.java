@@ -3,6 +3,7 @@ package cat.udl.tidic.amb.janari0android;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,14 +18,14 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Typeface;
 
-import android.graphics.drawable.Drawable;
-
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -47,7 +48,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.api.Distribution;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -64,8 +64,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import cat.udl.tidic.amb.janari0android.adapters.ListProductSellAdapter;
-import cat.udl.tidic.amb.janari0android.adapters.SearchStockAdapter;
 import cat.udl.tidic.amb.janari0android.adapters.SearchStockSaleAdapter;
 import cat.udl.tidic.amb.janari0android.adapters.SliderAdapter;
 
@@ -86,9 +84,10 @@ public class MainActivity extends AppCompatActivity {
     private SliderAdapter sliderAdapterFree;
     private SearchStockSaleAdapter searchStockSaleAdapter;
     private AdView mAdView;
-    private SearchView searchProducts;
     private RecyclerView searchProductsRecycler;
     private ArrayList<ProductSale> productsSale = new ArrayList<>();
+    private Toolbar mainToolbar;
+    private View logoView;
     FirebaseAuth auth;
     FirebaseUser user;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -97,7 +96,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTheme(R.style.AppTheme);
         // Check if user is signed in (non-null) and update UI accordingly.
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
@@ -107,9 +105,11 @@ public class MainActivity extends AppCompatActivity {
             user.reload();
         }
         setContentView(R.layout.activity_main);
-
         seeAllFree = findViewById(R.id.seeAllFree);
         seeAll = findViewById(R.id.seeAll);
+        mainToolbar = findViewById(R.id.mainToolbar);
+        setSupportActionBar(mainToolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
         open = findViewById(R.id.floatingButtonOpen);
         add = findViewById(R.id.floatingButtonAdd);
         give = findViewById(R.id.floatingButtonGift);
@@ -117,12 +117,18 @@ public class MainActivity extends AppCompatActivity {
         list = findViewById(R.id.numberItems);
         list2 = findViewById(R.id.numberItems2);
         list3 = findViewById(R.id.numberItems3);
-        profile = findViewById(R.id.toolbarUserMenuButton);
+        View logoView = mainToolbar.getChildAt(0);
+        logoView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, ScannActivity.class));
+            }
+        });
         nearbyProducts = findViewById(R.id.nearbyProductsView);
         freeProducts = findViewById(R.id.freeProductsView);
-        mCaptureBtn = findViewById(R.id.toolbarMenuButton);
+        //mCaptureBtn = findViewById(R.id.toolbarMenuButton);
         help = findViewById(R.id.toolbarHelpbottom);
-        searchProducts = findViewById(R.id.searchProductsViewMain);
+        profile = findViewById(R.id.toolbarUserMenuButton);
         searchProductsRecycler = findViewById(R.id.searchProductsView);
         setOnClickListeners();
 
@@ -159,35 +165,38 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
-    private void setSearchViewParameters() {
-        searchProducts.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        MenuItem menuItem = menu.findItem(R.id.searchProductsViewMain);
+        androidx.appcompat.widget.SearchView searchView = (androidx.appcompat.widget.SearchView) menuItem.getActionView();
+        searchView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
-                    searchProducts.clearFocus();
-                    searchProducts.setIconified(true);
+                    searchView.clearFocus();
+                    searchView.setIconified(true);
                     hideKeyboard(v);
                 }
             }
         });
-        searchProducts.setOnClickListener(new View.OnClickListener() {
+        searchView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                searchProducts.setIconified(false);
+                searchView.setIconified(false);
                 searchProductsRecycler.setAdapter(searchStockSaleAdapter);
                 searchProductsRecycler.setVisibility(View.VISIBLE);
             }
         });
 
-        searchProducts.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
+        searchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean queryTextFocused) {
                 if(!queryTextFocused) {
                     searchProductsRecycler.setVisibility(View.GONE);
-                    searchProducts.setQuery("", false);
-                    searchProducts.clearFocus();
-                    searchProducts.setIconified(true);
+                    searchView.setQuery("", false);
+                    searchView.clearFocus();
+                    searchView.setIconified(true);
                     hideKeyboard(v);
                 }
                 else{
@@ -196,10 +205,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        searchProducts.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        searchView.setOnQueryTextListener(new androidx.appcompat.widget.SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                searchProducts.clearFocus();
+                searchView.clearFocus();
                 return false;
             }
             @Override
@@ -208,6 +217,27 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
+        return super.onCreateOptionsMenu(menu);
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.toolbarHelpbottom:
+                tarjetaPrueba2();
+                return true;
+
+            case R.id.toolbarUserMenuButton:
+                startActivity(new Intent(MainActivity.this, UserProfileActivity.class));
+                return true;
+            default:
+                // If we got here, the user's action was not recognized.
+                // Invoke the superclass to handle it.
+                return super.onOptionsItemSelected(item);
+
+        }
+    }
+    private void setSearchViewParameters() {
+
     }
 
     private void getSearchData() {
@@ -250,12 +280,12 @@ public class MainActivity extends AppCompatActivity {
                 toggleFloatingButton();
             }
         });
-        mCaptureBtn.setOnClickListener(new View.OnClickListener() {
+        /*mCaptureBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MainActivity.this, ScannActivity.class));
             }
-        });
+        });*/
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -315,18 +345,18 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this, SellActivity.class));
             }
         });
-        profile.setOnClickListener(new View.OnClickListener() {
+       /* profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MainActivity.this, UserProfileActivity.class));
             }
-        });
-        help.setOnClickListener(new View.OnClickListener() {
+        });*/
+        /*help.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 tarjetaPrueba2();
             }
-        });
+        });*/
     }
     private void getLocation() {
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
@@ -526,6 +556,7 @@ public class MainActivity extends AppCompatActivity {
         give.setVisibility(View.VISIBLE);
         add.setVisibility(View.VISIBLE);
         sell.setVisibility(View.VISIBLE);
+        View logoView = mainToolbar.getChildAt(0);
         final TapTargetSequence sequence =new TapTargetSequence(this)
                 .targets(
                         TapTarget.forView(findViewById(R.id.toolbarUserMenuButton), "Your Profile",
@@ -541,7 +572,7 @@ public class MainActivity extends AppCompatActivity {
                                 .tintTarget(false)
                                 .transparentTarget(false)
                                 .cancelable(false),
-                        TapTarget.forView(findViewById(R.id.toolbarMenuButton), "QR Scan", "add products to your list just by scanning their barcode or QR")
+                        TapTarget.forView(logoView, "QR Scan", "add products to your list just by scanning their barcode or QR")
                                 .outerCircleColor(R.color.colorPrimary900)
                                 //.dimColor(R.color.colorPrimary700)
                                 .outerCircleAlpha(0.95f)
@@ -620,7 +651,7 @@ public class MainActivity extends AppCompatActivity {
                                 .transparentTarget(false)
                                 .targetRadius(35)
                                 .cancelable(false),
-                        TapTarget.forView(help, "Help button",
+                        TapTarget.forView(findViewById(R.id.toolbarHelpbottom), "Help button",
                                 "If you want to see this tutorial again, you can always click here and it will appear again")
                                 .outerCircleColor(R.color.colorPrimary900)
                                 //.dimColor(R.color.colorPrimary700)

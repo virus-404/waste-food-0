@@ -13,6 +13,85 @@
     android:background="@color/colorOffWhite"
     android:focusable="true">
 
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarMain"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+           <!-- <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/toolbarMenuButton"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="start"
+                android:layout_marginStart="16dp"
+                android:background="@drawable/ic_baseline_qr_code_scanner_24"
+                android:elevation="15dp"
+                app:layout_constraintBottom_toBottomOf="@+id/mainToolbar"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />-->
+
+            <!--<androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/toolbarUserMenuButton"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="start"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:elevation="15dp"
+                android:background="@drawable/user_icon"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/toolbarHelpbottom"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="start"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="64dp"
+                android:elevation="15dp"
+                android:background="@drawable/ic_baseline_help_24"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toEndOf="@+id/toolbarMenuButton"
+                app:layout_constraintTop_toTopOf="parent" />-->
+
+<!--            <androidx.appcompat.widget.SearchView
+                android:id="@+id/searchProductsViewMain"
+                android:layout_width="250dp"
+                android:layout_height="43dp"
+                android:elevation="15dp"
+                android:queryHint="@string/searchProduct"
+                app:layout_constraintBottom_toBottomOf="@+id/mainToolbar"
+                app:layout_constraintEnd_toStartOf="@+id/toolbarHelpbottom"
+                app:layout_constraintStart_toEndOf="@+id/toolbarMenuButton"
+                app:layout_constraintTop_toTopOf="@+id/mainToolbar"
+                app:layout_constraintVertical_bias="0.457" />-->
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/mainToolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimary"
+                android:minHeight="?attr/actionBarSize"
+                android:theme="@style/AppTheme"
+                app:logo="@drawable/ic_baseline_qr_code_scanner_24"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
     <ImageView
         android:id="@+id/imageView5"
         android:layout_width="955dp"
@@ -20,7 +99,7 @@
         android:alpha="0.04"
         android:elevation="-100dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.541"
+        app:layout_constraintHorizontal_bias="0.54"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/background" />
@@ -82,64 +161,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
-    <Button
-        android:id="@+id/toolbarMenuButton"
-        android:layout_width="42dp"
-        android:layout_height="42dp"
-        android:layout_gravity="start"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/ic_baseline_qr_code_scanner_24"
-        app:layout_constraintBottom_toTopOf="@+id/divider1"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.619" />
-
-
-    <Button
-        android:id="@+id/toolbarUserMenuButton"
-        android:layout_width="38dp"
-        android:layout_height="42dp"
-        android:layout_gravity="start"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:background="@drawable/user_icon"
-        app:layout_constraintEnd_toEndOf="parent"
-
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/toolbarHelpbottom"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_gravity="start"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="64dp"
-        android:background="@drawable/ic_baseline_help_24"
-        app:layout_constraintEnd_toEndOf="parent"
-
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/toolbarMenuButton"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <View
-        android:id="@+id/divider1"
-        android:layout_width="409dp"
-        android:layout_height="1dp"
-        android:layout_marginTop="20dp"
-        android:background="?android:attr/listDivider"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbarMenuButton" />
-
-
     <TextView
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="8dp"
         android:gravity="center_horizontal"
         android:text="@string/aboutToExpire"
         android:textAlignment="center"
@@ -148,13 +174,13 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/divider1" />
+        app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
     <TextView
         android:id="@+id/textView5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="44dp"
         android:gravity="center_horizontal"
         android:text="@string/fresh"
         android:textAlignment="center"
@@ -164,8 +190,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.098"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/divider1"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/appBarMain"
+        app:layout_constraintVertical_bias="0.042" />
 
     <TextView
         android:id="@+id/textView6"
@@ -179,16 +205,16 @@
         android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/numberItems3"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.926"
+        app:layout_constraintHorizontal_bias="0.917"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/divider1"
+        app:layout_constraintTop_toBottomOf="@+id/appBarMain"
         app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/textView7"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:gravity="center_horizontal"
         android:text="@string/prod"
         android:textAlignment="center"
@@ -197,7 +223,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.489"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/divider1" />
+        app:layout_constraintTop_toBottomOf="@+id/appBarMain" />
 
     <TextView
         android:id="@+id/textView4"
@@ -369,28 +395,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView14" />
 
-    <SearchView
-        android:id="@+id/searchProductsViewMain"
-        android:layout_width="250dp"
-        android:layout_height="43dp"
-        android:queryHint="@string/searchProduct"
-        app:layout_constraintBottom_toTopOf="@+id/divider1"
-        app:layout_constraintEnd_toStartOf="@+id/toolbarHelpbottom"
-        app:layout_constraintStart_toEndOf="@+id/toolbarMenuButton"
-        app:layout_constraintTop_toTopOf="@+id/imageView5"
-        app:layout_constraintVertical_bias="0.457" />
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/searchProductsView"
         android:visibility="invisible"
-        android:layout_width="250dp"
+        android:layout_width="match_parent"
         android:elevation="15dp"
         android:background="@color/colorWhite"
-        android:layout_height="304dp"
+        android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.385"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/searchProductsViewMain" />
+        app:layout_constraintTop_toBottomOf="@+id/appBarMain" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
