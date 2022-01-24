@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
     private Button mCaptureBtn, seeAll, seeAllFree;
     private ImageView gps;
     private FloatingActionButton open, give, add, sell;
-    private Button list, profile, list2, list3, help;
+    private Button list, list2, list3;
     private boolean visibleFloatingButton = false;
     private RecyclerView nearbyProducts, freeProducts;
     private final Handler sliderHandler = new Handler();
@@ -88,6 +88,7 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<ProductSale> productsSale = new ArrayList<>();
     private Toolbar mainToolbar;
     private View logoView;
+    private View profile, help;
     FirebaseAuth auth;
     FirebaseUser user;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -138,7 +139,6 @@ public class MainActivity extends AppCompatActivity {
         mAdView.loadAd(adRequest);
 
         // Get location of the user and show him the products nearby
-        setSearchViewParameters();
         getSearchData();
         getLocation();
         showProductsInfo();
@@ -176,7 +176,6 @@ public class MainActivity extends AppCompatActivity {
                 searchProductsRecycler.setVisibility(View.VISIBLE);
             }
         });
-
         searchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean queryTextFocused) {
@@ -192,7 +191,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-
         searchView.setOnQueryTextListener(new androidx.appcompat.widget.SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -206,12 +204,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         // for the first time , do the tutorial
-        SharedPreferences prefs = getSharedPreferences("prefs", MODE_PRIVATE);
+        /*SharedPreferences prefs = getSharedPreferences("prefs", MODE_PRIVATE);
         boolean firstTime = prefs.getBoolean("firstTime", true);
         if (firstTime) {
             tarjetaPrueba2();
-        }
-
+        }*/
         return super.onCreateOptionsMenu(menu);
     }
     @Override
@@ -231,10 +228,6 @@ public class MainActivity extends AppCompatActivity {
 
         }
     }
-    private void setSearchViewParameters() {
-
-    }
-
     private void getSearchData() {
         db.collection("productsSale")
                 .get()
@@ -281,12 +274,6 @@ public class MainActivity extends AppCompatActivity {
                 toggleFloatingButton();
             }
         });
-        /*mCaptureBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, ScannActivity.class));
-            }
-        });*/
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -333,7 +320,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
         give.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -346,18 +332,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this, SellActivity.class));
             }
         });
-       /* profile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, UserProfileActivity.class));
-            }
-        });*/
-        /*help.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                tarjetaPrueba2();
-            }
-        });*/
     }
     private void getLocation() {
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
@@ -557,10 +531,9 @@ public class MainActivity extends AppCompatActivity {
         give.setVisibility(View.VISIBLE);
         add.setVisibility(View.VISIBLE);
         sell.setVisibility(View.VISIBLE);
-        logoView = mainToolbar.getChildAt(0);
         final TapTargetSequence sequence =new TapTargetSequence(this)
                 .targets(
-                        TapTarget.forView(findViewById(R.id.toolbarUserMenuButton), "Your Profile",
+                        TapTarget.forView(profile, "Your Profile",
                                 "here you can edit your account, see personal information and log out")
                                 .outerCircleColor(R.color.colorPrimary900)
                                 //.dimColor(R.color.colorPrimary700)
@@ -652,7 +625,7 @@ public class MainActivity extends AppCompatActivity {
                                 .transparentTarget(false)
                                 .targetRadius(35)
                                 .cancelable(false),
-                        TapTarget.forView(findViewById(R.id.toolbarHelpbottom), "Help button",
+                        TapTarget.forView(help, "Help button",
                                 "If you want to see this tutorial again, you can always click here and it will appear again")
                                 .outerCircleColor(R.color.colorPrimary900)
                                 //.dimColor(R.color.colorPrimary700)
