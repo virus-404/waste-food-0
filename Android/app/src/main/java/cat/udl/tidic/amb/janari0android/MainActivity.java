@@ -2,6 +2,7 @@ package cat.udl.tidic.amb.janari0android;
 
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
@@ -55,6 +56,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -122,8 +125,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MainActivity.this, ScannActivity.class));
+
             }
+
         });
+
         nearbyProducts = findViewById(R.id.nearbyProductsView);
         freeProducts = findViewById(R.id.freeProductsView);
         //mCaptureBtn = findViewById(R.id.toolbarMenuButton);

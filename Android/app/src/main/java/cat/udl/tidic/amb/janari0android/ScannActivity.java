@@ -52,7 +52,15 @@ public class ScannActivity extends AppCompatActivity {
         buttonAddProduct = findViewById(R.id.Addbutton);
         textError = findViewById(R.id.Errortext);
 
-        buttonScan.setOnClickListener(mOnClickListener);
+        //buttonScan.setOnClickListener(mOnClickListener);
+
+        IntentIntegrator integrador = new IntentIntegrator(ScannActivity.this);
+        integrador.setDesiredBarcodeFormats(IntentIntegrator.ALL_CODE_TYPES);
+        integrador.setPrompt("lector");
+        integrador.setCameraId(0);
+        integrador.setBeepEnabled(true);
+        integrador.setBarcodeImageEnabled(true);
+        integrador.initiateScan();
 
 
         backButton.setOnClickListener(new View.OnClickListener() {
@@ -62,34 +70,43 @@ public class ScannActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        /*
         buttonAddProduct.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ScannActivity.this, AddStockProductNameActivity.class);
-                flag1 =true;
-                intent.putExtra("data01",Resultado.getText());
-                intent.putExtra("data02",flag1);
+                flag1 = true;
+                intent.putExtra("data01", Resultado.getText());
+                intent.putExtra("data02", flag1);
                 startActivity(intent);
             }
         });
+
+         */
 
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        IntentResult result = IntentIntegrator.parseActivityResult(requestCode,resultCode,data);
+        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
 
         if (result != null)
-            if(result.getContents() != null){
+            if (result.getContents() != null) {
                 Resultado.setText(result.getContents());
                 textError.setText(" ");
+                Intent intent = new Intent(ScannActivity.this, AddStockProductNameActivity.class);
+                flag1 = true;
+                intent.putExtra("data01", Resultado.getText());
+                intent.putExtra("data02", flag1);
+                startActivity(intent);
 
-            }else{
+            } else {
                 textError.setText("ERROR");
             }
     }
 
+/*
     private View.OnClickListener mOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -110,8 +127,10 @@ public class ScannActivity extends AppCompatActivity {
         }
     };
 
-
+ */
 
 }
+
+
 
 
