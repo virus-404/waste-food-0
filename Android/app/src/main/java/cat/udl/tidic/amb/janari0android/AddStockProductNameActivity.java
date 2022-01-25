@@ -63,8 +63,7 @@ public class AddStockProductNameActivity extends AppCompatActivity {
         go_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(AddStockProductNameActivity.this, MainActivity.class);
-                startActivity(intent);
+                finish();
             }
         });
         name.setOnFocusChangeListener(new View.OnFocusChangeListener() {

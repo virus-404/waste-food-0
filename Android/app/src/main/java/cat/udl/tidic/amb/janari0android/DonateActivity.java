@@ -101,8 +101,7 @@ public class DonateActivity extends AppCompatActivity {
         go_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(DonateActivity.this, MainActivity.class);
-                startActivity(intent);
+                finish();
             }
         });
         description.setOnFocusChangeListener(new View.OnFocusChangeListener() {

@@ -4,6 +4,7 @@ package cat.udl.tidic.amb.janari0android;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -28,6 +29,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -37,6 +39,8 @@ import android.widget.TextView;
 import com.firebase.geofire.GeoFireUtils;
 import com.firebase.geofire.GeoLocation;
 import com.firebase.geofire.GeoQueryBounds;
+import com.getbase.floatingactionbutton.FloatingActionButton;
+import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.getkeepsafe.taptargetview.TapTarget;
 import com.getkeepsafe.taptargetview.TapTargetSequence;
 import com.google.android.gms.ads.AdRequest;
@@ -49,7 +53,6 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -74,8 +77,9 @@ public class MainActivity extends AppCompatActivity {
     private static final int PERMISSION_CODE = 1000;
     private static final int IMAGE_CAPTURE_CODE = 1001;
     private Button mCaptureBtn, seeAll, seeAllFree;
-    private ImageView gps;
-    private FloatingActionButton open, give, add, sell;
+    private ImageView gps, seeAllImage;
+    private FloatingActionButton give, add, sell;
+    private FloatingActionsMenu open;
     private Button list, list2, list3;
     private boolean visibleFloatingButton = false;
     private RecyclerView nearbyProducts, freeProducts;
@@ -91,6 +95,7 @@ public class MainActivity extends AppCompatActivity {
     private Toolbar mainToolbar;
     private View logoView, profile, help;
     private TextView addProductText, donateText, sellText;
+    private ConstraintLayout dimLayout;
     FirebaseAuth auth;
     FirebaseUser user;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -117,10 +122,8 @@ public class MainActivity extends AppCompatActivity {
         list = findViewById(R.id.numberItems);
         list2 = findViewById(R.id.numberItems2);
         list3 = findViewById(R.id.numberItems3);
-        addProductText = findViewById(R.id.addStockText);
-        donateText = findViewById(R.id.donateText);
-        sellText = findViewById(R.id.sellText);
         mainToolbar = findViewById(R.id.mainToolbar);
+        seeAllImage = findViewById(R.id.seeAllImage);
         setSupportActionBar(mainToolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
@@ -288,12 +291,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this, ScannActivity.class));
             }
         });
-        open.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                toggleFloatingButton();
-            }
-        });
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -325,6 +322,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         seeAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, ListProductsActivity.class);
+                intent.putExtra("Page", 5);
+                startActivity(intent);
+            }
+        });
+        seeAllImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, ListProductsActivity.class);
@@ -724,6 +729,9 @@ public class MainActivity extends AppCompatActivity {
             addProductText.setVisibility(View.INVISIBLE);
             donateText.setVisibility(View.INVISIBLE);
             sellText.setVisibility(View.INVISIBLE);
+            WindowManager.LayoutParams lparams = getWindow().getAttributes();
+            lparams.dimAmount=0.0f;
+            getWindow().setAttributes(lparams);
             visibleFloatingButton = false;
         } else {
             give.setVisibility(View.VISIBLE);
@@ -732,6 +740,9 @@ public class MainActivity extends AppCompatActivity {
             addProductText.setVisibility(View.VISIBLE);
             donateText.setVisibility(View.VISIBLE);
             sellText.setVisibility(View.VISIBLE);
+            WindowManager.LayoutParams lparams = getWindow().getAttributes();
+            lparams.dimAmount=0.7f;
+            getWindow().setAttributes(lparams);
             visibleFloatingButton = true;
         }
     }
