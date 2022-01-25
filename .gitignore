@@ -1,8 +1,8 @@
 .vscode
-Janari0/bin/
-Janari0/obj/
-Janari0/.vs/
-
+Janari0WebAdmin/Janari0Web/bin/
+Janari0WebAdmin/Janari0Web/obj/
+Janari0WebAdmin/Janari0Web/.vs/
+Janari0WebAdmin/Janari0Web/credential.json
 /.vs
 Android/.idea
 Android/.gradle
