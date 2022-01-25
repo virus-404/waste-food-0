@@ -1,0 +1,36 @@
+﻿
+@model User
+
+@{
+    ViewData["Title"] = "Log in";
+}
+
+<h1 align="center">@ViewData["Title"]</h1>
+<hr />
+<div class="row justify-content-md-center">
+
+    <div class="col-md-4">
+        <section>
+            <form id="account" method="post">
+                <div class="form-group">
+                    <label asp-for="Email"></label>
+                    <input asp-for="Email" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Password"></label>
+                    <input type="password" asp-for="Password" class="form-control" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+                <span class="text-danger">@ViewBag.ErrorLogin </span>
+                
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Log in</button>
+                </div>
+            </form>
+        </section>
+    </div>
+
+</div>
+
