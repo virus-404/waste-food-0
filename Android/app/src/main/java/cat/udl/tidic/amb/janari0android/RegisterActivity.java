@@ -26,6 +26,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.hbb20.CountryCodePicker;
 
 public class RegisterActivity extends AppCompatActivity {
     private static final String TAG = "bakedbeans";
@@ -34,7 +35,7 @@ public class RegisterActivity extends AppCompatActivity {
     protected EditText username, email, password, passwordRep, phone;
     protected Button register;
     protected ImageButton goBack;
-
+    CountryCodePicker ccp;
 
 
     @Override
@@ -49,7 +50,7 @@ public class RegisterActivity extends AppCompatActivity {
         passwordRep = findViewById(R.id.repeatPasswordEditText);
         phone = findViewById(R.id.phoneNumberEditText);
         register = findViewById(R.id.registerFormButton);
-
+        ccp = (CountryCodePicker) findViewById(R.id.ccp);
         String pleaseFillAllFields = getResources().getString(R.string.pleaseFillAllFields);
         String invalidEmail = getResources().getString(R.string.invalidEmail);
         String invalidUsername = getResources().getString(R.string.invalidUsername);
@@ -181,7 +182,7 @@ public class RegisterActivity extends AppCompatActivity {
     private void setDisplayName()
     {
         String userName = String.valueOf(username.getText());
-        String phoneNumber = String.valueOf(phone.getText());
+        ccp.registerCarrierNumberEditText(phone);
         FirebaseUser user = auth.getCurrentUser();
         UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                 .setDisplayName(String.valueOf(username.getText()))
@@ -189,7 +190,7 @@ public class RegisterActivity extends AppCompatActivity {
                 .build();
         user.updateProfile(profileUpdates);
 
-        User userDB = new User(userName, phoneNumber);
+        User userDB = new User(userName, ccp.getFormattedFullNumber());
         db.collection("users").document(user.getUid())
                 .set(userDB)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {

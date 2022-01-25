@@ -61,4 +61,5 @@ dependencies {
     implementation 'com.google.firebase:firebase-messaging'
     implementation 'com.google.firebase:firebase-analytics'
     apply plugin: 'com.google.gms.google-services'  // Google Services plugin
+    implementation 'com.hbb20:ccp:2.6.0'
 }
