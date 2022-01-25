@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Janari0Web.Filters;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -24,8 +25,12 @@ namespace Janari0Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().AddSessionStateTempDataProvider();
-            
+
             services.AddControllersWithViews();
+            services.AddControllers(config =>
+            {
+                config.Filters.Add(new SampleActionFilter());
+            });
             services.AddSession();
             services.AddHttpContextAccessor();
         }
