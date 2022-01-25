@@ -38,14 +38,18 @@
             <TextView
                 android:id="@+id/name_product"
                 android:layout_width="250dp"
-                android:layout_height="40dp"
+                android:layout_height="50dp"
                 android:layout_below="@+id/image_product"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentEnd="true"
                 android:paddingStart="5dp"
                 android:text="@string/productName"
                 android:textColor="@color/colorAccent"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                app:autoSizeMaxTextSize="20sp"
+                app:autoSizeMinTextSize="12sp"
+                app:autoSizeStepGranularity="2sp"
+                app:autoSizeTextType="uniform" />
 
             <TextView
                 android:id="@+id/price_product"
@@ -55,7 +59,6 @@
                 android:layout_alignParentStart="true"
                 android:layout_alignParentEnd="true"
                 android:layout_marginStart="1dp"
-                android:layout_marginTop="9dp"
                 android:layout_marginEnd="-1dp"
                 android:fontFamily="@font/roboto_medium"
                 android:paddingStart="5dp"

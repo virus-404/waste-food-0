@@ -90,8 +90,10 @@ public class ScannActivity extends AppCompatActivity {
                         try {
                             jsonObject = new JSONObject(jsonData);
                             String productName = jsonObject.getJSONObject("product").getString("product_name");
+                            String imageUri = jsonObject.getJSONObject("product").getString("image_url");
                             intent.putExtra("data01", productName);
                             intent.putExtra("data02", flag1);
+                            intent.putExtra("imageUri", imageUri);
                             startActivity(intent);
                         } catch (JSONException e) {
                             e.printStackTrace();
