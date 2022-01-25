@@ -82,7 +82,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/colorPrimary"
                 android:minHeight="?attr/actionBarSize"
-                android:theme="@style/AppTheme"
+                android:theme="@style/Theme.MaterialComponents.Light.DarkActionBar"
                 app:logo="@drawable/ic_baseline_qr_code_scanner_24"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

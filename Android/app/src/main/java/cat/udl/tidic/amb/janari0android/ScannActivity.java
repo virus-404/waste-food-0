@@ -34,25 +34,12 @@ import java.util.ArrayList;
 //import cat.udl.tidic.amb.janari0android.adapters;
 
 public class ScannActivity extends AppCompatActivity {
-    private Button buttonScan;
-    private Button buttonAddProduct;
-    private TextView textError;
-    private ImageButton backButton;
-    private TextView Resultado;
     public boolean flag1;
 
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_scan);
-        buttonScan = findViewById(R.id.ScanBtn);
-        Resultado = findViewById(R.id.texScan);
-        backButton = findViewById(R.id.goBackButton);
-        buttonAddProduct = findViewById(R.id.Addbutton);
-        textError = findViewById(R.id.Errortext);
-
-        //buttonScan.setOnClickListener(mOnClickListener);
 
         IntentIntegrator integrador = new IntentIntegrator(ScannActivity.this);
         integrador.setDesiredBarcodeFormats(IntentIntegrator.ALL_CODE_TYPES);
@@ -61,29 +48,6 @@ public class ScannActivity extends AppCompatActivity {
         integrador.setBeepEnabled(true);
         integrador.setBarcodeImageEnabled(true);
         integrador.initiateScan();
-
-
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(ScannActivity.this, MainActivity.class);
-                startActivity(intent);
-            }
-        });
-        /*
-        buttonAddProduct.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(ScannActivity.this, AddStockProductNameActivity.class);
-                flag1 = true;
-                intent.putExtra("data01", Resultado.getText());
-                intent.putExtra("data02", flag1);
-                startActivity(intent);
-            }
-        });
-
-         */
-
     }
 
     @Override
@@ -93,42 +57,16 @@ public class ScannActivity extends AppCompatActivity {
 
         if (result != null)
             if (result.getContents() != null) {
-                Resultado.setText(result.getContents());
-                textError.setText(" ");
                 Intent intent = new Intent(ScannActivity.this, AddStockProductNameActivity.class);
                 flag1 = true;
-                intent.putExtra("data01", Resultado.getText());
+                intent.putExtra("data01", result.getContents());
                 intent.putExtra("data02", flag1);
                 startActivity(intent);
-
-            } else {
-                textError.setText("ERROR");
+            }
+            else {
+                finish();
             }
     }
-
-/*
-    private View.OnClickListener mOnClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            switch (v.getId()){
-                case R.id.ScanBtn:
-                    IntentIntegrator integrador = new IntentIntegrator(ScannActivity.this);
-                    integrador.setDesiredBarcodeFormats(IntentIntegrator.ALL_CODE_TYPES);
-                    integrador.setPrompt("lector");
-                    integrador.setCameraId(0);
-                    integrador.setBeepEnabled(true);
-                    integrador.setBarcodeImageEnabled(true);
-                    integrador.initiateScan();
-
-
-                    break;
-            }
-
-        }
-    };
-
- */
-
 }
 
 

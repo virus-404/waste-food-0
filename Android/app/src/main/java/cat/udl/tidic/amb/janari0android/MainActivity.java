@@ -22,6 +22,7 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
+import android.os.Debug;
 import android.os.Handler;
 import android.util.Log;
 import android.view.Menu;
@@ -88,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<ProductSale> productsSale = new ArrayList<>();
     private Toolbar mainToolbar;
     private View logoView;
-    private View profile, help;
+    View profile, help;
     FirebaseAuth auth;
     FirebaseUser user;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -142,7 +143,6 @@ public class MainActivity extends AppCompatActivity {
         getSearchData();
         getLocation();
         showProductsInfo();
-        buildSearchProducts();
         sliderAdapterNearby = new SliderAdapter(productsNearby, this);
         sliderAdapterNearby.setOnItemClickListener(new SliderAdapter.OnItemClickListener() {
             @Override
@@ -152,9 +152,11 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        Log.w(TAG, "OnCreate");
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
+        Log.w(TAG, "OnCreateOptionsMenu");
         getMenuInflater().inflate(R.menu.main_menu, menu);
         MenuItem menuItem = menu.findItem(R.id.searchProductsViewMain);
         androidx.appcompat.widget.SearchView searchView = (androidx.appcompat.widget.SearchView) menuItem.getActionView();
@@ -203,12 +205,27 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
-        // for the first time , do the tutorial
-        /*SharedPreferences prefs = getSharedPreferences("prefs", MODE_PRIVATE);
+/*        // for the first time , do the tutorial
+        SharedPreferences prefs = getSharedPreferences("prefs", MODE_PRIVATE);
         boolean firstTime = prefs.getBoolean("firstTime", true);
         if (firstTime) {
             tarjetaPrueba2();
         }*/
+        new Handler().post(new Runnable() {
+            @Override
+            public void run() {
+                help = findViewById(R.id.toolbarHelpbottom);
+                profile = findViewById(R.id.toolbarUserMenuButton);
+                // SOME OF YOUR TASK AFTER GETTING VIEW REFERENCE
+                Bundle extras = getIntent().getExtras();
+                if(help == null)
+                    Log.w(TAG, "Extras: ");
+
+                if(extras!=null) {
+                    tarjetaPrueba2();
+                }
+            }
+        });
         return super.onCreateOptionsMenu(menu);
     }
     @Override
@@ -422,7 +439,7 @@ public class MainActivity extends AppCompatActivity {
                                     for(DocumentSnapshot doc : matchingDocs){
                                         productsFree.add(doc.toObject(ProductSale.class));
                                     }
-                                    Log.d(TAG, productsFree.size() + "Free");
+                                    //Log.d(TAG, productsFree.size() + "Free");
                                     sliderAdapterFree = new SliderAdapter(productsFree, MainActivity.this);
                                     freeProducts.setLayoutManager(new LinearLayoutManager(MainActivity.this,LinearLayoutManager.HORIZONTAL,false));
                                     freeProducts.setAdapter(sliderAdapterFree);
@@ -489,7 +506,7 @@ public class MainActivity extends AppCompatActivity {
                                     for(DocumentSnapshot doc : matchingDocs){
                                         productsNearby.add(doc.toObject(ProductSale.class));
                                     }
-                                    Log.d(TAG, String.valueOf(productsNearby.size()));
+                                    //Log.d(TAG, String.valueOf(productsNearby.size()));
                                     sliderAdapterNearby = new SliderAdapter(productsNearby, MainActivity.this);
                                     nearbyProducts.setLayoutManager(new LinearLayoutManager(MainActivity.this,LinearLayoutManager.HORIZONTAL,false));
                                     nearbyProducts.setAdapter(sliderAdapterNearby);

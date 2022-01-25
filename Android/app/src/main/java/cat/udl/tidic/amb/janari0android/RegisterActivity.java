@@ -92,7 +92,7 @@ public class RegisterActivity extends AppCompatActivity {
         username.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus && !email.hasFocus() && !password.hasFocus() && !passwordRep.hasFocus()) {
+                if (!hasFocus && !email.hasFocus() && !password.hasFocus() && !passwordRep.hasFocus() && !phone.hasFocus()) {
                     hideKeyboard(v);
                 }
             }
@@ -100,7 +100,7 @@ public class RegisterActivity extends AppCompatActivity {
         email.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus && !username.hasFocus() && !password.hasFocus() && !passwordRep.hasFocus()) {
+                if (!hasFocus && !username.hasFocus() && !password.hasFocus() && !passwordRep.hasFocus() && !phone.hasFocus()) {
                     hideKeyboard(v);
                 }
             }
@@ -108,7 +108,7 @@ public class RegisterActivity extends AppCompatActivity {
         password.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus && !username.hasFocus() && !email.hasFocus() && !passwordRep.hasFocus()) {
+                if (!hasFocus && !username.hasFocus() && !email.hasFocus() && !passwordRep.hasFocus() && !phone.hasFocus()) {
                     hideKeyboard(v);
                 }
             }
@@ -116,7 +116,15 @@ public class RegisterActivity extends AppCompatActivity {
         passwordRep.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus && !username.hasFocus() && !email.hasFocus() && !password.hasFocus()) {
+                if (!hasFocus && !username.hasFocus() && !email.hasFocus() && !password.hasFocus() && !phone.hasFocus()) {
+                    hideKeyboard(v);
+                }
+            }
+        });
+        phone.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus && !username.hasFocus() && !email.hasFocus() && !password.hasFocus() && !passwordRep.hasFocus()) {
                     hideKeyboard(v);
                 }
             }
@@ -201,6 +209,7 @@ public class RegisterActivity extends AppCompatActivity {
     private void updateUI(FirebaseUser user) {
         if (user != null){
             Intent intent = new Intent(this , MainActivity.class);
+            intent.putExtra("firstTime", true);
             startActivity(intent);
         }
 
