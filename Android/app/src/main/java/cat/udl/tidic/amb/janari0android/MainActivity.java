@@ -32,6 +32,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.SearchView;
+import android.widget.TextView;
 
 import com.firebase.geofire.GeoFireUtils;
 import com.firebase.geofire.GeoLocation;
@@ -88,8 +89,8 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView searchProductsRecycler;
     private ArrayList<ProductSale> productsSale = new ArrayList<>();
     private Toolbar mainToolbar;
-    private View logoView;
-    View profile, help;
+    private View logoView, profile, help;
+    private TextView addProductText, donateText, sellText;
     FirebaseAuth auth;
     FirebaseUser user;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -116,7 +117,9 @@ public class MainActivity extends AppCompatActivity {
         list = findViewById(R.id.numberItems);
         list2 = findViewById(R.id.numberItems2);
         list3 = findViewById(R.id.numberItems3);
-
+        addProductText = findViewById(R.id.addStockText);
+        donateText = findViewById(R.id.donateText);
+        sellText = findViewById(R.id.sellText);
         mainToolbar = findViewById(R.id.mainToolbar);
         setSupportActionBar(mainToolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -718,11 +721,17 @@ public class MainActivity extends AppCompatActivity {
             give.setVisibility(View.INVISIBLE);
             add.setVisibility(View.INVISIBLE);
             sell.setVisibility(View.INVISIBLE);
+            addProductText.setVisibility(View.INVISIBLE);
+            donateText.setVisibility(View.INVISIBLE);
+            sellText.setVisibility(View.INVISIBLE);
             visibleFloatingButton = false;
         } else {
             give.setVisibility(View.VISIBLE);
             add.setVisibility(View.VISIBLE);
             sell.setVisibility(View.VISIBLE);
+            addProductText.setVisibility(View.VISIBLE);
+            donateText.setVisibility(View.VISIBLE);
+            sellText.setVisibility(View.VISIBLE);
             visibleFloatingButton = true;
         }
     }

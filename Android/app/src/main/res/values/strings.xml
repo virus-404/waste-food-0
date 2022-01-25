@@ -112,4 +112,7 @@
     <string name="seeAll">More</string>
     <string name="nearbyProducts">Nearby products</string>
     <string name="freeProducts">Free products</string>
+    <string name="sellProductText">Sell product</string>
+    <string name="addProductText">Add product</string>
+    <string name="donateProductText">Donate product</string>
 </resources>
