@@ -153,5 +153,108 @@ namespace Janari0Web.Controllers
             DocumentReference userRef = db.Collection("products").Document(id);
             await userRef.DeleteAsync();
         }
+
+        public async Task<List<Product>> GetAllProductsUser(string id)
+        {
+            Query collection = db.Collection("users").Document(id).Collection("products");
+            QuerySnapshot collsp = await collection.GetSnapshotAsync();
+            List<Product> products = new List<Product>();
+            foreach (DocumentSnapshot docSnap in collsp.Documents)
+            {
+                if (docSnap.Exists)
+                {
+                    Dictionary<string, object> dict = docSnap.ToDictionary();
+                    Product newProd = DictToProduct(dict);
+                    products.Add(newProd);
+                }
+            }
+            return products;
+        }
+        public async Task<List<ProductSD>> GetAllProductsSDUser(string id)
+        {
+            Query collection = db.Collection("users").Document(id).Collection("productsSale");
+            QuerySnapshot collsp = await collection.GetSnapshotAsync();
+            List<ProductSD> products = new List<ProductSD>();
+            foreach (DocumentSnapshot docSnap in collsp.Documents)
+            {
+                if (docSnap.Exists)
+                {
+                    Dictionary<string, object> dict = docSnap.ToDictionary();
+                    ProductSD newProd = DictToProductSD(dict);
+                    products.Add(newProd);
+                }
+            }
+            return products;
+        }
+        public async Task<List<ProductSD>> GetAllProductsSale()
+        {
+            Query collection = db.Collection("productsSale");
+            QuerySnapshot collsp = await collection.GetSnapshotAsync();
+            List<ProductSD> productssd = new List<ProductSD>();
+            foreach (DocumentSnapshot docSnap in collsp.Documents)
+            {
+                if (docSnap.Exists)
+                {
+                    Dictionary<string, object> dict = docSnap.ToDictionary();
+
+                    ProductSD newProdsd = DictToProductSD(dict);
+                    productssd.Add(newProdsd);
+                }
+            }
+            return productssd;
+        }
+        public async Task<ProductSD> GetProductsSaleData(string id)
+        {
+            DocumentSnapshot snapshot = await db.Collection("productsSale").Document(id).GetSnapshotAsync();
+            if (snapshot.Exists)
+            {
+                Dictionary<string, object> dict = snapshot.ToDictionary();
+                ProductSD newProd = DictToProductSD(dict);
+                return newProd;
+            }
+            else
+            {
+                return null;
+            }
+        }
+        public async void UpdateProductSD(ProductSD p)
+        {
+            DocumentReference userRef = db.Collection("productsSale").Document(p.id);
+            
+            await userRef.SetAsync(p, SetOptions.Overwrite);
+        }
+        public async void DeleteProductSD(string id)
+        {
+            DocumentReference userRef = db.Collection("productsSale").Document(id);
+            await userRef.DeleteAsync();
+        }
+
+        private ProductSD DictToProductSD(Dictionary<string, object> dict)
+        {
+            var descr = dict["description"].ToString();
+            var id = dict["id"].ToString();
+            var lat = float.Parse(dict["lat"].ToString());
+            var lon = float.Parse(dict["lon"].ToString());
+            var phone = dict["phoneNumber"].ToString();
+            var price = dict["price"].ToString();
+            var product = (Dictionary<string, object> )dict["product"];
+            Product p= DictToProduct(product);
+            /*List<string> photos = new List<string>();
+            foreach (var item in phot)
+            {
+                photos.Add(item.ToString());
+            }*/
+            ProductSD newProdSD = new ProductSD()
+            {
+                id = id,
+                description = descr,
+                phoneNumber = phone,
+                lat = lat,
+                lon = lon,
+                price = price,
+                product = p
+            };
+            return newProdSD;
+        }
     }
 }

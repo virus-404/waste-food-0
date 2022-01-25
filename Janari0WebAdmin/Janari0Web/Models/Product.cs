@@ -46,4 +46,33 @@ namespace Janari0Web.Models
         [Display(Name = "Photos")]
         public List<string> photos { get; set; }
     }
+    [FirestoreData]
+    public class ProductSD
+    {
+        [FirestoreProperty]
+        [Display(Name = "ProductSDID")]
+        public string id { get; set; }
+
+        [FirestoreProperty]
+        [Display(Name = "Description")]
+        public string description { get; set; }
+
+        [FirestoreProperty]
+        [Display(Name = "Longitude")]
+        public float lon { get; set; }
+        [FirestoreProperty]
+        [Display(Name = "Latitude")]
+        public float lat { get; set; }
+
+        [FirestoreProperty]
+        [Display(Name = "Phone number")]
+        public string phoneNumber { get; set; }
+
+        [FirestoreProperty]
+        [Display(Name = "Price")]
+        public string price { get; set; }
+        [FirestoreProperty]
+        [Display(Name = "Product")]
+        public Product product { get; set; }
+    }
 }

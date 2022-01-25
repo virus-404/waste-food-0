@@ -1,0 +1,58 @@
+@model Janari0Web.Models.ProductSD
+
+@{ ViewData["Title"] = "Edit"; }
+
+<h1>Edit</h1>
+
+<h4>Product</h4>
+<hr />
+
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Edit">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="id" class="control-label"></label>
+                    <input disabled asp-for="id" class="form-control" />
+                    <span asp-validation-for="id" class="text-danger"></span>
+                </div>
+                <input hidden asp-for="id" class="form-control" />
+                <div class="form-group">
+                    <label asp-for="product.name" class="control-label"></label>
+                    <input asp-for="product.name" class="form-control" />
+                    <span asp-validation-for="product.name" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="product.expirationDate" class="control-label"></label>
+                    <input type="date" asp-for="product.expirationDate" class="form-control" />
+                    <span asp-validation-for="product.expirationDate" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="description" class="control-label"></label>
+                    <input asp-for="description" class="form-control" />
+                    <span asp-validation-for="description" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="price" class="control-label"></label>
+                    <input asp-for="price" class="form-control" />
+                    <span asp-validation-for="price" class="text-danger"></span>
+                </div>
+                @foreach (var ph in Model.product.photos)
+                {
+            <img src="@ph" alt="Avatar" style="border-radius: 50%; width: 70px; height: 70px;">}
+                <br />
+                <br />
+                <div class="form-group">
+                    <input type="submit" value="Save" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+  
+}

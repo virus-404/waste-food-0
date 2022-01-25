@@ -1,4 +1,4 @@
-@model Janari0Web.Models.UserFire
+@model Janari0Web.Models.UserDetails
 
 @{ ViewData["Title"] = "Details"; }
 
@@ -7,49 +7,167 @@
 <div>
     <h4>User</h4>
     <hr />
-    
+
     <dl class="row">
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.UserID)
+            @Html.DisplayNameFor(model => model.user.UserID)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.UserID)
+            @Html.DisplayFor(model => model.user.UserID)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.username)
+            @Html.DisplayNameFor(model => model.user.username)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.username)
+            @Html.DisplayFor(model => model.user.username)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.role)
+            @Html.DisplayNameFor(model => model.user.role)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.role)
+            @Html.DisplayFor(model => model.user.role)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.lat)
+            @Html.DisplayNameFor(model => model.user.lat)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.lat)
+            @Html.DisplayFor(model => model.user.lat)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.lon)
+            @Html.DisplayNameFor(model => model.user.lon)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.lon)
+            @Html.DisplayFor(model => model.user.lon)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.phoneNumber)
+            @Html.DisplayNameFor(model => model.user.phoneNumber)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.phoneNumber)
+            @Html.DisplayFor(model => model.user.phoneNumber)
         </dd>
     </dl>
-            </div>
+</div>
+<h4>All products</h4>
+<hr />
+<table id="example" class="display" style="width:100%">
+    <thead>
+        <tr>
+            
+            <th>
+                @Html.DisplayNameFor(model => model.p.name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.p.expirationDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.p.photos)
+            </th>
+            <th>
+                Actions
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.products)
+        {
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.name)
+    </td>
+    <td>
+        @item.expirationDate
 
-        <div>
-            <a asp-action="Edit" asp-route-id="@Model.UserID">Edit</a> |
-            <a asp-action="Index">Back to List</a>
-        </div>
-    
+    </td>
+    <td>
+        @foreach (var ph in item.photos)
+        {
+<img src="@ph" alt="photos" style="border-radius: 50%; width: 40px; height: 40px;">}
+    </td>
+    <td>
+        <a asp-action="Delete" asp-route-id="@item.id">Delete</a>
+    </td>
+</tr>
+}
+    </tbody>
+</table>
+
+<h4>All products on sale or donate</h4>
+<hr />
+
+
+<table id="example1" class="display" style="width:100%">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.psd.description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.psd.price) €
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.psd.product.expirationDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.psd.product.name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.psd.product.photos)
+            </th>
+            <th>
+                Actions
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.productsSD)
+        {
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.description)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.price)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.product.expirationDate)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.product.name)
+    </td>
+    <td>
+        @foreach (var ph in item.product.photos)
+        {
+<img src="@ph" alt="photos" style="border-radius: 50%; width: 40px; height: 40px;">}
+    </td>
+
+    <td>
+        <a asp-action="Delete" asp-route-id="@item.product.id">Delete</a>
+    </td>
+</tr>}
+    </tbody>
+</table>
+
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.user.UserID">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    <script>$(document).ready(function () {
+            $('#example').DataTable({
+                "scrollY": "600px",
+                "scrollCollapse": true,
+                "paging": true
+            });
+});
+
+        $(document).ready(function () {
+            $('#example1').DataTable({
+                "scrollY": "600px",
+                "scrollCollapse": true,
+                "paging": true
+            });
+        });
+    </script>
+
+}

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Google.Cloud.Firestore;
 using Janari0Web.Controllers;
@@ -34,5 +35,14 @@ namespace Janari0Web.Models
         [Display(Name = "Role")]
         public string role { get; set; }
 
+    }
+    public class UserDetails
+    {
+        public UserFire user { get; set; }
+        
+        public List<Product> products { get; set; }
+        public List<ProductSD>productsSD { get; set; }
+        public Product p { get; set; }
+        public ProductSD psd { get; set; }
     }
 }

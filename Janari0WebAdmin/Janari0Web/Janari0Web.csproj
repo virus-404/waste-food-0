@@ -14,6 +14,7 @@
     <None Remove="RestSharp" />
     <None Remove="Views\User %28copia%29\" />
     <None Remove="Filters\" />
+    <None Remove="Views\Product %28copia%29\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="FirebaseDatabase.net" Version="4.0.7" />
@@ -27,5 +28,6 @@
   <ItemGroup>
     <Folder Include="Views\Product\" />
     <Folder Include="Filters\" />
+    <Folder Include="Views\Product %28copia%29\" />
   </ItemGroup>
 </Project>

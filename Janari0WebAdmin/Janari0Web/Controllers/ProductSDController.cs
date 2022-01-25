@@ -13,25 +13,22 @@ using Janari0Web.Controllers;
 
 namespace Janari0Web.Models
 {
-    public class UserController : Controller
+    public class ProductSDController : Controller
     {
         DBOperations db = new DBOperations();
         public async Task<ActionResult> IndexAsync()
         {
-            List<UserFire> users = await db.GetAllUsers();
-            return View(users);
+            List<ProductSD> products = await db.GetAllProductsSale();
+            return View(products);
         }
 
         // GET: User/Details/5
         public async Task<ActionResult> DetailsAsync(string id)
         {
-            UserDetails ud = new UserDetails();
-            ud.user = await db.GetUserData(id);
-            ud.products= await db.GetAllProductsUser(id);
-            ud.productsSD = await db.GetAllProductsSDUser(id);
-            return View(ud);
+            ProductSD product = await db.GetProductsSaleData(id);
+            return View(product);
         }
-         
+
         // GET: User/Create
         public ActionResult Create()
         {
@@ -58,24 +55,24 @@ namespace Janari0Web.Models
         // GET: User/Edit/5
         public async Task<ActionResult> EditAsync(string id)
         {
-            UserFire user = await db.GetUserData(id);
-            return View(user);
+            ProductSD product = await db.GetProductsSaleData(id);
+            return View(product);
         }
 
         // POST: User/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(UserFire user)
+        public ActionResult Edit(Product product)
         {
-            db.UpdateUser(user);
+            db.UpdateProduct(product);
             return RedirectToAction(nameof(Index));
         }
 
         // GET: User/Delete/5
         public async Task<ActionResult> DeleteAsync(string id)
         {
-            UserFire user = await db.GetUserData(id);
-            return View(user);
+            Product product = await db.GetProductData(id);
+            return View(product);
         }
 
         // POST: User/Delete/5
@@ -83,7 +80,7 @@ namespace Janari0Web.Models
         [ValidateAntiForgeryToken]
         public ActionResult Delete(string id)
         {
-            db.DeleteUser(id);
+            db.DeleteProduct(id);
             return RedirectToAction(nameof(Index));
         }
     }
