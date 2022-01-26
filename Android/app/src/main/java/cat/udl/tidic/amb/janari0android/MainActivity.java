@@ -76,30 +76,21 @@ import cat.udl.tidic.amb.janari0android.adapters.SliderAdapter;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "bakedbeans";
-    private static final int PERMISSION_CODE = 1000;
-    private static final int IMAGE_CAPTURE_CODE = 1001;
-    private Button mCaptureBtn, seeAll, seeAllFree;
-    private ScrollView scrollView;
-    private ImageView gps, seeAllImage;
+    private Button seeAll, seeAllFree;
+    private ImageView seeAllImage, seeAllImageFree;
     private FloatingActionButton give, add, sell;
     private FloatingActionsMenu open;
     private Button list, list2, list3;
-    private boolean visibleFloatingButton = false;
     private RecyclerView nearbyProducts, freeProducts;
-    private final Handler sliderHandler = new Handler();
     private final ArrayList<ProductSale> productsNearby = new ArrayList<>();
     private final ArrayList<ProductSale> productsFree = new ArrayList<>();
-    private SliderAdapter sliderAdapterNearby;
-    private SliderAdapter sliderAdapterFree;
+    private final ArrayList<ProductSale> productsSale = new ArrayList<>();
+    private SliderAdapter sliderAdapterNearby, sliderAdapterFree;
     private SearchStockSaleAdapter searchStockSaleAdapter;
     private AdView mAdView;
     private RecyclerView searchProductsRecycler;
-    private ArrayList<ProductSale> productsSale = new ArrayList<>();
     private Toolbar mainToolbar;
-    private View logoView, profile, help;
-    private TextView addProductText, donateText, sellText;
-    private ConstraintLayout dimLayout;
-    private boolean isBlockedScrollView = false;
+    private View logoView, profile, help, floatingMenuView;
     FirebaseAuth auth;
     FirebaseUser user;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -128,24 +119,25 @@ public class MainActivity extends AppCompatActivity {
         list3 = findViewById(R.id.numberItems3);
         mainToolbar = findViewById(R.id.mainToolbar);
         seeAllImage = findViewById(R.id.seeAllImage);
-        scrollView = findViewById(R.id.scrollView);
-        setSupportActionBar(mainToolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-
-        logoView = mainToolbar.getChildAt(0);
+        seeAllImageFree = findViewById(R.id.seeAllFreeImage);
         nearbyProducts = findViewById(R.id.nearbyProductsView);
         freeProducts = findViewById(R.id.freeProductsView);
         help = findViewById(R.id.toolbarHelpbottom);
         profile = findViewById(R.id.toolbarUserMenuButton);
         searchProductsRecycler = findViewById(R.id.searchProductsView);
+        floatingMenuView = findViewById(R.id.floatingMenuView);
+        setSupportActionBar(mainToolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        logoView = mainToolbar.getChildAt(0);
+
         setOnClickListeners();
 
+        // Advertisements
         MobileAds.initialize(this, new OnInitializationCompleteListener() {
             @Override
             public void onInitializationComplete(InitializationStatus initializationStatus) {
             }
         });
-
         mAdView = findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
@@ -163,19 +155,9 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        scrollView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                // TODO Auto-generated method stub
-                Log.v(TAG, String.valueOf(isBlockedScrollView));
-                return isBlockedScrollView;
-            }
-        });
-        Log.w(TAG, "OnCreate");
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
-        Log.w(TAG, "OnCreateOptionsMenu");
         getMenuInflater().inflate(R.menu.main_menu, menu);
         MenuItem menuItem = menu.findItem(R.id.searchProductsViewMain);
         androidx.appcompat.widget.SearchView searchView = (androidx.appcompat.widget.SearchView) menuItem.getActionView();
@@ -195,7 +177,6 @@ public class MainActivity extends AppCompatActivity {
                 searchView.setIconified(false);
                 searchProductsRecycler.setAdapter(searchStockSaleAdapter);
                 searchProductsRecycler.setVisibility(View.VISIBLE);
-                isBlockedScrollView = true;
             }
         });
         searchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
@@ -207,7 +188,6 @@ public class MainActivity extends AppCompatActivity {
                     searchView.clearFocus();
                     searchView.setIconified(true);
                     hideKeyboard(v);
-                    isBlockedScrollView = false;
                 }
                 else{
                     searchProductsRecycler.setVisibility(View.VISIBLE);
@@ -265,7 +245,6 @@ public class MainActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.d(TAG, document.getId() + " => " + document.getData());
                                 ProductSale product = document.toObject(ProductSale.class);
                                 productsSale.add(product);
                             }
@@ -289,7 +268,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
     private void setOnClickListeners() {
         logoView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -351,6 +329,14 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        seeAllImageFree.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, ListProductsActivity.class);
+                intent.putExtra("Page", 6);
+                startActivity(intent);
+            }
+        });
         give.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -394,7 +380,6 @@ public class MainActivity extends AppCompatActivity {
                                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                                         @Override
                                         public void onComplete(@NonNull Task<Void> task) {
-                                            Log.d(TAG, "Address successfully updated");
                                             getSliderData(1);
                                             getSliderDataFree(10);
                                         }
@@ -453,7 +438,6 @@ public class MainActivity extends AppCompatActivity {
                                     for(DocumentSnapshot doc : matchingDocs){
                                         productsFree.add(doc.toObject(ProductSale.class));
                                     }
-                                    //Log.d(TAG, productsFree.size() + "Free");
                                     sliderAdapterFree = new SliderAdapter(productsFree, MainActivity.this);
                                     freeProducts.setLayoutManager(new LinearLayoutManager(MainActivity.this,LinearLayoutManager.HORIZONTAL,false));
                                     freeProducts.setAdapter(sliderAdapterFree);
@@ -520,7 +504,6 @@ public class MainActivity extends AppCompatActivity {
                                     for(DocumentSnapshot doc : matchingDocs){
                                         productsNearby.add(doc.toObject(ProductSale.class));
                                     }
-                                    //Log.d(TAG, String.valueOf(productsNearby.size()));
                                     sliderAdapterNearby = new SliderAdapter(productsNearby, MainActivity.this);
                                     nearbyProducts.setLayoutManager(new LinearLayoutManager(MainActivity.this,LinearLayoutManager.HORIZONTAL,false));
                                     nearbyProducts.setAdapter(sliderAdapterNearby);
@@ -559,9 +542,7 @@ public class MainActivity extends AppCompatActivity {
         searchProductsRecycler.setAdapter(searchStockSaleAdapter);
     }
     private void tarjetaPrueba2() {
-        give.setVisibility(View.VISIBLE);
-        add.setVisibility(View.VISIBLE);
-        sell.setVisibility(View.VISIBLE);
+        open.expand();
         final TapTargetSequence sequence =new TapTargetSequence(this)
                 .targets(
                         TapTarget.forView(profile, "Your Profile",
@@ -604,7 +585,7 @@ public class MainActivity extends AppCompatActivity {
                                 .targetRadius(80)
                                 .cancelable(false),
                                 //.icon(gift)
-                        TapTarget.forView(open, "More options", "click here and there are more options to do with your products")
+                        TapTarget.forView(floatingMenuView, "More options", "click here and there are more options to do with your products")
                                 .outerCircleColor(R.color.colorPrimary900)
                                 //.dimColor(R.color.colorPrimary700)
                                 .outerCircleAlpha(0.95f)
@@ -676,9 +657,7 @@ public class MainActivity extends AppCompatActivity {
                     // to the sequence
                     @Override
                     public void onSequenceFinish() {
-                        give.setVisibility(View.INVISIBLE);
-                        add.setVisibility(View.INVISIBLE);
-                        sell.setVisibility(View.INVISIBLE);
+                        open.collapse();
                     }
 
                     @Override
@@ -692,12 +671,6 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
         sequence.start();
-        SharedPreferences prefs = getSharedPreferences("prefs",MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putBoolean("firstTime",false);
-        editor.apply();
-
-
     }
     private void showProductsInfo() {
         Calendar c = Calendar.getInstance();
@@ -708,7 +681,6 @@ public class MainActivity extends AppCompatActivity {
                 int num_products_toexpire = 0, num_products_expired = 0, num_products_all = 0;
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot document : task.getResult()) {
-                        Log.d(TAG, document.getId() + " => " + document.getData());
                         Product p = document.toObject(Product.class);
                         Calendar cprod = Calendar.getInstance();
                         cprod.setTime(p.expirationDate);
@@ -726,31 +698,6 @@ public class MainActivity extends AppCompatActivity {
                     Log.d(TAG, "Error getting documents: ", task.getException());
             }
         });
-    }
-    private void toggleFloatingButton() {
-        if (visibleFloatingButton) {
-            give.setVisibility(View.INVISIBLE);
-            add.setVisibility(View.INVISIBLE);
-            sell.setVisibility(View.INVISIBLE);
-            addProductText.setVisibility(View.INVISIBLE);
-            donateText.setVisibility(View.INVISIBLE);
-            sellText.setVisibility(View.INVISIBLE);
-            WindowManager.LayoutParams lparams = getWindow().getAttributes();
-            lparams.dimAmount=0.0f;
-            getWindow().setAttributes(lparams);
-            visibleFloatingButton = false;
-        } else {
-            give.setVisibility(View.VISIBLE);
-            add.setVisibility(View.VISIBLE);
-            sell.setVisibility(View.VISIBLE);
-            addProductText.setVisibility(View.VISIBLE);
-            donateText.setVisibility(View.VISIBLE);
-            sellText.setVisibility(View.VISIBLE);
-            WindowManager.LayoutParams lparams = getWindow().getAttributes();
-            lparams.dimAmount=0.7f;
-            getWindow().setAttributes(lparams);
-            visibleFloatingButton = true;
-        }
     }
     public void hideKeyboard(View view) {
         InputMethodManager inputMethodManager =(InputMethodManager)getSystemService(Activity.INPUT_METHOD_SERVICE);

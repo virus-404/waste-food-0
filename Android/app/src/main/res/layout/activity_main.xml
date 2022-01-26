@@ -106,18 +106,6 @@
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/background" />
 
-        <ImageView
-            android:id="@+id/imageView6"
-            android:layout_width="690dp"
-            android:layout_height="78dp"
-            android:elevation="-99dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0"
-            app:srcCompat="@drawable/rectangle_top_main_page" />
-
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/numberItems3"
             android:layout_width="90dp"
@@ -256,16 +244,6 @@
             fab:fab_labelStyle="@style/menu_labels_style">
 
             <com.getbase.floatingactionbutton.FloatingActionButton
-                android:id="@+id/floatingButtonGift"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                fab:fab_colorNormal="@color/white"
-                fab:fab_colorPressed="@color/white_pressed"
-                fab:fab_icon="@drawable/gift"
-                fab:fab_size="mini"
-                fab:fab_title="@string/donateProductText" />
-
-            <com.getbase.floatingactionbutton.FloatingActionButton
                 android:id="@+id/floatingButtonSell"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -274,7 +252,15 @@
                 fab:fab_icon="@drawable/buy"
                 fab:fab_size="mini"
                 fab:fab_title="@string/sellProductText" />
-
+            <com.getbase.floatingactionbutton.FloatingActionButton
+                android:id="@+id/floatingButtonGift"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                fab:fab_colorNormal="@color/white"
+                fab:fab_colorPressed="@color/white_pressed"
+                fab:fab_icon="@drawable/gift"
+                fab:fab_size="mini"
+                fab:fab_title="@string/donateProductText" />
             <com.getbase.floatingactionbutton.FloatingActionButton
                 android:id="@+id/floatingButtonAdd"
                 android:layout_width="wrap_content"
@@ -393,7 +379,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/searchProductsView"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="1400dp"
             android:background="@color/white"
             android:elevation="15dp"
             android:visibility="gone"
@@ -421,6 +407,18 @@
             app:layout_constraintStart_toEndOf="@+id/seeAllFree"
             app:layout_constraintTop_toBottomOf="@+id/adView"
             app:srcCompat="@drawable/ic_baseline_arrow_forward_ios_24" />
+
+        <ImageView
+            android:id="@+id/floatingMenuView"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginTop="416dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:visibility="invisible"
+            app:layout_constraintHorizontal_bias="0.90"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/numberItems"
+            fab:srcCompat="@drawable/cross" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
