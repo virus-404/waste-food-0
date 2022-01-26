@@ -61,4 +61,9 @@ dependencies {
     implementation 'com.google.firebase:firebase-messaging'
     implementation 'com.google.firebase:firebase-analytics'
     apply plugin: 'com.google.gms.google-services'  // Google Services plugin
+    implementation 'com.hbb20:ccp:2.6.0'
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
+    implementation 'com.squareup.okhttp3:okhttp:4.9.3'
+    implementation 'com.getbase:floatingactionbutton:1.10.1'
 }

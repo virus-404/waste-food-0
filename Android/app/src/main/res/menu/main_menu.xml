@@ -11,13 +11,13 @@
         />
     <item
         android:id="@+id/toolbarHelpbottom"
-        android:title="Search"
+        android:title="Help"
         android:icon="@drawable/ic_baseline_help_24"
         app:showAsAction="ifRoom"
         />
     <item
         android:id="@+id/toolbarUserMenuButton"
-        android:title="Search"
+        android:title="Profile"
         android:icon="@drawable/user_icon"
         app:showAsAction="ifRoom"
         />

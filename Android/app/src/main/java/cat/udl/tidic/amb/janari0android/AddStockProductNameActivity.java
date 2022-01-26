@@ -41,6 +41,7 @@ public class AddStockProductNameActivity extends AppCompatActivity {
     private ImageButton go_back;
     private TextInputEditText name;
     private Button next;
+    private String imageUri;
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     @Override
@@ -57,13 +58,12 @@ public class AddStockProductNameActivity extends AppCompatActivity {
 
 
 
-            recibeData();
+            recieveData();
 
         go_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(AddStockProductNameActivity.this, MainActivity.class);
-                startActivity(intent);
+                finish();
             }
         });
         name.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -104,6 +104,7 @@ public class AddStockProductNameActivity extends AppCompatActivity {
                                     else {
                                         Intent intent = new Intent(AddStockProductNameActivity.this, AddStockActivity.class);
                                         intent.putExtra("name", name.getText().toString());
+                                        intent.putExtra("imageUri", imageUri);
                                         startActivity(intent);
                                     }
                                 }
@@ -113,12 +114,13 @@ public class AddStockProductNameActivity extends AppCompatActivity {
         });
     }
 
-    private void recibeData() {
+    private void recieveData() {
         Bundle extras = getIntent().getExtras();
 
         if (extras!=null){
             String d1 = extras.getString("data01");
             name.setText(d1);
+            imageUri = extras.getString("imageUri");
         }
 
 

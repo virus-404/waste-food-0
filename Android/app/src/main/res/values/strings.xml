@@ -109,9 +109,12 @@
     <string name="wpmessage2"> from the JanariO app </string>
     <string name="nearby">Nearby</string>
     <string name="Free">Free</string>
-    <string name="seeAll">More</string>
+    <string name="seeAll">See all</string>
     <string name="nearbyProducts">Nearby products</string>
     <string name="freeProducts">Free products</string>
+    <string name="sellProductText">Sell product</string>
+    <string name="addProductText">Add product</string>
+    <string name="donateProductText">Donate product</string>
     <string name="new_notification">One of your products has just expired. will be removed from the list</string>
     <string name="appname" translatable="false">JanariO</string>
 </resources>

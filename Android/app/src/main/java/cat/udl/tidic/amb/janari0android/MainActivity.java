@@ -4,6 +4,7 @@ package cat.udl.tidic.amb.janari0android;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -23,19 +24,26 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
+import android.os.Debug;
 import android.os.Handler;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.SearchView;
+import android.widget.TextView;
 
 import com.firebase.geofire.GeoFireUtils;
 import com.firebase.geofire.GeoLocation;
 import com.firebase.geofire.GeoQueryBounds;
+import com.getbase.floatingactionbutton.FloatingActionButton;
+import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.getkeepsafe.taptargetview.TapTarget;
 import com.getkeepsafe.taptargetview.TapTargetSequence;
 import com.google.android.gms.ads.AdRequest;
@@ -48,7 +56,6 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -73,8 +80,10 @@ public class MainActivity extends AppCompatActivity {
     private static final int PERMISSION_CODE = 1000;
     private static final int IMAGE_CAPTURE_CODE = 1001;
     private Button mCaptureBtn, seeAll, seeAllFree;
-    private ImageView gps;
-    private FloatingActionButton open, give, add, sell;
+    private ScrollView scrollView;
+    private ImageView gps, seeAllImage;
+    private FloatingActionButton give, add, sell;
+    private FloatingActionsMenu open;
     private Button list, list2, list3;
     private boolean visibleFloatingButton = false;
     private RecyclerView nearbyProducts, freeProducts;
@@ -88,8 +97,10 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView searchProductsRecycler;
     private ArrayList<ProductSale> productsSale = new ArrayList<>();
     private Toolbar mainToolbar;
-    private View logoView;
-    private View profile, help;
+    private View logoView, profile, help;
+    private TextView addProductText, donateText, sellText;
+    private ConstraintLayout dimLayout;
+    private boolean isBlockedScrollView = false;
     FirebaseAuth auth;
     FirebaseUser user;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -117,8 +128,9 @@ public class MainActivity extends AppCompatActivity {
         list = findViewById(R.id.numberItems);
         list2 = findViewById(R.id.numberItems2);
         list3 = findViewById(R.id.numberItems3);
-
         mainToolbar = findViewById(R.id.mainToolbar);
+        seeAllImage = findViewById(R.id.seeAllImage);
+        scrollView = findViewById(R.id.scrollView);
         setSupportActionBar(mainToolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
@@ -144,7 +156,6 @@ public class MainActivity extends AppCompatActivity {
         getSearchData();
         getLocation();
         showProductsInfo();
-        buildSearchProducts();
         sliderAdapterNearby = new SliderAdapter(productsNearby, this);
         sliderAdapterNearby.setOnItemClickListener(new SliderAdapter.OnItemClickListener() {
             @Override
@@ -154,9 +165,19 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        scrollView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                // TODO Auto-generated method stub
+                Log.v(TAG, String.valueOf(isBlockedScrollView));
+                return isBlockedScrollView;
+            }
+        });
+        Log.w(TAG, "OnCreate");
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
+        Log.w(TAG, "OnCreateOptionsMenu");
         getMenuInflater().inflate(R.menu.main_menu, menu);
         MenuItem menuItem = menu.findItem(R.id.searchProductsViewMain);
         androidx.appcompat.widget.SearchView searchView = (androidx.appcompat.widget.SearchView) menuItem.getActionView();
@@ -176,6 +197,7 @@ public class MainActivity extends AppCompatActivity {
                 searchView.setIconified(false);
                 searchProductsRecycler.setAdapter(searchStockSaleAdapter);
                 searchProductsRecycler.setVisibility(View.VISIBLE);
+                isBlockedScrollView = true;
             }
         });
         searchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
@@ -187,6 +209,7 @@ public class MainActivity extends AppCompatActivity {
                     searchView.clearFocus();
                     searchView.setIconified(true);
                     hideKeyboard(v);
+                    isBlockedScrollView = false;
                 }
                 else{
                     searchProductsRecycler.setVisibility(View.VISIBLE);
@@ -205,12 +228,18 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
-        // for the first time , do the tutorial
-        /*SharedPreferences prefs = getSharedPreferences("prefs", MODE_PRIVATE);
-        boolean firstTime = prefs.getBoolean("firstTime", true);
-        if (firstTime) {
-            tarjetaPrueba2();
-        }*/
+        new Handler().post(new Runnable() {
+            @Override
+            public void run() {
+                help = findViewById(R.id.toolbarHelpbottom);
+                profile = findViewById(R.id.toolbarUserMenuButton);
+                // SOME OF YOUR TASK AFTER GETTING VIEW REFERENCE
+                Bundle extras = getIntent().getExtras();
+                if(extras!=null) {
+                    tarjetaPrueba2();
+                }
+            }
+        });
         return super.onCreateOptionsMenu(menu);
     }
     @Override
@@ -270,12 +299,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this, ScannActivity.class));
             }
         });
-        open.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                toggleFloatingButton();
-            }
-        });
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -307,6 +330,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         seeAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, ListProductsActivity.class);
+                intent.putExtra("Page", 5);
+                startActivity(intent);
+            }
+        });
+        seeAllImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, ListProductsActivity.class);
@@ -424,7 +455,7 @@ public class MainActivity extends AppCompatActivity {
                                     for(DocumentSnapshot doc : matchingDocs){
                                         productsFree.add(doc.toObject(ProductSale.class));
                                     }
-                                    Log.d(TAG, productsFree.size() + "Free");
+                                    //Log.d(TAG, productsFree.size() + "Free");
                                     sliderAdapterFree = new SliderAdapter(productsFree, MainActivity.this);
                                     freeProducts.setLayoutManager(new LinearLayoutManager(MainActivity.this,LinearLayoutManager.HORIZONTAL,false));
                                     freeProducts.setAdapter(sliderAdapterFree);
@@ -491,7 +522,7 @@ public class MainActivity extends AppCompatActivity {
                                     for(DocumentSnapshot doc : matchingDocs){
                                         productsNearby.add(doc.toObject(ProductSale.class));
                                     }
-                                    Log.d(TAG, String.valueOf(productsNearby.size()));
+                                    //Log.d(TAG, String.valueOf(productsNearby.size()));
                                     sliderAdapterNearby = new SliderAdapter(productsNearby, MainActivity.this);
                                     nearbyProducts.setLayoutManager(new LinearLayoutManager(MainActivity.this,LinearLayoutManager.HORIZONTAL,false));
                                     nearbyProducts.setAdapter(sliderAdapterNearby);
@@ -703,11 +734,23 @@ public class MainActivity extends AppCompatActivity {
             give.setVisibility(View.INVISIBLE);
             add.setVisibility(View.INVISIBLE);
             sell.setVisibility(View.INVISIBLE);
+            addProductText.setVisibility(View.INVISIBLE);
+            donateText.setVisibility(View.INVISIBLE);
+            sellText.setVisibility(View.INVISIBLE);
+            WindowManager.LayoutParams lparams = getWindow().getAttributes();
+            lparams.dimAmount=0.0f;
+            getWindow().setAttributes(lparams);
             visibleFloatingButton = false;
         } else {
             give.setVisibility(View.VISIBLE);
             add.setVisibility(View.VISIBLE);
             sell.setVisibility(View.VISIBLE);
+            addProductText.setVisibility(View.VISIBLE);
+            donateText.setVisibility(View.VISIBLE);
+            sellText.setVisibility(View.VISIBLE);
+            WindowManager.LayoutParams lparams = getWindow().getAttributes();
+            lparams.dimAmount=0.7f;
+            getWindow().setAttributes(lparams);
             visibleFloatingButton = true;
         }
     }

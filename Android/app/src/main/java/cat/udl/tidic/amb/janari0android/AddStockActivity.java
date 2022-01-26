@@ -89,6 +89,7 @@ public class AddStockActivity extends AppCompatActivity {
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     private RecyclerView products;
     private static final int TAKE_IMAGE_CODE = 100;
+    private String imageUri;
     ArrayList<String> images = new ArrayList<>();
     ArrayList<String> imageInfo = new ArrayList<>();
     AddStockAdapter addStockAdapter;
@@ -111,6 +112,11 @@ public class AddStockActivity extends AppCompatActivity {
         String name = "";
         if(extras!=null) {
             name = extras.getString("name");
+            imageUri = extras.getString("imageUri");
+            if (imageUri!=null) {
+               images.add(imageUri);
+               imageInfo.add("Example photo");
+            }
         }
 
         go_back.setOnClickListener(new View.OnClickListener() {

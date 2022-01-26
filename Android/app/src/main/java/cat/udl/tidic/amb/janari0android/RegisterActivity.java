@@ -26,6 +26,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.hbb20.CountryCodePicker;
 
 public class RegisterActivity extends AppCompatActivity {
     private static final String TAG = "bakedbeans";
@@ -34,7 +35,7 @@ public class RegisterActivity extends AppCompatActivity {
     protected EditText username, email, password, passwordRep, phone;
     protected Button register;
     protected ImageButton goBack;
-
+    CountryCodePicker ccp;
 
 
     @Override
@@ -49,7 +50,7 @@ public class RegisterActivity extends AppCompatActivity {
         passwordRep = findViewById(R.id.repeatPasswordEditText);
         phone = findViewById(R.id.phoneNumberEditText);
         register = findViewById(R.id.registerFormButton);
-
+        ccp = (CountryCodePicker) findViewById(R.id.ccp);
         String pleaseFillAllFields = getResources().getString(R.string.pleaseFillAllFields);
         String invalidEmail = getResources().getString(R.string.invalidEmail);
         String invalidUsername = getResources().getString(R.string.invalidUsername);
@@ -92,7 +93,7 @@ public class RegisterActivity extends AppCompatActivity {
         username.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus && !email.hasFocus() && !password.hasFocus() && !passwordRep.hasFocus()) {
+                if (!hasFocus && !email.hasFocus() && !password.hasFocus() && !passwordRep.hasFocus() && !phone.hasFocus()) {
                     hideKeyboard(v);
                 }
             }
@@ -100,7 +101,7 @@ public class RegisterActivity extends AppCompatActivity {
         email.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus && !username.hasFocus() && !password.hasFocus() && !passwordRep.hasFocus()) {
+                if (!hasFocus && !username.hasFocus() && !password.hasFocus() && !passwordRep.hasFocus() && !phone.hasFocus()) {
                     hideKeyboard(v);
                 }
             }
@@ -108,7 +109,7 @@ public class RegisterActivity extends AppCompatActivity {
         password.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus && !username.hasFocus() && !email.hasFocus() && !passwordRep.hasFocus()) {
+                if (!hasFocus && !username.hasFocus() && !email.hasFocus() && !passwordRep.hasFocus() && !phone.hasFocus()) {
                     hideKeyboard(v);
                 }
             }
@@ -116,7 +117,15 @@ public class RegisterActivity extends AppCompatActivity {
         passwordRep.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus && !username.hasFocus() && !email.hasFocus() && !password.hasFocus()) {
+                if (!hasFocus && !username.hasFocus() && !email.hasFocus() && !password.hasFocus() && !phone.hasFocus()) {
+                    hideKeyboard(v);
+                }
+            }
+        });
+        phone.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus && !username.hasFocus() && !email.hasFocus() && !password.hasFocus() && !passwordRep.hasFocus()) {
                     hideKeyboard(v);
                 }
             }
@@ -173,7 +182,7 @@ public class RegisterActivity extends AppCompatActivity {
     private void setDisplayName()
     {
         String userName = String.valueOf(username.getText());
-        String phoneNumber = String.valueOf(phone.getText());
+        ccp.registerCarrierNumberEditText(phone);
         FirebaseUser user = auth.getCurrentUser();
         UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                 .setDisplayName(String.valueOf(username.getText()))
@@ -181,7 +190,7 @@ public class RegisterActivity extends AppCompatActivity {
                 .build();
         user.updateProfile(profileUpdates);
 
-        User userDB = new User(userName, phoneNumber);
+        User userDB = new User(userName, ccp.getFormattedFullNumber());
         db.collection("users").document(user.getUid())
                 .set(userDB)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -201,6 +210,7 @@ public class RegisterActivity extends AppCompatActivity {
     private void updateUI(FirebaseUser user) {
         if (user != null){
             Intent intent = new Intent(this , MainActivity.class);
+            intent.putExtra("firstTime", true);
             startActivity(intent);
         }
 
