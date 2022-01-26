@@ -17,7 +17,7 @@
     <string name="changeProfilePhoto">Change photo</string>
     <string name="confirm">confirm</string>
     <string name="contactSeller">Contact Seller</string>
-    <string name="contactSellerSell">If you don\'t have a phone number submitted in your profile, potential buyers will not be able to reach you</string>
+    <string name="contactSellerSell">If you don\'t have a valid phone number submitted in your profile, potential buyers will not be able to reach you</string>
     <string name="createAccount">Create account</string>
     <string name="currentPassword">Current password</string>
     <string name="defaultDescription">No description</string>
