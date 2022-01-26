@@ -1,0 +1,58 @@
+@model Janari0Web.Models.UserFire
+
+@{ ViewData["Title"] = "Edit"; }
+
+<h1>Edit</h1>
+
+<h4>User</h4>
+<hr />
+
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Edit">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="UserID" class="control-label"></label>
+                    <input disabled asp-for="UserID" class="form-control" />
+                    <span asp-validation-for="UserID" class="text-danger"></span>
+                </div>
+                <input hidden asp-for="UserID" class="form-control" />
+                <div class="form-group">
+                    <label asp-for="username" class="control-label"></label>
+                    <input asp-for="username" class="form-control" />
+                    <span asp-validation-for="username" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="role" class="control-label"></label>
+                    <input asp-for="role" class="form-control" />
+                    <span asp-validation-for="role" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="lat" class="control-label"></label>
+                    <input asp-for="lat" class="form-control" />
+                    <span asp-validation-for="lat" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="lon" class="control-label"></label>
+                    <input asp-for="lon" class="form-control" />
+                    <span asp-validation-for="lon" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="phoneNumber" class="control-label"></label>
+                    <input asp-for="phoneNumber" class="form-control" />
+                    <span asp-validation-for="phoneNumber" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Save" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+  
+}

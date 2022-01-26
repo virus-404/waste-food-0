@@ -1,0 +1,71 @@
+@model IEnumerable<Janari0Web.Models.UserFire>
+
+@{ ViewData["Title"] = "Index"; }
+
+<h1>All Users</h1>
+
+@*<p>
+        <a asp-action="Create">Create New</a>
+    </p>
+*@
+<table id="example" class="display" style="width:100%">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.UserID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.username)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.lat)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.lon)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.phoneNumber)
+            </th>
+            <th>
+                Actions
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.UserID)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.username)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.lat)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.lon)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.phoneNumber)
+    </td>
+
+    <td>
+        <a asp-action="Edit" asp-route-id="@item.UserID">Edit</a> |
+        <a asp-action="Details" asp-route-id="@item.UserID">Details</a> |
+        <a asp-action="Delete" asp-route-id="@item.UserID">Delete</a>
+    </td>
+</tr>
+}
+    </tbody>
+</table>
+@section Scripts {
+    <script>$(document).ready(function () {
+            $('#example').DataTable({
+                "scrollY": "600px",
+                "scrollCollapse": true,
+                "paging": false
+            });
+        });</script>
+}

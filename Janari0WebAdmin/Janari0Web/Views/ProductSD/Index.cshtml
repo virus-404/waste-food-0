@@ -1,0 +1,85 @@
+@model IEnumerable<Janari0Web.Models.ProductSD>
+
+@{ ViewData["Title"] = "Index"; }
+
+<h1>All Products on Sale</h1>
+
+@*<p>
+        <a asp-action="Create">Create New</a>
+    </p>
+*@
+<table id="example" class="display" style="width:100%">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.phoneNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.price) €
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.product.expirationDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.product.name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.product.photos)
+            </th>
+            <th>
+                Actions
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.phoneNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.product.expirationDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.product.name)
+            </td>
+            <td>
+                @foreach (var ph in item.product.photos)
+                {
+        <img src="@ph" alt="photos" style="border-radius: 50%; width: 50px; height: 50px;">}
+            </td>
+
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.product.id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.product.id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.product.id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+@section Scripts {
+    <script>$(document).ready(function () {
+            $('#example').DataTable({
+                "scrollY": "600px",
+                "scrollCollapse": true,
+                "paging": true
+            });
+        });</script>
+}

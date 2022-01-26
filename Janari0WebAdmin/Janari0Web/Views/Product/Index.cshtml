@@ -1,0 +1,69 @@
+@model IEnumerable<Janari0Web.Models.Product>
+
+@{ ViewData["Title"] = "Index"; }
+
+<h1>All Products</h1>
+
+@*<p>
+        <a asp-action="Create">Create New</a>
+    </p>
+*@
+<table id="example" class="display" style="width:100%">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.expirationDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.photos)
+            </th>
+            <th>
+                Actions
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.id)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.name)
+    </td>
+    <td>
+        @item.expirationDate
+
+    </td>
+    <td>
+        @foreach (var ph in item.photos)
+        {
+            <img src="@ph" alt="photos" style="border-radius: 50%; width: 50px; height: 50px;">
+        }
+    </td>
+
+    <td>
+        <a asp-action="Edit" asp-route-id="@item.id">Edit</a> |
+        <a asp-action="Details" asp-route-id="@item.id">Details</a> |
+        <a asp-action="Delete" asp-route-id="@item.id">Delete</a>
+    </td>
+</tr>
+}
+    </tbody>
+</table>
+@section Scripts {
+    <script>$(document).ready(function () {
+            $('#example').DataTable({
+                "scrollY": "600px",
+                "scrollCollapse": true,
+                "paging": true
+            });
+        });</script>
+}
