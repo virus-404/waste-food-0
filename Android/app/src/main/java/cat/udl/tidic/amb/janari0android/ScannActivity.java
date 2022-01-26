@@ -82,6 +82,7 @@ public class ScannActivity extends AppCompatActivity {
                     @Override
                     public void onFailure(@NotNull Call call, @NotNull IOException e) {
                         e.printStackTrace();
+                        finish();
                     }
                     @Override
                     public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
@@ -95,8 +96,10 @@ public class ScannActivity extends AppCompatActivity {
                             intent.putExtra("data02", flag1);
                             intent.putExtra("imageUri", imageUri);
                             startActivity(intent);
+                            finish();
                         } catch (JSONException e) {
                             e.printStackTrace();
+                            finish();
                         }
                     }
                 });
