@@ -142,6 +142,10 @@
     <string name="Expiration_date">Expiration date: </string>
     <string name="ProductSuccessfullyAdded">Product successfully added</string>
     <string name="TakePictureGallery">Take a picture or use a picture from gallery</string>
+    <string name="YourProfile">Your Profile</string>
+    <string name="YourProfileInfo">here you can edit your account, see personal information and log out</string>
+    <string name="search">Search</string>
+    <string name="searchInfo">Search through the complete catalog of products that are for you</string>
 
 
 
