@@ -28,11 +28,13 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.SearchView;
 import android.widget.TextView;
 
@@ -77,6 +79,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int PERMISSION_CODE = 1000;
     private static final int IMAGE_CAPTURE_CODE = 1001;
     private Button mCaptureBtn, seeAll, seeAllFree;
+    private ScrollView scrollView;
     private ImageView gps, seeAllImage;
     private FloatingActionButton give, add, sell;
     private FloatingActionsMenu open;
@@ -96,6 +99,7 @@ public class MainActivity extends AppCompatActivity {
     private View logoView, profile, help;
     private TextView addProductText, donateText, sellText;
     private ConstraintLayout dimLayout;
+    private boolean isBlockedScrollView = false;
     FirebaseAuth auth;
     FirebaseUser user;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -124,6 +128,7 @@ public class MainActivity extends AppCompatActivity {
         list3 = findViewById(R.id.numberItems3);
         mainToolbar = findViewById(R.id.mainToolbar);
         seeAllImage = findViewById(R.id.seeAllImage);
+        scrollView = findViewById(R.id.scrollView);
         setSupportActionBar(mainToolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
@@ -158,6 +163,14 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        scrollView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                // TODO Auto-generated method stub
+                Log.v(TAG, String.valueOf(isBlockedScrollView));
+                return isBlockedScrollView;
+            }
+        });
         Log.w(TAG, "OnCreate");
     }
     @Override
@@ -182,6 +195,7 @@ public class MainActivity extends AppCompatActivity {
                 searchView.setIconified(false);
                 searchProductsRecycler.setAdapter(searchStockSaleAdapter);
                 searchProductsRecycler.setVisibility(View.VISIBLE);
+                isBlockedScrollView = true;
             }
         });
         searchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
@@ -193,6 +207,7 @@ public class MainActivity extends AppCompatActivity {
                     searchView.clearFocus();
                     searchView.setIconified(true);
                     hideKeyboard(v);
+                    isBlockedScrollView = false;
                 }
                 else{
                     searchProductsRecycler.setVisibility(View.VISIBLE);
@@ -211,12 +226,6 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
-/*        // for the first time , do the tutorial
-        SharedPreferences prefs = getSharedPreferences("prefs", MODE_PRIVATE);
-        boolean firstTime = prefs.getBoolean("firstTime", true);
-        if (firstTime) {
-            tarjetaPrueba2();
-        }*/
         new Handler().post(new Runnable() {
             @Override
             public void run() {
@@ -224,9 +233,6 @@ public class MainActivity extends AppCompatActivity {
                 profile = findViewById(R.id.toolbarUserMenuButton);
                 // SOME OF YOUR TASK AFTER GETTING VIEW REFERENCE
                 Bundle extras = getIntent().getExtras();
-                if(help == null)
-                    Log.w(TAG, "Extras: ");
-
                 if(extras!=null) {
                     tarjetaPrueba2();
                 }
