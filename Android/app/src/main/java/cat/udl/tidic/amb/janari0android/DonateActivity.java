@@ -176,7 +176,6 @@ public class DonateActivity extends AppCompatActivity {
                             Geocoder geocoder = new Geocoder(DonateActivity.this, Locale.getDefault());
                             try {
                                 List<Address> addresses = geocoder.getFromLocation(location.getLatitude(),location.getLongitude(),1);
-                                Toast.makeText(DonateActivity.this, addresses.get(0).getAddressLine(0), Toast.LENGTH_SHORT).show();
                                 Address address = addresses.get(0);
                                 String geohash = GeoFireUtils.getGeoHashForLocation(new GeoLocation(address.getLatitude(), address.getLongitude()));
                                 double lat = address.getLatitude();

@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView searchProductsRecycler;
     private Toolbar mainToolbar;
     private View logoView, profile, help, floatingMenuView;
-    private SearchView search;
+    private View search;
     FirebaseAuth auth;
     FirebaseUser user;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -384,7 +384,7 @@ public class MainActivity extends AppCompatActivity {
                                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                                         @Override
                                         public void onComplete(@NonNull Task<Void> task) {
-                                            getSliderData(1);
+                                            getSliderData(3);
                                             getSliderDataFree(10);
                                         }
                                     });

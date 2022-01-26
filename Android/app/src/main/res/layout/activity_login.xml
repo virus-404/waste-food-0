@@ -132,10 +132,10 @@
         android:layout_marginTop="80dp"
         app:layout_constraintBottom_toTopOf="@+id/tilemail"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.442"
+        app:layout_constraintHorizontal_bias="0.429"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0">
+        app:layout_constraintVertical_bias="0.087">
 
         <TextView
             android:id="@+id/textView5"
