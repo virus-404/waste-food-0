@@ -192,7 +192,7 @@ public class AddStockActivity extends AppCompatActivity {
                         product = new Product(UUID.randomUUID().toString(), finalName, images, new SimpleDateFormat("dd MMM yyyy", Locale.US).parse(String.valueOf(expirationDate.getText())));
                     } catch (ParseException e) {
                         e.printStackTrace();
-                        Toast.makeText(AddStockActivity.this, "Error adding product", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(AddStockActivity.this, getResources().getString(R.string.ErrorAddingProduct), Toast.LENGTH_SHORT).show();
                         returnToProductName();
                         return;
                     }
@@ -201,7 +201,7 @@ public class AddStockActivity extends AppCompatActivity {
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
-                                    Toast.makeText(AddStockActivity.this, "Product successfully added", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(AddStockActivity.this, getResources().getString(R.string.ProductSuccessfull), Toast.LENGTH_SHORT).show();
                                 }
                             })
                             .addOnFailureListener(new OnFailureListener() {
@@ -313,7 +313,7 @@ public class AddStockActivity extends AppCompatActivity {
                         File f = new File(String.valueOf(uri.getLastPathSegment()));
                         imageInfo.add(f.getName());
                         products.setAdapter(addStockAdapter);
-                        Toast.makeText(AddStockActivity.this, "Image uploaded", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(AddStockActivity.this, getResources().getString(R.string.ImageUploaded), Toast.LENGTH_SHORT).show();
                     }
                 });
     }

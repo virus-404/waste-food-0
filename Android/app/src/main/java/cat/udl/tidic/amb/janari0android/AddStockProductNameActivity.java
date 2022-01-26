@@ -90,7 +90,7 @@ public class AddStockProductNameActivity extends AppCompatActivity {
                                         assert product != null;
                                         if(product.getName().equals(Objects.requireNonNull(name.getText()).toString())){
                                             Log.d(TAG, "Name exists");
-                                            Toast.makeText(AddStockProductNameActivity.this, "Product name already exists", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(AddStockProductNameActivity.this, getResources().getString(R.string.ProductNameExists), Toast.LENGTH_SHORT).show();
                                         }
                                     }
                                 }
@@ -98,9 +98,9 @@ public class AddStockProductNameActivity extends AppCompatActivity {
                                 if(Objects.requireNonNull(task.getResult()).size() == 0 ){
                                     Log.d(TAG, "Name does not Exist");
                                     if(Objects.requireNonNull(name.getText()).toString().isEmpty())
-                                        Toast.makeText(getApplicationContext(),"Name field can not be empty", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getApplicationContext(),getResources().getString(R.string.Namefieldcannotbeempty), Toast.LENGTH_SHORT).show();
                                     else if(name.getText().toString().length() < 3)
-                                        Toast.makeText(getApplicationContext(),"Name must be longer than two letters", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getApplicationContext(),getResources().getString(R.string.NameMustBeLonger), Toast.LENGTH_SHORT).show();
                                     else {
                                         Intent intent = new Intent(AddStockProductNameActivity.this, AddStockActivity.class);
                                         intent.putExtra("name", name.getText().toString());
