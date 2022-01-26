@@ -159,7 +159,7 @@ public class UserProfileActivity extends AppCompatActivity {
         }
         String[] options = {"  Camera", "  Gallery"};
         AlertDialog.Builder builder = new AlertDialog.Builder(UserProfileActivity.this);
-        builder.setTitle(getResources().getString(R.string.TakePictureGallery));
+        builder.setTitle("Take a picture or use a picture from gallery");
         builder.setItems(options, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {

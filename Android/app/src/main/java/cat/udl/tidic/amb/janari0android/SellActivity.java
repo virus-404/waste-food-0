@@ -92,7 +92,7 @@ public class SellActivity extends AppCompatActivity {
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     Product product = null;
     ProductSale productSale;
-    String expirationDateString = getResources().getString(R.string.Expiration_date);
+    String expirationDateString = "Expiration date: ";
     String geohash = "";
     double lat = 0;
     double lon = 0;
@@ -224,7 +224,7 @@ public class SellActivity extends AppCompatActivity {
                                                         @Override
                                                         public void onSuccess(Void aVoid) {
                                                             Log.d(TAG, "DocumentSnapshot successfully written!");
-                                                            Toast.makeText(SellActivity.this, getResources().getString(R.string.ProductSuccessfullyAdded), Toast.LENGTH_SHORT).show();
+                                                            Toast.makeText(SellActivity.this, "Product successfully added", Toast.LENGTH_SHORT).show();
                                                         }
                                                     })
                                                     .addOnFailureListener(new OnFailureListener() {

@@ -141,6 +141,11 @@
     <string name="Expiration_date">fecha de caducidad: </string>
     <string name="ProductSuccessfullyAdded">Product successfully added</string>
     <string name="TakePictureGallery">Toma una foto o usa una foto de la galería</string>
+    <string name="YourProfile">tu Perfil</string>
+    <string name="YourProfileInfo">here you can edit your account, see personal information and log out</string>
+    <string name="search">Buscar</string>
+    <string name="searchInfo">Busca entre el catálogo completo de productos que son para ti</string>
+
 
 
 </resources>
