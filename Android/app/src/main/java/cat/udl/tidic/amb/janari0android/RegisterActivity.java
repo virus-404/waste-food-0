@@ -170,7 +170,7 @@ public class RegisterActivity extends AppCompatActivity {
                             updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
-                            Toast.makeText(RegisterActivity.this, "Authentication failed.",
+                            Toast.makeText(RegisterActivity.this, getResources().getString(R.string.AuthenticationFailed),
                                     Toast.LENGTH_SHORT).show();
                             updateUI(null);
                         }
@@ -197,7 +197,7 @@ public class RegisterActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Log.d(TAG, "DocumentSnapshot successfully written!");
-                        Toast.makeText(RegisterActivity.this, "Successfully registered", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(RegisterActivity.this, getResources().getString(R.string.SuccessfullyRegistered), Toast.LENGTH_SHORT).show();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {

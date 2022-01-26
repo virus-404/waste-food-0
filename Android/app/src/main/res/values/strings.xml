@@ -138,6 +138,10 @@
     <string name="PleaseFillAllFields">Please fill all the fields</string>
     <string name="AuthenticationFailed">Authentication failed.</string>
     <string name="ErrorGettingDocuments">Error getting documents: </string>
+    <string name="SuccessfullyRegistered">Successfully registered</string>
+    <string name="Expiration_date">Expiration date: </string>
+    <string name="ProductSuccessfullyAdded">Product successfully added</string>
+    <string name="TakePictureGallery">Take a picture or use a picture from gallery</string>
 
 
 

@@ -137,6 +137,10 @@
     <string name="PleaseFillAllFields">Por favor llene todos los campos</string>
     <string name="AuthenticationFailed">La autenticación falló.</string>
     <string name="ErrorGettingDocuments">Error al obtener documentos: </string>
+    <string name="SuccessfullyRegistered">Registrado exitosamente</string>
+    <string name="Expiration_date">fecha de caducidad: </string>
+    <string name="ProductSuccessfullyAdded">Product successfully added</string>
+    <string name="TakePictureGallery">Toma una foto o usa una foto de la galería</string>
 
 
 </resources>
