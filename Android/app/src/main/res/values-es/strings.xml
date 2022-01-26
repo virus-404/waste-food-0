@@ -112,5 +112,6 @@
     <string name="seeAll">Más</string>
     <string name="nearbyProducts">Productos cercanos</string>
     <string name="freeProducts">Productos gratuitos</string>
+    <string name="new_notification">uno de tus productos acaba de expirar. sera retirado de la lista</string>
 
 </resources>
