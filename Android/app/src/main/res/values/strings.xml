@@ -117,4 +117,5 @@
     <string name="donateProductText">Donate product</string>
     <string name="new_notification">One of your products has just expired. will be removed from the list</string>
     <string name="appname" translatable="false">JanariO</string>
+    <string name="enterExpirationDateWarning">Please enter expiration date</string>
 </resources>

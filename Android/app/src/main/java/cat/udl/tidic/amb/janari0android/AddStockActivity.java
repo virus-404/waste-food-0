@@ -186,7 +186,7 @@ public class AddStockActivity extends AppCompatActivity {
                 Product product = null;
                 if (Objects.requireNonNull(expirationDate.getText()).toString().isEmpty())
                     Toast.makeText(getApplicationContext(),
-                            "Please enter expiration date", Toast.LENGTH_LONG).show();
+                            getResources().getString(R.string.enterExpirationDateWarning), Toast.LENGTH_LONG).show();
                 else {
                     try {
                         product = new Product(UUID.randomUUID().toString(), finalName, images, new SimpleDateFormat("dd MMM yyyy", Locale.US).parse(String.valueOf(expirationDate.getText())));
@@ -201,7 +201,6 @@ public class AddStockActivity extends AppCompatActivity {
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
-                                    Log.d(TAG, "DocumentSnapshot successfully written!");
                                     Toast.makeText(AddStockActivity.this, "Product successfully added", Toast.LENGTH_SHORT).show();
                                 }
                             })
