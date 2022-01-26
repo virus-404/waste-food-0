@@ -92,6 +92,7 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView searchProductsRecycler;
     private Toolbar mainToolbar;
     private View logoView, profile, help, floatingMenuView;
+    private SearchView search;
     FirebaseAuth auth;
     FirebaseUser user;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -211,6 +212,7 @@ public class MainActivity extends AppCompatActivity {
         new Handler().post(new Runnable() {
             @Override
             public void run() {
+                search = findViewById(R.id.searchProductsViewMain);
                 help = findViewById(R.id.toolbarHelpbottom);
                 profile = findViewById(R.id.toolbarUserMenuButton);
                 // SOME OF YOUR TASK AFTER GETTING VIEW REFERENCE
