@@ -26,15 +26,16 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.hbb20.CountryCodePicker;
 
 public class RegisterActivity extends AppCompatActivity {
     private static final String TAG = "bakedbeans";
     private FirebaseAuth auth;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    protected EditText username, email, password, passwordRep;
+    protected EditText username, email, password, passwordRep, phone;
     protected Button register;
     protected ImageButton goBack;
-
+    CountryCodePicker ccp;
 
 
     @Override
@@ -47,8 +48,9 @@ public class RegisterActivity extends AppCompatActivity {
         email = findViewById(R.id.emailEditText);
         password = findViewById(R.id.passwordEditText);
         passwordRep = findViewById(R.id.repeatPasswordEditText);
+        phone = findViewById(R.id.phoneNumberEditText);
         register = findViewById(R.id.registerFormButton);
-
+        ccp = (CountryCodePicker) findViewById(R.id.ccp);
         String pleaseFillAllFields = getResources().getString(R.string.pleaseFillAllFields);
         String invalidEmail = getResources().getString(R.string.invalidEmail);
         String invalidUsername = getResources().getString(R.string.invalidUsername);
@@ -61,8 +63,8 @@ public class RegisterActivity extends AppCompatActivity {
                 String em = email.getText().toString();
                 String pas = password.getText().toString();
                 String pasR = passwordRep.getText().toString();
-
-                if (us.isEmpty() || em.isEmpty() || pas.isEmpty() || pasR.isEmpty()){
+                String ph = phone.getText().toString();
+                if (us.isEmpty() || em.isEmpty() || pas.isEmpty() || pasR.isEmpty() || ph.isEmpty()){
                     Toast.makeText(getApplicationContext(),
                             pleaseFillAllFields, Toast.LENGTH_LONG).show();
                 } else if (!isValidEmail(em))
@@ -91,7 +93,7 @@ public class RegisterActivity extends AppCompatActivity {
         username.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus && !email.hasFocus() && !password.hasFocus() && !passwordRep.hasFocus()) {
+                if (!hasFocus && !email.hasFocus() && !password.hasFocus() && !passwordRep.hasFocus() && !phone.hasFocus()) {
                     hideKeyboard(v);
                 }
             }
@@ -99,7 +101,7 @@ public class RegisterActivity extends AppCompatActivity {
         email.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus && !username.hasFocus() && !password.hasFocus() && !passwordRep.hasFocus()) {
+                if (!hasFocus && !username.hasFocus() && !password.hasFocus() && !passwordRep.hasFocus() && !phone.hasFocus()) {
                     hideKeyboard(v);
                 }
             }
@@ -107,7 +109,7 @@ public class RegisterActivity extends AppCompatActivity {
         password.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus && !username.hasFocus() && !email.hasFocus() && !passwordRep.hasFocus()) {
+                if (!hasFocus && !username.hasFocus() && !email.hasFocus() && !passwordRep.hasFocus() && !phone.hasFocus()) {
                     hideKeyboard(v);
                 }
             }
@@ -115,7 +117,15 @@ public class RegisterActivity extends AppCompatActivity {
         passwordRep.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus && !username.hasFocus() && !email.hasFocus() && !password.hasFocus()) {
+                if (!hasFocus && !username.hasFocus() && !email.hasFocus() && !password.hasFocus() && !phone.hasFocus()) {
+                    hideKeyboard(v);
+                }
+            }
+        });
+        phone.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus && !username.hasFocus() && !email.hasFocus() && !password.hasFocus() && !passwordRep.hasFocus()) {
                     hideKeyboard(v);
                 }
             }
@@ -160,7 +170,7 @@ public class RegisterActivity extends AppCompatActivity {
                             updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
-                            Toast.makeText(RegisterActivity.this, "Authentication failed.",
+                            Toast.makeText(RegisterActivity.this, getResources().getString(R.string.AuthenticationFailed),
                                     Toast.LENGTH_SHORT).show();
                             updateUI(null);
                         }
@@ -172,6 +182,7 @@ public class RegisterActivity extends AppCompatActivity {
     private void setDisplayName()
     {
         String userName = String.valueOf(username.getText());
+        ccp.registerCarrierNumberEditText(phone);
         FirebaseUser user = auth.getCurrentUser();
         UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                 .setDisplayName(String.valueOf(username.getText()))
@@ -179,14 +190,14 @@ public class RegisterActivity extends AppCompatActivity {
                 .build();
         user.updateProfile(profileUpdates);
 
-        User userDB = new User(userName);
+        User userDB = new User(userName, ccp.getFormattedFullNumber());
         db.collection("users").document(user.getUid())
                 .set(userDB)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Log.d(TAG, "DocumentSnapshot successfully written!");
-                        Toast.makeText(RegisterActivity.this, "Successfully registered", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(RegisterActivity.this, getResources().getString(R.string.SuccessfullyRegistered), Toast.LENGTH_SHORT).show();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -198,7 +209,8 @@ public class RegisterActivity extends AppCompatActivity {
     }
     private void updateUI(FirebaseUser user) {
         if (user != null){
-            Intent intent = new Intent(this , LoginActivity.class);
+            Intent intent = new Intent(this , MainActivity.class);
+            intent.putExtra("firstTime", true);
             startActivity(intent);
         }
 

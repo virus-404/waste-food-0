@@ -17,7 +17,7 @@
     <string name="changeProfilePhoto">Change photo</string>
     <string name="confirm">confirm</string>
     <string name="contactSeller">Contact Seller</string>
-    <string name="contactSellerSell">If you don\'t have a phone number submitted in your profile, potential buyers will not be able to reach you</string>
+    <string name="contactSellerSell">If you don\'t have a valid phone number submitted in your profile, potential buyers will not be able to reach you</string>
     <string name="createAccount">Create account</string>
     <string name="currentPassword">Current password</string>
     <string name="defaultDescription">No description</string>
@@ -105,4 +105,48 @@
     <string name="whatIsYourEmail">What is your email?</string>
     <string name="wrongPassword">Wrong password</string>
     <string name="yourGroceries">Your groceries</string>
+    <string name="wpmessage1">Hello! I want to talk to you about your product: </string>
+    <string name="wpmessage2"> from the JanariO app </string>
+    <string name="nearby">Nearby</string>
+    <string name="Free">Free</string>
+    <string name="seeAll">See all</string>
+    <string name="nearbyProducts">Nearby products</string>
+    <string name="freeProducts">Free products</string>
+    <string name="sellProductText">Sell product</string>
+    <string name="addProductText">Add product</string>
+    <string name="donateProductText">Donate product</string>
+    <string name="new_notification">One of your products has just expired. will be removed from the list</string>
+    <string name="appname" translatable="false">JanariO</string>
+    <string name="enterExpirationDateWarning">Please enter expiration date</string>
+    <string name="ErrorAddingProduct">Error adding product</string>
+    <string name="ProductSuccessfull">Product successfully added</string>
+    <string name="ImageUploaded">Image uploaded</string>
+    <string name="ProductNameExists">Product name already exists</string>
+    <string name="Namefieldcannotbeempty">Name field can not be empty</string>
+    <string name="NameMustBeLonger">Name must be longer than two letters</string>
+    <string name="EmailAddressNotV">Email address is not valid</string>
+    <string name="EmailAddressUpdated">Email address updated.</string>
+    <string name="emaialreadyexists">Given email already exists</string>
+    <string name="UsernameAlreadyExists">Username already exists</string>
+    <string name="Successfullychanged">Successfully changed username</string>
+    <string name="SuccessfullyChangedPhone">Successfully changed phone number</string>
+    <string name="UpdatedSuccesfully">Updated succesfully</string>
+    <string name="ProfileImageFailed">Profile image failed...</string>
+    <string name="UserWithprovidedemaildoesntexist">User with provided email doesn\'t exist</string>
+    <string name="EmailSent">Email sent</string>
+    <string name="NotValidEmail">Not a valid email</string>
+    <string name="PleaseFillAllFields">Please fill all the fields</string>
+    <string name="AuthenticationFailed">Authentication failed.</string>
+    <string name="ErrorGettingDocuments">Error getting documents: </string>
+    <string name="SuccessfullyRegistered">Successfully registered</string>
+    <string name="Expiration_date">Expiration date: </string>
+    <string name="ProductSuccessfullyAdded">Product successfully added</string>
+    <string name="TakePictureGallery">Take a picture or use a picture from gallery</string>
+    <string name="YourProfile">Your Profile</string>
+    <string name="YourProfileInfo">here you can edit your account, see personal information and log out</string>
+    <string name="search">Search</string>
+    <string name="searchInfo">Search through the complete catalog of products that are for you</string>
+
+
+
 </resources>

@@ -27,91 +27,89 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
+import org.jetbrains.annotations.NotNull;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.ArrayList;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 //import cat.udl.tidic.amb.janari0android.adapters;
 
 public class ScannActivity extends AppCompatActivity {
-    private Button buttonScan;
-    private Button buttonAddProduct;
-    private TextView textError;
-    private ImageButton backButton;
-    private TextView Resultado;
+    private static final String TAG = "bakedbeans";
     public boolean flag1;
-
+    OkHttpClient client = new OkHttpClient();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_scan);
-        buttonScan = findViewById(R.id.ScanBtn);
-        Resultado = findViewById(R.id.texScan);
-        backButton = findViewById(R.id.goBackButton);
-        buttonAddProduct = findViewById(R.id.Addbutton);
-        textError = findViewById(R.id.Errortext);
 
-        buttonScan.setOnClickListener(mOnClickListener);
-
-
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(ScannActivity.this, MainActivity.class);
-                startActivity(intent);
-            }
-        });
-        buttonAddProduct.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(ScannActivity.this, AddStockProductNameActivity.class);
-                flag1 =true;
-                intent.putExtra("data01",Resultado.getText());
-                intent.putExtra("data02",flag1);
-                startActivity(intent);
-            }
-        });
-
+        IntentIntegrator integrador = new IntentIntegrator(ScannActivity.this);
+        integrador.setDesiredBarcodeFormats(IntentIntegrator.ALL_CODE_TYPES);
+        integrador.setPrompt("lector");
+        integrador.setCameraId(0);
+        integrador.setBeepEnabled(true);
+        integrador.setBarcodeImageEnabled(true);
+        integrador.initiateScan();
     }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        IntentResult result = IntentIntegrator.parseActivityResult(requestCode,resultCode,data);
-
+        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
         if (result != null)
-            if(result.getContents() != null){
-                Resultado.setText(result.getContents());
-                textError.setText(" ");
-
-            }else{
-                textError.setText("ERROR");
+            if (result.getContents() != null) {
+                Intent intent = new Intent(ScannActivity.this, AddStockProductNameActivity.class);
+                flag1 = true;
+                Request getRequest = new Request.Builder()
+                        .url("https://world.openfoodfacts.org/api/v0/product/" + result.getContents() + ".json")
+                        .build();
+                client.newCall(getRequest).enqueue(new Callback() {
+                    @Override
+                    public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                        e.printStackTrace();
+                        finish();
+                    }
+                    @Override
+                    public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                        String jsonData = response.body().string();
+                        JSONObject jsonObject = null;
+                        try {
+                            jsonObject = new JSONObject(jsonData);
+                            String productName = jsonObject.getJSONObject("product").getString("product_name");
+                            String imageUri = jsonObject.getJSONObject("product").getString("image_url");
+                            intent.putExtra("data01", productName);
+                            intent.putExtra("data02", flag1);
+                            intent.putExtra("imageUri", imageUri);
+                            startActivity(intent);
+                            finish();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            finish();
+                        }
+                    }
+                });
+            }
+            else {
+                finish();
             }
     }
-
-    private View.OnClickListener mOnClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            switch (v.getId()){
-                case R.id.ScanBtn:
-                    IntentIntegrator integrador = new IntentIntegrator(ScannActivity.this);
-                    integrador.setDesiredBarcodeFormats(IntentIntegrator.ALL_CODE_TYPES);
-                    integrador.setPrompt("lector");
-                    integrador.setCameraId(0);
-                    integrador.setBeepEnabled(true);
-                    integrador.setBarcodeImageEnabled(true);
-                    integrador.initiateScan();
-
-
-                    break;
-            }
-
-        }
-    };
-
-
-
 }
+
+
 
 

@@ -55,7 +55,7 @@ public class ChangePhoneNumberActivity extends AppCompatActivity {
                 if(isValidPhoneNumber(String.valueOf(phoneNumber.getText())))
                     setPhoneNumber();
                 else
-                    Toast.makeText(ChangePhoneNumberActivity.this, "Email address is not valid", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ChangePhoneNumberActivity.this, getResources().getString(R.string.EmailAddressNotV), Toast.LENGTH_SHORT).show();
             }
         });
         goBack.setOnClickListener(new ImageButton.OnClickListener(){

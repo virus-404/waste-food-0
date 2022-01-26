@@ -140,12 +140,14 @@
 
     <TextView
         android:id="@+id/textView6"
-        android:layout_width="300dp"
-        android:layout_height="63dp"
+        android:layout_width="350dp"
+        android:layout_height="83dp"
         android:layout_marginTop="4dp"
         android:gravity="center"
+        android:autoSizeTextType="uniform"
+        android:autoSizeMaxTextSize="16sp"
         android:text="@string/addPhotoDescription"
-        android:textSize="16dp"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"

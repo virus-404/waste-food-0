@@ -3,11 +3,12 @@ package cat.udl.tidic.amb.janari0android;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager2.widget.CompositePageTransformer;
-import androidx.viewpager2.widget.MarginPageTransformer;
-import androidx.viewpager2.widget.ViewPager2;
 
 
 import android.Manifest;
@@ -22,25 +23,30 @@ import android.graphics.Typeface;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
-import android.net.Uri;
 import android.os.Bundle;
+import android.os.Debug;
 import android.os.Handler;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ScrollView;
+import android.widget.SearchView;
+import android.widget.TextView;
 
-import android.widget.Toast;
-
-import com.bumptech.glide.Glide;
 import com.firebase.geofire.GeoFireUtils;
 import com.firebase.geofire.GeoLocation;
 import com.firebase.geofire.GeoQueryBounds;
+import com.getbase.floatingactionbutton.FloatingActionButton;
+import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.getkeepsafe.taptargetview.TapTarget;
 import com.getkeepsafe.taptargetview.TapTargetSequence;
 import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.initialization.InitializationStatus;
@@ -50,7 +56,6 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -58,11 +63,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.type.DateTime;
 
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -70,33 +72,35 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import cat.udl.tidic.amb.janari0android.adapters.SearchStockAdapter;
+import cat.udl.tidic.amb.janari0android.adapters.SearchStockSaleAdapter;
 import cat.udl.tidic.amb.janari0android.adapters.SliderAdapter;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "bakedbeans";
-    private static final int PERMISSION_CODE = 1000;
-    private static final int IMAGE_CAPTURE_CODE = 1001;
-    private Button mCaptureBtn;
-    private ImageView gps;
-    private FloatingActionButton open, give, add, sell;
-    private Button list, profile, list2, list3, help;
-    private boolean visibleFloatingButton = false;
-    private ViewPager2 saleSection;
-    private final Handler sliderHandler = new Handler();
-    private final ArrayList<ProductSale> products = new ArrayList<>();
-    private SliderAdapter sliderAdapter;
+    private Button seeAll, seeAllFree;
+    private ImageView seeAllImage, seeAllImageFree;
+    private FloatingActionButton give, add, sell;
+    private FloatingActionsMenu open;
+    private Button list, list2, list3;
+    private RecyclerView nearbyProducts, freeProducts;
+    private final ArrayList<ProductSale> productsNearby = new ArrayList<>();
+    private final ArrayList<ProductSale> productsFree = new ArrayList<>();
+    private final ArrayList<ProductSale> productsSale = new ArrayList<>();
+    private SliderAdapter sliderAdapterNearby, sliderAdapterFree;
+    private SearchStockSaleAdapter searchStockSaleAdapter;
     private AdView mAdView;
-
+    private RecyclerView searchProductsRecycler;
+    private Toolbar mainToolbar;
+    private View logoView, profile, help, floatingMenuView, search;
     FirebaseAuth auth;
     FirebaseUser user;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     FusedLocationProviderClient fusedLocationProviderClient;
+
     @SuppressLint("WrongViewCast")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTheme(R.style.AppTheme);
         // Check if user is signed in (non-null) and update UI accordingly.
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
@@ -106,7 +110,8 @@ public class MainActivity extends AppCompatActivity {
             user.reload();
         }
         setContentView(R.layout.activity_main);
-
+        seeAllFree = findViewById(R.id.seeAllFree);
+        seeAll = findViewById(R.id.seeAll);
         open = findViewById(R.id.floatingButtonOpen);
         add = findViewById(R.id.floatingButtonAdd);
         give = findViewById(R.id.floatingButtonGift);
@@ -114,78 +119,160 @@ public class MainActivity extends AppCompatActivity {
         list = findViewById(R.id.numberItems);
         list2 = findViewById(R.id.numberItems2);
         list3 = findViewById(R.id.numberItems3);
-        profile = findViewById(R.id.toolbarUserMenuButton);
-        saleSection = findViewById(R.id.viewpager2_layout2);
-        mCaptureBtn = findViewById(R.id.toolbarMenuButton);
+        mainToolbar = findViewById(R.id.mainToolbar);
+        seeAllImage = findViewById(R.id.seeAllImage);
+        seeAllImageFree = findViewById(R.id.seeAllFreeImage);
+        nearbyProducts = findViewById(R.id.nearbyProductsView);
+        freeProducts = findViewById(R.id.freeProductsView);
         help = findViewById(R.id.toolbarHelpbottom);
+        profile = findViewById(R.id.toolbarUserMenuButton);
+        searchProductsRecycler = findViewById(R.id.searchProductsView);
+        floatingMenuView = findViewById(R.id.floatingMenuView);
+        setSupportActionBar(mainToolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        logoView = mainToolbar.getChildAt(0);
 
         setOnClickListeners();
 
+        // Advertisements
         MobileAds.initialize(this, new OnInitializationCompleteListener() {
             @Override
             public void onInitializationComplete(InitializationStatus initializationStatus) {
             }
         });
-
         mAdView = findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
 
         // Get location of the user and show him the products nearby
+        getSearchData();
         getLocation();
         showProductsInfo();
-
-        // for the first time , do the tutorial
-        SharedPreferences prefs = getSharedPreferences("prefs", MODE_PRIVATE);
-        boolean firstTime = prefs.getBoolean("firstTime", true);
-        if (firstTime) {
-            tarjetaPrueba2();
-        }
-
-        sliderAdapter = new SliderAdapter(products, saleSection, this);
-        saleSection.setAdapter(sliderAdapter);
-        saleSection.setClipToPadding(false);
-        saleSection.setClipChildren(false);
-        saleSection.setOffscreenPageLimit(4);
-        saleSection.getChildAt(0).setOverScrollMode(RecyclerView.OVER_SCROLL_NEVER);
-        CompositePageTransformer compositePageTransformer = new CompositePageTransformer();
-        compositePageTransformer.addTransformer(new MarginPageTransformer(40));
-        compositePageTransformer.addTransformer(new ViewPager2.PageTransformer() {
-            @Override
-            public void transformPage(@NonNull View page, float position) {
-                float r = 1 - Math.abs(position);
-                page.setScaleY(0.85f + r * 0.15f);
-            }
-        });
-        saleSection.setPageTransformer(compositePageTransformer);
-        //Images slide every 3 seconds
-        //The user still can slide images on his own
-        saleSection.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
-            @Override
-            public void onPageSelected(int position) {
-                super.onPageSelected(position);
-                sliderHandler.removeCallbacks(sliderRunnable);
-                sliderHandler.postDelayed(sliderRunnable, 3000); //Slide duration
-            }
-        });
-        sliderAdapter.setOnItemClickListener(new SliderAdapter.OnItemClickListener() {
+        sliderAdapterNearby = new SliderAdapter(productsNearby, this);
+        sliderAdapterNearby.setOnItemClickListener(new SliderAdapter.OnItemClickListener() {
             @Override
             public void onClickProduct(int position) {
                 Intent intent = new Intent(MainActivity.this, ProductDetailsActivity.class);
-                intent.putExtra("id", products.get(position).getProduct().getId());
+                intent.putExtra("id", productsNearby.get(position).getProduct().getId());
                 startActivity(intent);
             }
         });
     }
-
-    private void setOnClickListeners() {
-        open.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        MenuItem menuItem = menu.findItem(R.id.searchProductsViewMain);
+        androidx.appcompat.widget.SearchView searchView = (androidx.appcompat.widget.SearchView) menuItem.getActionView();
+        searchView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
-            public void onClick(View v) {
-                toggleFloatingButton();
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    searchView.clearFocus();
+                    searchView.setIconified(true);
+                    hideKeyboard(v);
+                }
             }
         });
-        mCaptureBtn.setOnClickListener(new View.OnClickListener() {
+        searchView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                searchView.setIconified(false);
+                searchProductsRecycler.setAdapter(searchStockSaleAdapter);
+                searchProductsRecycler.setVisibility(View.VISIBLE);
+            }
+        });
+        searchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean queryTextFocused) {
+                if(!queryTextFocused) {
+                    searchProductsRecycler.setVisibility(View.GONE);
+                    searchView.setQuery("", false);
+                    searchView.clearFocus();
+                    searchView.setIconified(true);
+                    hideKeyboard(v);
+                }
+                else{
+                    searchProductsRecycler.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+        searchView.setOnQueryTextListener(new androidx.appcompat.widget.SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                searchView.clearFocus();
+                return false;
+            }
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                filter(newText);
+                return false;
+            }
+        });
+        new Handler().post(new Runnable() {
+            @Override
+            public void run() {
+                search = findViewById(R.id.searchProductsViewMain);
+                help = findViewById(R.id.toolbarHelpbottom);
+                profile = findViewById(R.id.toolbarUserMenuButton);
+                // SOME OF YOUR TASK AFTER GETTING VIEW REFERENCE
+                Bundle extras = getIntent().getExtras();
+                if(extras!=null) {
+                    tarjetaPrueba2();
+                }
+            }
+        });
+        return super.onCreateOptionsMenu(menu);
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.toolbarHelpbottom:
+                tarjetaPrueba2();
+                return true;
+
+            case R.id.toolbarUserMenuButton:
+                startActivity(new Intent(MainActivity.this, UserProfileActivity.class));
+                return true;
+            default:
+                // If we got here, the user's action was not recognized.
+                // Invoke the superclass to handle it.
+                return super.onOptionsItemSelected(item);
+
+        }
+    }
+    private void getSearchData() {
+        db.collection("productsSale")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                ProductSale product = document.toObject(ProductSale.class);
+                                productsSale.add(product);
+                            }
+                            buildSearchProducts();
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
+    }
+    private void buildSearchProducts() {
+        searchStockSaleAdapter = new SearchStockSaleAdapter(MainActivity.this, productsSale);
+        searchProductsRecycler.setLayoutManager(new LinearLayoutManager(this));
+        searchProductsRecycler.setAdapter(searchStockSaleAdapter);
+        searchStockSaleAdapter.setOnItemClickListener(new SearchStockSaleAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                Intent intent = new Intent(MainActivity.this, ProductDetailsActivity.class);
+                intent.putExtra("id", productsSale.get(position).getProduct().getId());
+                startActivity(intent);
+            }
+        });
+    }
+    private void setOnClickListeners() {
+        logoView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MainActivity.this, ScannActivity.class));
@@ -221,6 +308,38 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        seeAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, ListProductsActivity.class);
+                intent.putExtra("Page", 5);
+                startActivity(intent);
+            }
+        });
+        seeAllImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, ListProductsActivity.class);
+                intent.putExtra("Page", 5);
+                startActivity(intent);
+            }
+        });
+        seeAllFree.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, ListProductsActivity.class);
+                intent.putExtra("Page", 6);
+                startActivity(intent);
+            }
+        });
+        seeAllImageFree.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, ListProductsActivity.class);
+                intent.putExtra("Page", 6);
+                startActivity(intent);
+            }
+        });
         give.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -231,18 +350,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MainActivity.this, SellActivity.class));
-            }
-        });
-        profile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, UserProfileActivity.class));
-            }
-        });
-        help.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                tarjetaPrueba2();
             }
         });
     }
@@ -276,8 +383,8 @@ public class MainActivity extends AppCompatActivity {
                                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                                         @Override
                                         public void onComplete(@NonNull Task<Void> task) {
-                                            Log.d(TAG, "Address successfully updated");
-                                            getSliderData();
+                                            getSliderData(3);
+                                            getSliderDataFree(10);
                                         }
                                     });
                         } catch (IOException e) {
@@ -288,9 +395,9 @@ public class MainActivity extends AppCompatActivity {
             });
         }
     }
-    private void getSliderData() {
-        products.clear();
-        // Get products nearby
+
+    private void getSliderDataFree(int kilometers) {
+        // Get products that are free
         db.collection("users").document(user.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -300,11 +407,11 @@ public class MainActivity extends AppCompatActivity {
                     double lat = (double) document.get("lat",double.class);
                     double lon = (double) document.get("lon", double.class);
                     final GeoLocation center = new GeoLocation(lat, lon);
-                    final double radiusInM = 30 * 1000;
+                    final double radiusInM = kilometers * 1000;
                     List<GeoQueryBounds> bounds = GeoFireUtils.getGeoHashQueryBounds(center, radiusInM);
                     final List<Task<QuerySnapshot>> tasks = new ArrayList<>();
                     for (GeoQueryBounds b : bounds) {
-                        Query q = db.collection("productsSale")
+                        Query q = db.collection("productsDonate")
                                 .orderBy("geohash")
                                 .startAt(b.startHash)
                                 .endAt(b.endHash);
@@ -315,6 +422,7 @@ public class MainActivity extends AppCompatActivity {
                             .addOnCompleteListener(new OnCompleteListener<List<Task<?>>>() {
                                 @Override
                                 public void onComplete(@NonNull Task<List<Task<?>>> t) {
+                                    productsFree.clear();
                                     List<DocumentSnapshot> matchingDocs = new ArrayList<>();
                                     for (Task<QuerySnapshot> task : tasks) {
                                         QuerySnapshot snap = task.getResult();
@@ -331,41 +439,116 @@ public class MainActivity extends AppCompatActivity {
                                         }
                                     }
                                     for(DocumentSnapshot doc : matchingDocs){
-                                        products.add(doc.toObject(ProductSale.class));
+                                        productsFree.add(doc.toObject(ProductSale.class));
                                     }
-                                    Log.d(TAG, String.valueOf(products.size()));
-                                    saleSection.setAdapter(sliderAdapter);
+                                    sliderAdapterFree = new SliderAdapter(productsFree, MainActivity.this);
+                                    freeProducts.setLayoutManager(new LinearLayoutManager(MainActivity.this,LinearLayoutManager.HORIZONTAL,false));
+                                    freeProducts.setAdapter(sliderAdapterFree);
+                                    sliderAdapterFree.setOnItemClickListener(new SliderAdapter.OnItemClickListener() {
+                                        @Override
+                                        public void onClickProduct(int position) {
+                                            Intent intent = new Intent(MainActivity.this, ProductDetailsActivity.class);
+                                            intent.putExtra("id", productsFree.get(position).getProduct().getId());
+                                            startActivity(intent);
+                                        }
+                                    });
+                                }
+                            });
+                }
+            }
+        });
+
+
+    }
+
+    private void getSliderData(int kilometers) {
+        productsNearby.clear();
+        // Get products nearby
+        db.collection("users").document(user.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if(task.isSuccessful()){
+                    DocumentSnapshot document = task.getResult();
+                    String geohash = (String) document.get("geohash");
+                    double lat = (double) document.get("lat",double.class);
+                    double lon = (double) document.get("lon", double.class);
+                    final GeoLocation center = new GeoLocation(lat, lon);
+                    final double radiusInM = kilometers * 1000;
+                    List<GeoQueryBounds> bounds = GeoFireUtils.getGeoHashQueryBounds(center, radiusInM);
+                    final List<Task<QuerySnapshot>> tasks = new ArrayList<>();
+                    for (GeoQueryBounds b : bounds) {
+                        Query q = db.collection("productsSale")
+                                .orderBy("geohash")
+                                .startAt(b.startHash)
+                                .endAt(b.endHash);
+                        tasks.add(q.get());
+                    }
+                    // Collect all the query results together into a single list
+                    Tasks.whenAllComplete(tasks)
+                            .addOnCompleteListener(new OnCompleteListener<List<Task<?>>>() {
+                                @Override
+                                public void onComplete(@NonNull Task<List<Task<?>>> t) {
+                                    productsNearby.clear();
+                                    List<DocumentSnapshot> matchingDocs = new ArrayList<>();
+                                    for (Task<QuerySnapshot> task : tasks) {
+                                        QuerySnapshot snap = task.getResult();
+                                        for (DocumentSnapshot doc : snap.getDocuments()) {
+                                            double lat = doc.getDouble("lat");
+                                            double lon = doc.getDouble("lon");
+                                            // We have to filter out a few false positives due to GeoHash
+                                            // accuracy, but most will match
+                                            GeoLocation docLocation = new GeoLocation(lat, lon);
+                                            double distanceInM = GeoFireUtils.getDistanceBetween(docLocation, center);
+                                            if (distanceInM <= radiusInM) {
+                                                matchingDocs.add(doc);
+                                            }
+                                        }
+                                    }
+                                    for(DocumentSnapshot doc : matchingDocs){
+                                        productsNearby.add(doc.toObject(ProductSale.class));
+                                    }
+                                    sliderAdapterNearby = new SliderAdapter(productsNearby, MainActivity.this);
+                                    nearbyProducts.setLayoutManager(new LinearLayoutManager(MainActivity.this,LinearLayoutManager.HORIZONTAL,false));
+                                    nearbyProducts.setAdapter(sliderAdapterNearby);
+                                    sliderAdapterNearby.setOnItemClickListener(new SliderAdapter.OnItemClickListener() {
+                                        @Override
+                                        public void onClickProduct(int position) {
+                                            Intent intent = new Intent(MainActivity.this, ProductDetailsActivity.class);
+                                            intent.putExtra("id", productsNearby.get(position).getProduct().getId());
+                                            startActivity(intent);
+                                        }
+                                    });
                                 }
                             });
                 }
             }
         });
     }
-    private Runnable sliderRunnable = new Runnable() {
-        @Override
-        public void run() {
-            saleSection.setCurrentItem(saleSection.getCurrentItem() + 1);
-        }
-    };
     @Override
     protected void onPause() {
         super.onPause();
-        sliderHandler.removeCallbacks(sliderRunnable);
     }
     @Override
     protected void onResume() {
         super.onResume();
-        sliderHandler.postDelayed(sliderRunnable, 3000);
         getLocation();
         showProductsInfo();
     }
+    private void filter(String text) {
+        ArrayList<ProductSale> filteredlist = new ArrayList<>();
+        for (ProductSale item : productsSale) {
+            if (item.getProduct().getName().toLowerCase().contains(text.toLowerCase())) {
+                filteredlist.add(item);
+            }
+        }
+        searchStockSaleAdapter.filterList(filteredlist);
+        searchProductsRecycler.setAdapter(searchStockSaleAdapter);
+    }
     private void tarjetaPrueba2() {
-        give.setVisibility(View.VISIBLE);
-        add.setVisibility(View.VISIBLE);
-        sell.setVisibility(View.VISIBLE);
+        open.expand();
         final TapTargetSequence sequence =new TapTargetSequence(this)
                 .targets(
-                        TapTarget.forView(findViewById(R.id.toolbarUserMenuButton), "Your Profile",
+                        TapTarget.forView(profile, "Your Profile",
                                 "here you can edit your account, see personal information and log out")
                                 .outerCircleColor(R.color.colorPrimary900)
                                 //.dimColor(R.color.colorPrimary700)
@@ -378,7 +561,23 @@ public class MainActivity extends AppCompatActivity {
                                 .tintTarget(false)
                                 .transparentTarget(false)
                                 .cancelable(false),
-                        TapTarget.forView(findViewById(R.id.toolbarMenuButton), "QR Scan", "add products to your list just by scanning their barcode or QR")
+
+                        TapTarget.forView(search, "Search",
+                                "Search through the complete catalog of products that are for you")
+                                .outerCircleColor(R.color.colorPrimary900)
+                                //.dimColor(R.color.colorPrimary700)
+                                .outerCircleAlpha(0.95f)
+                                .titleTextSize(25)                  // Specify the size (in sp) of the title text
+                                .titleTextColor(R.color.white)      // Specify the color of the title text
+                                .descriptionTextSize(15)            // Specify the size (in sp) of the description text
+                                .descriptionTextColor(R.color.colorDarkGrey)  // Specify the color of the description text
+                                .textTypeface(Typeface.SANS_SERIF)
+                                .tintTarget(false)
+                                .transparentTarget(false)
+                                .cancelable(false),
+
+
+                        TapTarget.forView(logoView, "QR Scan", "add products to your list just by scanning their barcode or QR")
                                 .outerCircleColor(R.color.colorPrimary900)
                                 //.dimColor(R.color.colorPrimary700)
                                 .outerCircleAlpha(0.95f)
@@ -405,7 +604,7 @@ public class MainActivity extends AppCompatActivity {
                                 .targetRadius(80)
                                 .cancelable(false),
                                 //.icon(gift)
-                        TapTarget.forView(open, "More options", "click here and there are more options to do with your products")
+                        TapTarget.forView(floatingMenuView, "More options", "click here and there are more options to do with your products")
                                 .outerCircleColor(R.color.colorPrimary900)
                                 //.dimColor(R.color.colorPrimary700)
                                 .outerCircleAlpha(0.95f)
@@ -477,9 +676,7 @@ public class MainActivity extends AppCompatActivity {
                     // to the sequence
                     @Override
                     public void onSequenceFinish() {
-                        give.setVisibility(View.INVISIBLE);
-                        add.setVisibility(View.INVISIBLE);
-                        sell.setVisibility(View.INVISIBLE);
+                        open.collapse();
                     }
 
                     @Override
@@ -493,12 +690,6 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
         sequence.start();
-        SharedPreferences prefs = getSharedPreferences("prefs",MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putBoolean("firstTime",false);
-        editor.apply();
-
-
     }
     private void showProductsInfo() {
         Calendar c = Calendar.getInstance();
@@ -509,7 +700,6 @@ public class MainActivity extends AppCompatActivity {
                 int num_products_toexpire = 0, num_products_expired = 0, num_products_all = 0;
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot document : task.getResult()) {
-                        Log.d(TAG, document.getId() + " => " + document.getData());
                         Product p = document.toObject(Product.class);
                         Calendar cprod = Calendar.getInstance();
                         cprod.setTime(p.expirationDate);
@@ -528,17 +718,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-    private void toggleFloatingButton() {
-        if (visibleFloatingButton) {
-            give.setVisibility(View.INVISIBLE);
-            add.setVisibility(View.INVISIBLE);
-            sell.setVisibility(View.INVISIBLE);
-            visibleFloatingButton = false;
-        } else {
-            give.setVisibility(View.VISIBLE);
-            add.setVisibility(View.VISIBLE);
-            sell.setVisibility(View.VISIBLE);
-            visibleFloatingButton = true;
-        }
+    public void hideKeyboard(View view) {
+        InputMethodManager inputMethodManager =(InputMethodManager)getSystemService(Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 }

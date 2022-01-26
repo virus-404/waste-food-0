@@ -2,9 +2,12 @@ package cat.udl.tidic.amb.janari0android;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.app.PendingIntent;
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -86,9 +89,11 @@ public class AddStockActivity extends AppCompatActivity {
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     private RecyclerView products;
     private static final int TAKE_IMAGE_CODE = 100;
+    private String imageUri;
     ArrayList<String> images = new ArrayList<>();
     ArrayList<String> imageInfo = new ArrayList<>();
     AddStockAdapter addStockAdapter;
+    private int alarmID=1;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -107,6 +112,11 @@ public class AddStockActivity extends AppCompatActivity {
         String name = "";
         if(extras!=null) {
             name = extras.getString("name");
+            imageUri = extras.getString("imageUri");
+            if (imageUri!=null) {
+               images.add(imageUri);
+               imageInfo.add("Example photo");
+            }
         }
 
         go_back.setOnClickListener(new View.OnClickListener() {
@@ -176,13 +186,13 @@ public class AddStockActivity extends AppCompatActivity {
                 Product product = null;
                 if (Objects.requireNonNull(expirationDate.getText()).toString().isEmpty())
                     Toast.makeText(getApplicationContext(),
-                            "Please enter expiration date", Toast.LENGTH_LONG).show();
+                            getResources().getString(R.string.enterExpirationDateWarning), Toast.LENGTH_LONG).show();
                 else {
                     try {
                         product = new Product(UUID.randomUUID().toString(), finalName, images, new SimpleDateFormat("dd MMM yyyy", Locale.US).parse(String.valueOf(expirationDate.getText())));
                     } catch (ParseException e) {
                         e.printStackTrace();
-                        Toast.makeText(AddStockActivity.this, "Error adding product", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(AddStockActivity.this, getResources().getString(R.string.ErrorAddingProduct), Toast.LENGTH_SHORT).show();
                         returnToProductName();
                         return;
                     }
@@ -191,8 +201,7 @@ public class AddStockActivity extends AppCompatActivity {
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
-                                    Log.d(TAG, "DocumentSnapshot successfully written!");
-                                    Toast.makeText(AddStockActivity.this, "Product successfully added", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(AddStockActivity.this, getResources().getString(R.string.ProductSuccessfull), Toast.LENGTH_SHORT).show();
                                 }
                             })
                             .addOnFailureListener(new OnFailureListener() {
@@ -217,6 +226,8 @@ public class AddStockActivity extends AppCompatActivity {
                 myCalendar.set(Calendar.MONTH, monthOfYear);
                 myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
                 updateLabel();
+
+                setAlarm(alarmID, myCalendar.getTimeInMillis(), AddStockActivity.this);
             }
             private void updateLabel() {
                 DateFormat fmt = new SimpleDateFormat("dd MMM yyyy", Locale.US);
@@ -232,6 +243,17 @@ public class AddStockActivity extends AppCompatActivity {
             }
         });
     }
+
+    private static void setAlarm(int i, Long timestamp, Context ctx) {
+        AlarmManager alarmManager = (AlarmManager) ctx.getSystemService(ALARM_SERVICE);
+        Intent alarmIntent = new Intent(ctx, AlarmReceiver.class);
+        PendingIntent pendingIntent;
+        pendingIntent = PendingIntent.getBroadcast(ctx, i, alarmIntent, PendingIntent.FLAG_ONE_SHOT);
+        alarmIntent.setData((Uri.parse("custom://" + System.currentTimeMillis())));
+        alarmManager.set(AlarmManager.RTC_WAKEUP, timestamp, pendingIntent);
+    }
+
+
     public void handleImageClick() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         startActivityForResult(intent, TAKE_IMAGE_CODE);
@@ -291,7 +313,7 @@ public class AddStockActivity extends AppCompatActivity {
                         File f = new File(String.valueOf(uri.getLastPathSegment()));
                         imageInfo.add(f.getName());
                         products.setAdapter(addStockAdapter);
-                        Toast.makeText(AddStockActivity.this, "Image uploaded", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(AddStockActivity.this, getResources().getString(R.string.ImageUploaded), Toast.LENGTH_SHORT).show();
                     }
                 });
     }

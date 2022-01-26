@@ -12,11 +12,16 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.firebase.geofire.GeoFireUtils;
+import com.firebase.geofire.GeoLocation;
+import com.firebase.geofire.GeoQueryBounds;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Tasks;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -27,10 +32,15 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
+
+import cat.udl.tidic.amb.janari0android.adapters.SliderAdapter;
 
 public class ChangeNameActivity extends AppCompatActivity {
     private static final String TAG = "bakedbeans";
+    String phoneNumber;
     TextInputEditText username;
     ImageButton goBack;
     Button confirm;
@@ -62,7 +72,7 @@ public class ChangeNameActivity extends AppCompatActivity {
                                         finish();
                                     }
                                     else
-                                        Toast.makeText(ChangeNameActivity.this, "Username already exists", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(ChangeNameActivity.this, getResources().getString(R.string.UsernameAlreadyExists), Toast.LENGTH_SHORT).show();
                                 }
                             }
                         });
@@ -77,27 +87,45 @@ public class ChangeNameActivity extends AppCompatActivity {
     }
     private void setDisplayName()
     {
-        String userName = String.valueOf(username.getText());
-        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                .setDisplayName(String.valueOf(username.getText()))
-                .build();
-        user.updateProfile(profileUpdates);
+        db.collection("users").document(user.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                        phoneNumber = (String) document.get("phoneNumber");
+                        Log.w(TAG, phoneNumber);
+                        String userName = String.valueOf(username.getText());
+                        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                                .setDisplayName(String.valueOf(username.getText()))
+                                .build();
+                        user.updateProfile(profileUpdates);
 
-        User userDB = new User(userName);
-        db.collection("users").document(user.getUid())
-                .set(userDB)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Log.d(TAG, "DocumentSnapshot successfully written!");
-                        Toast.makeText(ChangeNameActivity.this, "Successfully changed username", Toast.LENGTH_SHORT).show();
+                        User userDB = new User(userName, phoneNumber);
+                        db.collection("users").document(user.getUid())
+                                .set(userDB)
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Log.d(TAG, "DocumentSnapshot successfully written!");
+                                        Toast.makeText(ChangeNameActivity.this, getResources().getString(R.string.Successfullychanged), Toast.LENGTH_SHORT).show();
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Log.w(TAG, "Error writing document", e);
+                                    }
+                                });
+                    } else {
+                        Log.d(TAG, "No such document");
                     }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.w(TAG, "Error writing document", e);
-                    }
-                });
+                } else {
+                    Log.d(TAG, "get failed with ", task.getException());
+                }
+            }
+        });
+
     }
 }

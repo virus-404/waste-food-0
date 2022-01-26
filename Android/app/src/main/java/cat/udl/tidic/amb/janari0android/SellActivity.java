@@ -198,7 +198,6 @@ public class SellActivity extends AppCompatActivity {
                             Geocoder geocoder = new Geocoder(SellActivity.this, Locale.getDefault());
                             try {
                                 List<Address> addresses = geocoder.getFromLocation(location.getLatitude(),location.getLongitude(),1);
-                                Toast.makeText(SellActivity.this, addresses.get(0).getAddressLine(0), Toast.LENGTH_SHORT).show();
                                 Address address = addresses.get(0);
                                 geohash = GeoFireUtils.getGeoHashForLocation(new GeoLocation(address.getLatitude(), address.getLongitude()));
                                 lat = address.getLatitude();
@@ -210,7 +209,6 @@ public class SellActivity extends AppCompatActivity {
                                             DocumentSnapshot document = task.getResult();
                                             ProductSale productSale = null;
                                             if (document.exists()) {
-                                                Log.d(TAG, "DocumentSnapshot data: " + document.getData());
                                                 if(document.get("phoneNumber") != null)
                                                     productSale = new ProductSale(UUID.randomUUID().toString(), product,String.valueOf(description.getText()),inputPrice.getText().toString(),geohash,lat,lon, document.get("phoneNumber",String.class));
                                                 else

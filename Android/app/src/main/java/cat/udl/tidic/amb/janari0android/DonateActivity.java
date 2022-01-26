@@ -101,8 +101,7 @@ public class DonateActivity extends AppCompatActivity {
         go_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(DonateActivity.this, MainActivity.class);
-                startActivity(intent);
+                finish();
             }
         });
         description.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -177,7 +176,6 @@ public class DonateActivity extends AppCompatActivity {
                             Geocoder geocoder = new Geocoder(DonateActivity.this, Locale.getDefault());
                             try {
                                 List<Address> addresses = geocoder.getFromLocation(location.getLatitude(),location.getLongitude(),1);
-                                Toast.makeText(DonateActivity.this, addresses.get(0).getAddressLine(0), Toast.LENGTH_SHORT).show();
                                 Address address = addresses.get(0);
                                 String geohash = GeoFireUtils.getGeoHashForLocation(new GeoLocation(address.getLatitude(), address.getLongitude()));
                                 double lat = address.getLatitude();
@@ -205,7 +203,7 @@ public class DonateActivity extends AppCompatActivity {
                                                         @Override
                                                         public void onSuccess(Void aVoid) {
                                                             Log.d(TAG, "DocumentSnapshot successfully written!");
-                                                            Toast.makeText(DonateActivity.this, "Product successfully added", Toast.LENGTH_SHORT).show();
+                                                            Toast.makeText(DonateActivity.this, getResources().getString(R.string.ProductSuccessfull), Toast.LENGTH_SHORT).show();
                                                         }
                                                     })
                                                     .addOnFailureListener(new OnFailureListener() {

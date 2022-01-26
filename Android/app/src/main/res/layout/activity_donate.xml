@@ -43,6 +43,8 @@
         android:layout_marginStart="40dp"
         android:layout_marginTop="28dp"
         android:layout_marginEnd="40dp"
+        android:autoSizeTextType="uniform"
+        android:autoSizeMaxTextSize="22sp"
         android:gravity="center_horizontal"
         android:text="@string/selectProduct"
         android:textAlignment="center"
