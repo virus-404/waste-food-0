@@ -50,7 +50,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
 
                                     if (isNewUser) {
                                         Log.e("TAG", "Is New User!");
-                                        Toast.makeText(getApplicationContext(), "User with provided email doesn't exist", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.UserWithprovidedemaildoesntexist), Toast.LENGTH_SHORT).show();
                                     } else {
                                         auth.sendPasswordResetEmail(email)
                                                 .addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -61,7 +61,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                                                         }
                                                     }
                                                 });
-                                        Toast.makeText(getApplicationContext(), "Email sent", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.EmailSent), Toast.LENGTH_SHORT).show();
                                         finish();
                                     }
 
@@ -69,7 +69,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                             });
                 }
                 else
-                    Toast.makeText(getApplicationContext(), "Not a valid email", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.NotValidEmail), Toast.LENGTH_SHORT).show();
             }
         });
     }

@@ -203,7 +203,7 @@ public class DonateActivity extends AppCompatActivity {
                                                         @Override
                                                         public void onSuccess(Void aVoid) {
                                                             Log.d(TAG, "DocumentSnapshot successfully written!");
-                                                            Toast.makeText(DonateActivity.this, "Product successfully added", Toast.LENGTH_SHORT).show();
+                                                            Toast.makeText(DonateActivity.this, getResources().getString(R.string.ProductSuccessfull), Toast.LENGTH_SHORT).show();
                                                         }
                                                     })
                                                     .addOnFailureListener(new OnFailureListener() {

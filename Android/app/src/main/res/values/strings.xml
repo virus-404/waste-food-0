@@ -125,8 +125,20 @@
     <string name="Namefieldcannotbeempty">Name field can not be empty</string>
     <string name="NameMustBeLonger">Name must be longer than two letters</string>
     <string name="EmailAddressNotV">Email address is not valid</string>
-    <string name="EmailAddressUpdated">"Email address updated."</string>
-    <string name="emaialreadyexists">"Given email already exists"</string>
+    <string name="EmailAddressUpdated">Email address updated.</string>
+    <string name="emaialreadyexists">Given email already exists</string>
+    <string name="UsernameAlreadyExists">Username already exists</string>
+    <string name="Successfullychanged">Successfully changed username</string>
+    <string name="SuccessfullyChangedPhone">Successfully changed phone number</string>
+    <string name="UpdatedSuccesfully">Updated succesfully</string>
+    <string name="ProfileImageFailed">Profile image failed...</string>
+    <string name="UserWithprovidedemaildoesntexist">User with provided email doesn\'t exist</string>
+    <string name="EmailSent">Email sent</string>
+    <string name="NotValidEmail">Not a valid email</string>
+    <string name="PleaseFillAllFields">Please fill all the fields</string>
+    <string name="AuthenticationFailed">Authentication failed.</string>
+    <string name="ErrorGettingDocuments">Error getting documents: </string>
+
 
 
 </resources>

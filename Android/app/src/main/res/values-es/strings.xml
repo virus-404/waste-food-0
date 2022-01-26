@@ -70,7 +70,7 @@
     <string name="pleaseFillAllFields">Por favor llene todos los campos</string>
     <string name="price">Precio</string>
     <string name="prod">PRODUCTOS</string>
-    <string name="prodExpired">CADUCADOS</string>
+    <string name="prodExpired">Caducados</string>
     <string name="prodOnSale">PRODUCTOS EN VENTA: 0</string>
     <string name="productDeleted">Producto eliminado</string>
     <string name="productDescription"> Descripcion del porducto</string>
@@ -126,5 +126,17 @@
     <string name="EmailAddressNotV">La dirección de correo electrónico no es válida</string>
     <string name="EmailAddressUpdated">Dirección de correo electrónico actualizada</string>
     <string name="emaialreadyexists">El correo electrónico dado ya existe</string>
+    <string name="UsernameAlreadyExists">El nombre de usuario ya existe</string>
+    <string name="Successfullychanged">Nombre de usuario cambiado con éxito</string>
+    <string name="SuccessfullyChangedPhone">Número de teléfono cambiado con éxito</string>
+    <string name="UpdatedSuccesfully">Actualizado con éxito</string>
+    <string name="ProfileImageFailed">la imagen de perfil falló...</string>
+    <string name="UserWithprovidedemaildoesntexist">El usuario con el correo electrónico proporcionado no existe</string>
+    <string name="EmailSent">correo enviado</string>
+    <string name="NotValidEmail">correo no valido</string>
+    <string name="PleaseFillAllFields">Por favor llene todos los campos</string>
+    <string name="AuthenticationFailed">La autenticación falló.</string>
+    <string name="ErrorGettingDocuments">Error al obtener documentos: </string>
+
 
 </resources>

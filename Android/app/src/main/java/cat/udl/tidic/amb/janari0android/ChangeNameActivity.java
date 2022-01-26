@@ -62,7 +62,7 @@ public class ChangeNameActivity extends AppCompatActivity {
                                         finish();
                                     }
                                     else
-                                        Toast.makeText(ChangeNameActivity.this, "Username already exists", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(ChangeNameActivity.this, getResources().getString(R.string.UsernameAlreadyExists), Toast.LENGTH_SHORT).show();
                                 }
                             }
                         });
@@ -90,7 +90,7 @@ public class ChangeNameActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Log.d(TAG, "DocumentSnapshot successfully written!");
-                        Toast.makeText(ChangeNameActivity.this, "Successfully changed username", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ChangeNameActivity.this, getResources().getString(R.string.Successfullychanged), Toast.LENGTH_SHORT).show();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {

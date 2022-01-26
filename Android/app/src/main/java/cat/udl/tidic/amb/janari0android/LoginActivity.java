@@ -56,7 +56,7 @@ public class LoginActivity extends AppCompatActivity {
                     email.setText("");
                     password.setText("");
                     Toast.makeText(getApplicationContext(),
-                            "Please fill all the fields", Toast.LENGTH_LONG).show();
+                            getResources().getString(R.string.PleaseFillAllFields), Toast.LENGTH_LONG).show();
                 } else {
                     signIn(e,p);
                 }
@@ -115,7 +115,7 @@ public class LoginActivity extends AppCompatActivity {
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithEmail:failure", task.getException());
-                            Toast.makeText(LoginActivity.this, "Authentication failed.",
+                            Toast.makeText(LoginActivity.this, getResources().getString(R.string.AuthenticationFailed),
                                     Toast.LENGTH_SHORT).show();
                             updateUI(null);
                         }
