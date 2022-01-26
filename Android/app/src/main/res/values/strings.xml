@@ -115,4 +115,6 @@
     <string name="sellProductText">Sell product</string>
     <string name="addProductText">Add product</string>
     <string name="donateProductText">Donate product</string>
+    <string name="new_notification">One of your products has just expired. will be removed from the list</string>
+    <string name="appname" translatable="false">JanariO</string>
 </resources>

@@ -115,5 +115,6 @@
     <string name="sellProductText">Sell product</string>
     <string name="addProductText">Add product</string>
     <string name="donateProductText">Donate product</string>
+    <string name="new_notification">uno de tus productos acaba de expirar. sera retirado de la lista</string>
 
 </resources>
