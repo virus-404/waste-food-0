@@ -91,8 +91,8 @@ public class MainActivity extends AppCompatActivity {
     private AdView mAdView;
     private RecyclerView searchProductsRecycler;
     private Toolbar mainToolbar;
-    private View logoView, profile, help, floatingMenuView;
-    private SearchView search;
+    private View logoView, profile, help, floatingMenuView,search;
+    private SearchView be;
     FirebaseAuth auth;
     FirebaseUser user;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -562,6 +562,22 @@ public class MainActivity extends AppCompatActivity {
                                 .tintTarget(false)
                                 .transparentTarget(false)
                                 .cancelable(false),
+
+                        TapTarget.forView(search, "Search",
+                                "Search through the complete catalog of products that are for you")
+                                .outerCircleColor(R.color.colorPrimary900)
+                                //.dimColor(R.color.colorPrimary700)
+                                .outerCircleAlpha(0.95f)
+                                .titleTextSize(25)                  // Specify the size (in sp) of the title text
+                                .titleTextColor(R.color.white)      // Specify the color of the title text
+                                .descriptionTextSize(15)            // Specify the size (in sp) of the description text
+                                .descriptionTextColor(R.color.colorDarkGrey)  // Specify the color of the description text
+                                .textTypeface(Typeface.SANS_SERIF)
+                                .tintTarget(false)
+                                .transparentTarget(false)
+                                .cancelable(false),
+
+
                         TapTarget.forView(logoView, "QR Scan", "add products to your list just by scanning their barcode or QR")
                                 .outerCircleColor(R.color.colorPrimary900)
                                 //.dimColor(R.color.colorPrimary700)

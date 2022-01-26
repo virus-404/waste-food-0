@@ -116,5 +116,15 @@
     <string name="addProductText">Add product</string>
     <string name="donateProductText">Donate product</string>
     <string name="new_notification">uno de tus productos acaba de expirar. sera retirado de la lista</string>
+    <string name="enterExpirationDateWarning">porfavor coloque la fecha de caducidad</string>
+    <string name="ErrorAddingProduct">Error añadiendo producto</string>
+    <string name="ProductSuccessfull">Producto añadido exitosamente</string>
+    <string name="ImageUploaded">imagen subida</string>
+    <string name="ProductNameExists">El nombre del producto ya existe</string>
+    <string name="Namefieldcannotbeempty">El campo de nombre no puede estar vacío</string>
+    <string name="NameMustBeLonger">El nombre debe tener más de dos letras</string>
+    <string name="EmailAddressNotV">La dirección de correo electrónico no es válida</string>
+    <string name="EmailAddressUpdated">Dirección de correo electrónico actualizada</string>
+    <string name="emaialreadyexists">El correo electrónico dado ya existe</string>
 
 </resources>

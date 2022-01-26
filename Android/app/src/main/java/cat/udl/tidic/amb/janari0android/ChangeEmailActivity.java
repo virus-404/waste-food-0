@@ -53,7 +53,7 @@ public class ChangeEmailActivity extends AppCompatActivity {
                 if(isValidEmail(String.valueOf(email.getText())))
                     setEmail();
                 else
-                    Toast.makeText(ChangeEmailActivity.this, "Email address is not valid", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ChangeEmailActivity.this, getResources().getString(R.string.EmailAddressNotV), Toast.LENGTH_SHORT).show();
             }
         });
         goBack.setOnClickListener(new ImageButton.OnClickListener(){
@@ -87,14 +87,14 @@ public class ChangeEmailActivity extends AppCompatActivity {
                                         public void onComplete(@NonNull Task<Void> task) {
                                             if (task.isSuccessful()) {
                                                 Log.d(TAG, "User email address updated.");
-                                                Toast.makeText(ChangeEmailActivity.this, "Email address updated.", Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(ChangeEmailActivity.this, getResources().getString(R.string.EmailAddressUpdated), Toast.LENGTH_SHORT).show();
                                                 finish();
                                             }
                                         }
                                     });
                         } else {
                             Log.e("TAG", "Is Old User!");
-                            Toast.makeText(ChangeEmailActivity.this, "Given email already exists", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ChangeEmailActivity.this, getResources().getString(R.string.emaialreadyexists), Toast.LENGTH_SHORT).show();
                         }
 
                     }

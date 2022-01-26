@@ -118,4 +118,15 @@
     <string name="new_notification">One of your products has just expired. will be removed from the list</string>
     <string name="appname" translatable="false">JanariO</string>
     <string name="enterExpirationDateWarning">Please enter expiration date</string>
+    <string name="ErrorAddingProduct">Error adding product</string>
+    <string name="ProductSuccessfull">Product successfully added</string>
+    <string name="ImageUploaded">Image uploaded</string>
+    <string name="ProductNameExists">Product name already exists</string>
+    <string name="Namefieldcannotbeempty">Name field can not be empty</string>
+    <string name="NameMustBeLonger">Name must be longer than two letters</string>
+    <string name="EmailAddressNotV">Email address is not valid</string>
+    <string name="EmailAddressUpdated">"Email address updated."</string>
+    <string name="emaialreadyexists">"Given email already exists"</string>
+
+
 </resources>
